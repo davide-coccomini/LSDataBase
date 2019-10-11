@@ -1,16 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package workinggroup.task0.Obj;
 
 
-/**
- *
- * @author Lorenzo
- */
 public class Author{
-        // metodi: get, set, setall
+    private String firstName;
+    private String lastName;
+    private String biography;
+            
+    public Author(String firstName, String lastName, String biography){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.biography = biography;
+    }
+    
+    public String getFirstName() {
+        return firstName;
+    }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getBiography() {
+        return biography;
+    }
 }
