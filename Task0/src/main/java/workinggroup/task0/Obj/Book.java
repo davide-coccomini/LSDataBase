@@ -13,6 +13,13 @@ import java.time.LocalDate;
  * @author Lorenzo
  */
 public class Book{
+    private String title;
+    private double price;
+    private int numPages;
+    private LocalDate date;
+    private String category;
+    private int quantity;
+    
     public Book(String title, double price, int numPages, LocalDate date, String category, int quantity){
         this.title = title;
         this.price = price;
@@ -47,12 +54,4 @@ public class Book{
     public void setQuantity(int quantity){
         this.quantity = quantity;
     }
-    private String title;
-    private double price;
-    private int numPages;
-    private LocalDate date;
-    private String category;
-    private int quantity;
-    
-    
 }
