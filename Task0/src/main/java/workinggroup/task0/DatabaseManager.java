@@ -18,7 +18,7 @@ public class DatabaseManager {
     public static final String SELECT_ALL_AUTHORS = "SELECT * FROM  " + AUTHOR_TABLE;
     
     public static final String UPDATE_BOOK = "UPDATE " + BOOK_TABLE + "SET quantity = ";
-    public static final String SELECT_ALL_BOOKS_BY_AUTHOR = "SELECT B.title, A.firstName, A.lastName  FROM" + BOOK_TABLE + " B NATURAL JOIN "
+    public static final String SELECT_ALL_BOOKS_BY_AUTHOR = "SELECT B.title, A.firstName, A.lastName  FROM " + BOOK_TABLE + " B NATURAL JOIN "
             + AUTHOR_TABLE + " A WHERE A.idAUTHOR = ?";
     public static final String SELECT_ALL_BOOKS_BY_PUBLISHER = "SELECT title, firstName, lastName  FROM" + BOOK_TABLE + " B NATURAL JOIN "
             + AUTHOR_TABLE + " A WHERE P.idPUBLISHER = ?";
