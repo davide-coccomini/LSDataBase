@@ -18,10 +18,10 @@ public class DatabaseManager {
     public static final String SELECT_ALL_AUTHORS = "SELECT * FROM  " + AUTHOR_TABLE;
     
     public static final String UPDATE_BOOK = "UPDATE " + BOOK_TABLE + "SET quantity = ";
-    public static final String SELECT_ALL_BOOKS_BY_AUTHOR = "SELECT title, firstName, lastName  FROM" + BOOK_TABLE + " INNER JOIN "
-            + AUTHOR_TABLE + " ON idAUTHOR = ?";
-    public static final String SELECT_ALL_BOOKS_BY_PUBLISHER = "SELECT title, firstName, lastName  FROM" + BOOK_TABLE + " INNER JOIN "
-            + AUTHOR_TABLE + " ON idPUBLISHER = ?";
+    public static final String SELECT_ALL_BOOKS_BY_AUTHOR = "SELECT B.title, A.firstName, A.lastName  FROM" + BOOK_TABLE + " B NATURAL JOIN "
+            + AUTHOR_TABLE + " A WHERE A.idAUTHOR = ?";
+    public static final String SELECT_ALL_BOOKS_BY_PUBLISHER = "SELECT title, firstName, lastName  FROM" + BOOK_TABLE + " B NATURAL JOIN "
+            + AUTHOR_TABLE + " A WHERE P.idPUBLISHER = ?";
     public static final String INSERT_BOOK = "INSERT INTO" + BOOK_TABLE + " VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String DELETE_BOOK = "DELETE FROM " + BOOK_TABLE + " WHERE id = ?";  
     
