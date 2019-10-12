@@ -1,59 +1,71 @@
 package workinggroup.task0;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.*;
+import java.util.logging.*;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+import java.util.Scanner;   //togliere dopo aver fatto input grafico
 
-/**
- *
- * @author Lorenzo
- */
 public class DatabaseManager {
   
-    private ConnectionManager conn_Manager;
+    private final ConnectionManager connManager;
     
     private static final String BOOK_TABLE = "Book";
     private static final String PUBLISHER_TABLE = "Publisher";
     private static final String AUTHOR_TABLE = "Author";
+        
+    public static final String SELECT_ALL_BOOKS = "SELECT * FROM  " + BOOK_TABLE;
+    public static final String SELECT_ALL_PUBLISHERS = "SELECT * FROM " + PUBLISHER_TABLE;
+    public static final String SELECT_ALL_AUTHORS = "SELECT * FROM  " + AUTHOR_TABLE;
+    /*private static final String SELECT_ALL_BOOKS_BY_AUTHOR = "SELECT title, firstName, lastName  FROM" + BOOK_TABLE + "JOIN"
+            + AUTHOR_TABLE + "ON idAUTHOR = AUTHOR_id";*/
+    public static final String INSERT = " INSERT INTO" + BOOK_TABLE;
     
+    /* Handles commands inserted by the user via gui and launches the respective routine */
+    public void commandManager(ConnectionManager connManager, String cmd) throws SQLException{  //forse non serve
+        switch(cmd){
+            case SELECT_ALL_BOOKS: 
+                connManager.worker(SELECT_ALL_BOOKS);
+            break;
+            case SELECT_ALL_PUBLISHERS: 
+                connManager.worker(SELECT_ALL_PUBLISHERS);
+            break;
+            case SELECT_ALL_AUTHORS: 
+                connManager.worker(SELECT_ALL_AUTHORS);
+            break;
+            /*case INSERT:
+                insertBook(args);
+                break;*/
+            /*default: //errore
+                System.out.println("Wrong command");*/
+        }
+    }
     
-    private static final String SELECT_ALL_BOOKS = "select * from  "+BOOK_TABLE;
-    private static final String SELECT_ALL_PUBLISHERS = "select * from " + PUBLISHER_TABLE;
-    private static final String SELECT_ALL_AUTHORS = "select * from  "+AUTHOR_TABLE;
-    
-    // class initialization
+   /* public void insertBook(String args){
+        //gli argomenti vanno presi dalla tabella 
+    }*/
+    // Class initialization
     public DatabaseManager(){
-        conn_Manager = new ConnectionManager();
-         
+        connManager = new ConnectionManager(); 
     }
-    
-    public void do_stuff(){
-    
+    /* Connects to the database, handles commands and closes the connection */
+    public void doStuff(){
         /* TODO aggiornare col manager */
-     try{
-        conn_Manager.connection_Start();
-        
-        // TODO: switch
-        conn_Manager.worker(SELECT_ALL_BOOKS);  
-        
-        conn_Manager.connection_Close();
-     }
-      catch(SQLException ex){
-            System.out.println("SQLException: " +ex.getMessage());
-            System.out.println("SQLState: " +ex.getSQLState());
-            System.out.println("SQLErrorCode: " +ex.getErrorCode());
-             }
+        Scanner sc = new Scanner(System.in);    //poi input grafico
+        String query = sc.nextLine();           //poi input grafico
+        try {
+            connManager.connectionStart();
+            //commandManager(connManager, query);
+            connManager.worker(query);
+            connManager.connectionClose();
+        } catch(SQLException ex){
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("SQLErrorCode: " + ex.getErrorCode());
+        }
         
     }
-    
-    public void extract_Result(){
+    /* */
+    public void extractResult(){
         
     }
     
