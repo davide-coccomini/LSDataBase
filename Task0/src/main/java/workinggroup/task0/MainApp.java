@@ -27,32 +27,35 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
-        HBox mainbox = new HBox();
+        final VBox container = new VBox();
+        final HBox mainbox = new HBox();
         mainbox.getChildren().add(table);
-        
-        contr = new Task0Controller(mainbox,table);
+        container.getChildren().add(mainbox);
+        contr = new Task0Controller(container,mainbox,table);
     
        
         Scene scene = new Scene(new Group(), default_Width, default_Height);
         scene.getStylesheets().add("/styles/styles.css");
 
        
-          Button button1 = new Button("Books");
-      button1.setOnAction(new EventHandler<ActionEvent>() {
-    @Override public void handle(ActionEvent e) {
-       contr.submit_Button(1);
-    }
+        Button button1 = new Button("Books");
+        button1.setOnAction(new EventHandler<ActionEvent>() {
+        @Override public void handle(ActionEvent e) {
+           container.getChildren().clear();
+           contr.submit_Button(1);
+        }
 });
        Button button2 = new Button("Authors");
       button2.setOnAction(new EventHandler<ActionEvent>() {
     @Override public void handle(ActionEvent e) {
+       container.getChildren().clear();
        contr.submit_Button(2);
     }
 });
        Button button3 = new Button("Publishers");
       button3.setOnAction(new EventHandler<ActionEvent>() {
     @Override public void handle(ActionEvent e) {
+       container.getChildren().clear();
        contr.submit_Button(3);
     }
 });
@@ -67,7 +70,7 @@ public class MainApp extends Application {
         vbox.setPadding(new Insets(10, 0, 0, 10));
         vbox.getChildren().addAll(hbox,mainbox);
         
-        ((Group)scene.getRoot()).getChildren().addAll(vbox);
+        ((Group)scene.getRoot()).getChildren().addAll(vbox,container);
         
       
         stage.setTitle("Task0");

@@ -27,11 +27,12 @@ public class Task0Controller
 
     @FXML private TableView<Object> tableView;
     @FXML private HBox mainBox;
+    @FXML private VBox container;
     
         
     /* initialization for the main table. */
-    public Task0Controller(HBox mb, TableView<Object> t) {
-
+    public Task0Controller(VBox c, HBox mb, TableView<Object> t) {
+        container = c;
         mainBox = mb;
         tableView = t;
         content = null;
@@ -119,8 +120,9 @@ public class Task0Controller
         q_Col.setCellValueFactory(new PropertyValueFactory("quantity"));             
   
         tableView.getColumns().setAll(id_Col,title_Col, price_Col, pages_Col, date_Col, cat_Col, q_Col);
-        
+       
         generate_Edit_Buttons();
+        generate_Form_Book();
     }
     /* add columns to main table to display an author */
     private void format_Author(){   
@@ -163,6 +165,34 @@ public class Task0Controller
         }
         
         mainBox.getChildren().add(vbox);
+    }
+    private void generate_Form_Book(){
+        HBox hbox = new HBox();
+        final TextField title = new TextField();
+        title.setPromptText("Title");
+        final TextField numPages = new TextField();
+        numPages.setPromptText("Pages");
+        final TextField quantity = new TextField();
+        numPages.setPromptText("Quantity");
+        final TextField category = new TextField();
+        numPages.setPromptText("Category");
+        final TextField price = new TextField();
+        numPages.setPromptText("Price");
+        final TextField author = new TextField();
+        numPages.setPromptText("Author ID");
+        final TextField publisher = new TextField();
+        numPages.setPromptText("Publisher ID");
+          
+        Button button = new Button("Add Book");
+        button.setOnAction(new EventHandler<ActionEvent>() {
+         @Override public void handle(ActionEvent e) {
+                insert_Book(title.getText(), numPages.getText(), quantity.getText(), category.getText(), price.getText(), author.getText(), publisher.getText());
+          }
+        });
+            
+        hbox.getChildren().addAll(title,numPages,quantity,category,price,author,publisher);
+        
+        container.getChildren().add(hbox);
     }
     /* prepare the buttons to edit books::quantity in each row*/
     private HBox make_Edit_Buttons(final int row_Id,final int quantity){
@@ -214,7 +244,7 @@ public class Task0Controller
                 }
             });
         
-     hbox.getChildren().addAll(button1,button2,button3);
+        hbox.getChildren().addAll(button1,button2,button3);
     
         return hbox;
     }
@@ -228,8 +258,20 @@ public class Task0Controller
         db_Manager.commandManager("UPDATE_BOOK",args);
         submit_Button(1);
     }
+    public void insert_Book(String title,String numPages,String quantity,String category,String price,String author,String publisher){
+        Object[] args = new Object[7];
+        args[0] = title;
+        args[1] = numPages;
+        args[2] = quantity;
+        args[3] = category;
+        args[4] = price;
+        args[5] = author;
+        args[6] = publisher;
+        db_Manager.commandManager("INSERT_BOOK",args);
+        submit_Button(1);
+    }
     public void row_Delete(int row){
-        
+
     }
     /* reset the table */
     public void table_Clear(){
