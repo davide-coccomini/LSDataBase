@@ -27,14 +27,18 @@ public class Task0Controller
 
     @FXML private TableView<Object> tableView;
     @FXML private HBox mainBox;
-    @FXML private VBox container;
+    @FXML private VBox edit_Container,insert_Container;
     
         
     /* initialization for the main table. */
     public Task0Controller(VBox c, HBox mb, TableView<Object> t) {
-        container = c;
+        insert_Container = c;
         mainBox = mb;
         tableView = t;
+        edit_Container = new VBox();
+        mainBox.getChildren().add(edit_Container);
+        t.getStyleClass().add("TABLE");
+        
         content = null;
         db_Manager = new DatabaseManager();
         
@@ -70,6 +74,9 @@ public class Task0Controller
     }
     /* create table columns according to the results expected */
     private void format_Table(String query){
+        
+        buttons_Clear();
+                 
         switch(query){
             case "SELECT_ALL_BOOKS": 
             case "UPDATE_BOOK":
@@ -151,20 +158,18 @@ public class Task0Controller
     }
     /* make the whole column of edit buttons */
     private void generate_Edit_Buttons(){
-        
-        VBox vbox = new VBox();
-     
+         
         Book b;
         for(Object line:content) {
                
-           b=(Book)line;
+            b=(Book)line;
             
-           HBox hbox = make_Edit_Buttons(b.getIdBOOK(),b.getQuantity());
-       
-           vbox.getChildren().add(hbox);
+            HBox hbox = make_Edit_Buttons(b.getIdBOOK(),b.getQuantity());
+            hbox.getStyleClass().add("Edit_Container");
+            edit_Container.getChildren().add(hbox);
+           
         }
         
-        mainBox.getChildren().add(vbox);
     }
     private void generate_Form_Book(){
         HBox hbox = new HBox();
@@ -191,8 +196,9 @@ public class Task0Controller
         });
             
         hbox.getChildren().addAll(title,numPages,quantity,category,price,author,publisher);
+        insert_Container.getStyleClass().add("Insert_Container");
         
-        container.getChildren().add(hbox);
+        insert_Container.getChildren().add(hbox);
     }
     /* prepare the buttons to edit books::quantity in each row*/
     private HBox make_Edit_Buttons(final int row_Id,final int quantity){
@@ -202,15 +208,7 @@ public class Task0Controller
         hbox.setPadding(new Insets(10, 0, 0, 10));
       //  hbox.SimpleStringProperty("row");
         
-        
-        
-        Button button1 = new Button("+");
-        button1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                quantity_Edit(row_Id,quantity+1);
-                }
-            });
-            
+      
         final TextField button2 = new TextField();
         button2.setEditable(true);
         button2.focusedProperty().addListener(new ChangeListener<Boolean>()
@@ -230,21 +228,15 @@ public class Task0Controller
                 }
             });
         
-        Button button3 = new Button("-");
-        button3.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                quantity_Edit(row_Id,quantity-1);
-                }
-            });
+       
         
-        Button button4 = new Button("X");
-        button4.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                row_Delete(row_Id);
-                }
-            });
-        
-        hbox.getChildren().addAll(button1,button2,button3);
+        EditButton button1 = new EditButton("+",row_Id,quantity+1,this);
+        EditButton button3 = new EditButton("-",row_Id,quantity-1,this);
+        EditButton button4 = new EditButton("X",row_Id,0,this);
+ 
+        button2.getStyleClass().add("SQUARE_EDIT");
+  
+        hbox.getChildren().addAll(button1,button2,button3,button4);
     
         return hbox;
     }
@@ -271,12 +263,14 @@ public class Task0Controller
         submit_Button(1);
     }
     public void row_Delete(int row){
-
+        Object[] args = new Object[1];
+        args[0] = row;
+        content = db_Manager.commandManager("DELETE_BOOK",args);
+        submit_Button(1);
     }
     /* reset the table */
-    public void table_Clear(){
-        content.clear();
-        /* TODO: flush the table displayed on fxml */
+    public void buttons_Clear(){
+        edit_Container.getChildren().clear();
     }
   
 }

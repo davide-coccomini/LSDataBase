@@ -52,11 +52,12 @@ public class Util {
     
     public static Book extractBook(ResultSet rs) throws SQLException{ 
         Book o;
+        Date temp = rs.getDate("publicationDate");
         o = new Book(rs.getInt("idBOOK"),
                     rs.getString("title"),
                     rs.getDouble("price"),
                     rs.getInt("numPages"),
-                    rs.getDate("publicationDate").toLocalDate(),
+                    ((temp==null)?(null):(temp.toLocalDate())),
                     rs.getString("category"),
                     rs.getInt("quantity")      
                 );
