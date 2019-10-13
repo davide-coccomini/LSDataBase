@@ -1,9 +1,9 @@
 package workinggroup.task0;
 
 import java.sql.*;
-import java.util.logging.*;
-
-import java.util.Scanner;   //togliere dopo aver fatto input grafico
+import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class DatabaseManager {
   
@@ -57,25 +57,34 @@ public class DatabaseManager {
         connManager = new ConnectionManager(); 
     }
     /* Connects to the database, handles commands and closes the connection */
-    public void doStuff(){
-        /* TODO aggiornare col manager */
-        Scanner sc = new Scanner(System.in);    //poi input grafico
-        String query = sc.nextLine();           //poi input grafico
+    public ObservableList<Object> doStuff(String query){
+
+        ArrayList<Object> result=null; // 
+        
         try {
             connManager.connectionStart();
-            //commandManager(connManager, query);
-            connManager.worker(query,null);
+            result = connManager.worker(query,null);
             connManager.connectionClose();
+            
+            
         } catch(SQLException ex){
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("SQLErrorCode: " + ex.getErrorCode());
         }
         
+        return extractResult(result);
     }
-    /* */
-    public void extractResult(){
+    /* Given ArrayList as result of a query, move the data to front-end*/
+    public ObservableList<Object> extractResult(ArrayList<Object> result){
         
+        if(result == null) {
+            return null;
+        }
+        
+        ObservableList<Object> data = FXCollections.observableArrayList();
+        data.addAll(result);
+        return data;
     }
     
     

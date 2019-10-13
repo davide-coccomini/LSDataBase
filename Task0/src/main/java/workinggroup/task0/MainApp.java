@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
+    public final int default_Width = 600;
+    public final int default_Height = 400;
 
 
     public static void main(String[] args) throws Exception {
@@ -16,18 +18,19 @@ public class MainApp extends Application {
 
     }
 
+    @Override
     public void start(Stage stage) throws Exception {
 
 
-        String fxmlFile = "/fxml/hello.fxml";
+        String fxmlFile = "/fxml/index.fxml";
         FXMLLoader loader = new FXMLLoader();
         Parent rootNode = (Parent) loader.load(getClass().getResourceAsStream(fxmlFile));
 
 
-        Scene scene = new Scene(rootNode, 400, 200);
+        Scene scene = new Scene(rootNode, default_Width, default_Height);
         scene.getStylesheets().add("/styles/styles.css");
 
-        stage.setTitle("Hello JavaFX and Maven");
+        stage.setTitle("Task0");
         stage.setScene(scene);
         stage.show();
     }

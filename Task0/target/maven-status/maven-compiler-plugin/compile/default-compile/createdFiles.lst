@@ -1,4 +1,8 @@
-workinggroup\task0\HelloController.class
-workinggroup\task0\connectionManager.class
-workinggroup\task0\databaseManager.class
+workinggroup\task0\Obj\Book.class
+workinggroup\task0\Util.class
+workinggroup\task0\ConnectionManager.class
+workinggroup\task0\Obj\Publisher.class
+workinggroup\task0\Task0Controller.class
+workinggroup\task0\DatabaseManager.class
 workinggroup\task0\MainApp.class
+workinggroup\task0\Obj\Author.class
