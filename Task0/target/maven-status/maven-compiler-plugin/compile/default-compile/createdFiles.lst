@@ -1,8 +1,15 @@
 workinggroup\task0\Obj\Book.class
-workinggroup\task0\Util.class
 workinggroup\task0\ConnectionManager.class
 workinggroup\task0\Obj\Publisher.class
 workinggroup\task0\Task0Controller.class
+workinggroup\task0\MainApp$1.class
+workinggroup\task0\Task0Controller$2.class
+workinggroup\task0\MainApp$2.class
+workinggroup\task0\Task0Controller$3.class
+workinggroup\task0\Util.class
+workinggroup\task0\Task0Controller$1.class
+workinggroup\task0\MainApp$3.class
+workinggroup\task0\Task0Controller$4.class
 workinggroup\task0\DatabaseManager.class
 workinggroup\task0\MainApp.class
 workinggroup\task0\Obj\Author.class

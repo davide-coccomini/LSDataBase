@@ -51,8 +51,6 @@ public class ConnectionManager {
             while(rs.next()){
                 o = chooseType(query, rs);
                 result.add(o);
-                System.out.print("line :  ");
-                System.out.println(result); 
             }
 
             rs.close();

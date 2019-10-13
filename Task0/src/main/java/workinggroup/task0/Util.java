@@ -2,7 +2,6 @@ package workinggroup.task0;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.*;
 import java.util.*;
 import java.util.logging.*;
 import static workinggroup.task0.DatabaseManager.*;
@@ -14,13 +13,6 @@ public class Util {
         ArrayList <Object> a = new ArrayList<>();
         //prendere i parametri inseriti dall'utente nell'ultima riga della tabella
         return a;
-    }
-    /* Converts a Date retrieved from user's input to a LocalDate*/
-    public static LocalDate formatDate(Date date){
-        ZoneId defaultZoneId = ZoneId.systemDefault();
-        Instant instant = date.toInstant();
-        LocalDate ld = instant.atZone(defaultZoneId).toLocalDate();
-        return ld;
     }
     
     /* */
@@ -60,10 +52,11 @@ public class Util {
     
     public static Book extractBook(ResultSet rs) throws SQLException{ 
         Book o;
-        o = new Book(rs.getString("title"),
+        o = new Book(rs.getInt("idBOOK"),
+                    rs.getString("title"),
                     rs.getDouble("price"),
                     rs.getInt("numPages"),
-                    formatDate(rs.getDate("date")),
+                    rs.getDate("publicationDate").toLocalDate(),
                     rs.getString("category"),
                     rs.getInt("quantity")      
                 );

@@ -13,6 +13,8 @@ import java.time.LocalDate;
  * @author Lorenzo
  */
 public class Book{
+    private int idBOOK;
+
     private String title;
     private double price;
     private int numPages;
@@ -20,7 +22,8 @@ public class Book{
     private String category;
     private int quantity;
     
-    public Book(String title, double price, int numPages, LocalDate date, String category, int quantity){
+    public Book(int ID,String title, double price, int numPages, LocalDate date, String category, int quantity){
+        this.idBOOK=ID;
         this.title = title;
         this.price = price;
         this.numPages = numPages;
@@ -28,6 +31,16 @@ public class Book{
         this.category = category;
         this.quantity = quantity;
     }
+    
+    public int getIdBOOK() {
+        return idBOOK;
+    }
+
+    public void setIdBOOK(int idBOOK) {
+        this.idBOOK = idBOOK;
+    }
+  
+    
     public String getTitle() {
         return title;
     }

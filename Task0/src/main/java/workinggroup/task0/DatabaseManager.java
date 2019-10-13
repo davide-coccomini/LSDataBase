@@ -17,7 +17,7 @@ public class DatabaseManager {
     public static final String SELECT_ALL_PUBLISHERS = "SELECT * FROM " + PUBLISHER_TABLE;
     public static final String SELECT_ALL_AUTHORS = "SELECT * FROM  " + AUTHOR_TABLE;
     
-    public static final String UPDATE_BOOK = "UPDATE " + BOOK_TABLE + "SET quantity = ";
+    public static final String UPDATE_BOOK = "UPDATE " + BOOK_TABLE + " SET quantity = ? WHERE ID = ?";
     public static final String SELECT_ALL_BOOKS_BY_AUTHOR = "SELECT B.title, A.firstName, A.lastName  FROM " + BOOK_TABLE + " B NATURAL JOIN "
             + AUTHOR_TABLE + " A WHERE A.idAUTHOR = ?";
     public static final String SELECT_ALL_BOOKS_BY_PUBLISHER = "SELECT B.title, P.name  FROM " + BOOK_TABLE + " B NATURAL JOIN "
@@ -27,26 +27,45 @@ public class DatabaseManager {
     
     
     /* Handles commands inserted by the user via gui and launches the respective routine */
-    public void commandManager(ConnectionManager connManager, String cmd, Object[] args) throws SQLException{  //forse non serve
-        switch(cmd){
-            case SELECT_ALL_BOOKS: 
-                connManager.worker(SELECT_ALL_BOOKS, null);
-            break;
-            case SELECT_ALL_PUBLISHERS: 
-                connManager.worker(SELECT_ALL_PUBLISHERS, null);
-            break;
-            case SELECT_ALL_AUTHORS: 
-                connManager.worker(SELECT_ALL_AUTHORS, null);
-            break;
-            case INSERT_BOOK:
-                connManager.worker(INSERT_BOOK, args);
+    public ObservableList<Object> commandManager(String cmd, Object[] args){  //forse non serve
+      
+         ArrayList<Object> result=null; // 
+            
+        try {
+            connManager.connectionStart();
+             
+            switch(cmd){
+                case "SELECT_ALL_BOOKS": 
+                    result = connManager.worker(SELECT_ALL_BOOKS, null);
                 break;
-            case DELETE_BOOK:
-                connManager.worker(DELETE_BOOK, args);
+                case "SELECT_ALL_PUBLISHERS": 
+                    result = connManager.worker(SELECT_ALL_PUBLISHERS, null);
                 break;
-            default: 
-                System.out.println("Wrong command");
+                case "SELECT_ALL_AUTHORS": 
+                    result = connManager.worker(SELECT_ALL_AUTHORS, null);
+                break;
+                case "UPDATE_BOOK":
+                    result = connManager.worker(UPDATE_BOOK, args);
+                    break;
+                case "INSERT_BOOK":
+                    result = connManager.worker(INSERT_BOOK, args);
+                    break;
+                case "DELETE_BOOK":
+                    result = connManager.worker(DELETE_BOOK, args);
+                    break;
+                default: 
+                    System.out.println("Wrong command");
+                }
+            connManager.connectionClose();
+         
+            
+        } catch(SQLException ex){
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("SQLErrorCode: " + ex.getErrorCode());
         }
+        
+         return extractResult(result);
     }
     
    /* public void insertBook(String args){
@@ -56,34 +75,16 @@ public class DatabaseManager {
     public DatabaseManager(){
         connManager = new ConnectionManager(); 
     }
-    /* Connects to the database, handles commands and closes the connection */
-    public ObservableList<Object> doStuff(String query){
-
-        ArrayList<Object> result=null; // 
-        
-        try {
-            connManager.connectionStart();
-            result = connManager.worker(query,null);
-            connManager.connectionClose();
-            
-            
-        } catch(SQLException ex){
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("SQLErrorCode: " + ex.getErrorCode());
-        }
-        
-        return extractResult(result);
-    }
+    
     /* Given ArrayList as result of a query, move the data to front-end*/
-    public ObservableList<Object> extractResult(ArrayList<Object> result){
-        
+    public ObservableList<Object> extractResult(ArrayList<Object> result){       
         if(result == null) {
             return null;
-        }
-        
+        }  
+        System.out.println("arrL:   " +result.toString());
         ObservableList<Object> data = FXCollections.observableArrayList();
         data.addAll(result);
+        System.out.println("obsL    "+data.toString());
         return data;
     }
     
