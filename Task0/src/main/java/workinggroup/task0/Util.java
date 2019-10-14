@@ -57,7 +57,7 @@ public class Util {
                     rs.getString("title"),
                     rs.getDouble("price"),
                     rs.getInt("numPages"),
-                    ((temp==null)?(null):(temp.toLocalDate())),
+                    ((temp==null)?(null):(rs.getDate("publicationDate").toLocalDate())),
                     rs.getString("category"),
                     rs.getInt("quantity")      
                 );
