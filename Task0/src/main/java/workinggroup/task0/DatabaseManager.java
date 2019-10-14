@@ -23,8 +23,8 @@ public class DatabaseManager {
     public static final String SELECT_ALL_BOOKS_BY_PUBLISHER = "SELECT B.title, P.name  FROM " + BOOK_TABLE + " B NATURAL JOIN "
             + PUBLISHER_TABLE + " P WHERE P.idPUBLISHER = ?";
 
-    public static final String INSERT_BOOK = "INSERT INTO " + BOOK_TABLE + "(title,numPages,quantity,category,price,author,publisher) VALUES(?, ?, ?, ?, ?, ?, ?)";
-    public static final String DELETE_BOOK = "DELETE FROM " + BOOK_TABLE + " WHERE id = ?";  
+    public static final String INSERT_BOOK = "INSERT INTO " + BOOK_TABLE + "(title,numPages,quantity,category,price,publicationYear,AUTHOR_idAUTHOR,PUBLISHER_idPUBLISHER) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+    public static final String DELETE_BOOK = "DELETE FROM " + BOOK_TABLE + " WHERE idBOOK = ?";  
     
     
     /* Handles commands inserted by the user via gui and launches the respective routine */

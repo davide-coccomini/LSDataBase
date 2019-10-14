@@ -13,8 +13,8 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
-    public final int default_Width = 600;
-    public final int default_Height = 600;
+    public final int default_Width = 1200;
+    public final int default_Height = 800;
 
     private TableView table = new TableView();
     private Task0Controller contr;
@@ -60,7 +60,7 @@ public class MainApp extends Application {
     }
 });
       
-      final HBox hbox = new HBox();
+        final HBox hbox = new HBox();
         hbox.setSpacing(5);
         hbox.setPadding(new Insets(10, 0, 0, 10));
         hbox.getChildren().addAll(button1,button2,button3);

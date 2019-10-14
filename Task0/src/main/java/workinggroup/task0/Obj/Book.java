@@ -18,16 +18,16 @@ public class Book{
     private String title;
     private double price;
     private int numPages;
-    private LocalDate date;
+    private int year;
     private String category;
     private int quantity;
     
-    public Book(int ID,String title, double price, int numPages, LocalDate date, String category, int quantity){
+    public Book(int ID,String title, double price, int numPages, int year, String category, int quantity){
         this.idBOOK=ID;
         this.title = title;
         this.price = price;
         this.numPages = numPages;
-        this.date = date;
+        this.year = year;
         this.category = category;
         this.quantity = quantity;
     }
@@ -53,8 +53,8 @@ public class Book{
         return numPages;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public int getYear() {
+        return year;
     }
 
     public String getCategory() {

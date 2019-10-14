@@ -76,7 +76,7 @@ public class Task0Controller
     private void format_Table(String query){
         
         buttons_Clear();
-                 
+        form_Clear(); 
         switch(query){
             case "SELECT_ALL_BOOKS": 
             case "UPDATE_BOOK":
@@ -178,24 +178,26 @@ public class Task0Controller
         final TextField numPages = new TextField();
         numPages.setPromptText("Pages");
         final TextField quantity = new TextField();
-        numPages.setPromptText("Quantity");
+        quantity.setPromptText("Quantity");
         final TextField category = new TextField();
-        numPages.setPromptText("Category");
+        category.setPromptText("Category");
         final TextField price = new TextField();
-        numPages.setPromptText("Price");
+        price.setPromptText("Price");
+        final TextField publicationYear = new TextField();
+        publicationYear.setPromptText("Publication Year (YYYY)");
         final TextField author = new TextField();
-        numPages.setPromptText("Author ID");
+        author.setPromptText("Author ID");
         final TextField publisher = new TextField();
-        numPages.setPromptText("Publisher ID");
+        publisher.setPromptText("Publisher ID");
           
         Button button = new Button("Add Book");
         button.setOnAction(new EventHandler<ActionEvent>() {
          @Override public void handle(ActionEvent e) {
-                insert_Book(title.getText(), numPages.getText(), quantity.getText(), category.getText(), price.getText(), author.getText(), publisher.getText());
+                insert_Book(title.getText(), numPages.getText(), quantity.getText(), category.getText(), price.getText(), publicationYear.getText(), author.getText(), publisher.getText());
           }
         });
             
-        hbox.getChildren().addAll(title,numPages,quantity,category,price,author,publisher);
+        hbox.getChildren().addAll(title,numPages,quantity,category,price,publicationYear,author,publisher,button);
         insert_Container.getStyleClass().add("Insert_Container");
         
         insert_Container.getChildren().add(hbox);
@@ -250,15 +252,16 @@ public class Task0Controller
         db_Manager.commandManager("UPDATE_BOOK",args);
         submit_Button(1);
     }
-    public void insert_Book(String title,String numPages,String quantity,String category,String price,String author,String publisher){
-        Object[] args = new Object[7];
+    public void insert_Book(String title,String numPages,String quantity,String category,String price,String publicationDate, String author,String publisher){
+        Object[] args = new Object[8];
         args[0] = title;
         args[1] = numPages;
         args[2] = quantity;
         args[3] = category;
         args[4] = price;
-        args[5] = author;
-        args[6] = publisher;
+        args[5] = publicationDate;
+        args[6] = author;
+        args[7] = publisher;
         db_Manager.commandManager("INSERT_BOOK",args);
         submit_Button(1);
     }
@@ -273,4 +276,7 @@ public class Task0Controller
         edit_Container.getChildren().clear();
     }
   
+    public void form_Clear(){
+        insert_Container.getChildren().clear();
+    }
 }
