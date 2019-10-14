@@ -36,6 +36,8 @@ public class Task0Controller
         mainBox = mb;
         tableView = t;
         edit_Container = new VBox();
+        edit_Container.setSpacing(5);
+        edit_Container.setPadding(new Insets(30, 0, 0, 10));
         mainBox.getChildren().add(edit_Container);
         t.getStyleClass().add("TABLE");
         
@@ -172,7 +174,7 @@ public class Task0Controller
         
     }
     private void generate_Form_Book(){
-        HBox hbox = new HBox();
+        VBox vbox = new VBox();
         final TextField title = new TextField();
         title.setPromptText("Title");
         final TextField numPages = new TextField();
@@ -197,10 +199,10 @@ public class Task0Controller
           }
         });
             
-        hbox.getChildren().addAll(title,numPages,quantity,category,price,publicationYear,author,publisher,button);
+        vbox.getChildren().addAll(title,numPages,quantity,category,price,publicationYear,author,publisher,button);
         insert_Container.getStyleClass().add("Insert_Container");
         
-        insert_Container.getChildren().add(hbox);
+        insert_Container.getChildren().add(vbox);
     }
     /* prepare the buttons to edit books::quantity in each row*/
     private HBox make_Edit_Buttons(final int row_Id,final int quantity){

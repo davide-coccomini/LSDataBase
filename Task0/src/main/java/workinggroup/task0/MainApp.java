@@ -27,7 +27,9 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        table.setPrefSize( 800, 700 );
         final VBox container = new VBox();
+        container.setPadding(new Insets(100, 0, 0, 50));
         final HBox mainbox = new HBox();
         mainbox.getChildren().add(table);
         container.getChildren().add(mainbox);
@@ -60,17 +62,22 @@ public class MainApp extends Application {
     }
 });
       
-        final HBox hbox = new HBox();
+        final HBox hbox = new HBox(); // 3 Buttons container
         hbox.setSpacing(5);
         hbox.setPadding(new Insets(10, 0, 0, 10));
         hbox.getChildren().addAll(button1,button2,button3);
       
-        final VBox vbox = new VBox();
+        final VBox vbox = new VBox(); // General Container
         vbox.setSpacing(5);
         vbox.setPadding(new Insets(10, 0, 0, 10));
         vbox.getChildren().addAll(hbox,mainbox);
         
-        ((Group)scene.getRoot()).getChildren().addAll(vbox,container);
+        final HBox body = new HBox();
+        body.setSpacing(5);
+        body.setPadding(new Insets(10, 0, 0, 10));
+        body.getChildren().addAll(vbox,container);
+        
+        ((Group)scene.getRoot()).getChildren().addAll(body);
         
       
         stage.setTitle("Task0");
