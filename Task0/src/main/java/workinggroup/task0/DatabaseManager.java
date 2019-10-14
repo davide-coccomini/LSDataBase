@@ -9,9 +9,9 @@ public class DatabaseManager {
   
     private final ConnectionManager connManager;
     
-    private static final String BOOK_TABLE = "Book";
-    private static final String PUBLISHER_TABLE = "Publisher";
-    private static final String AUTHOR_TABLE = "Author";
+    private static final String BOOK_TABLE = "book";
+    private static final String PUBLISHER_TABLE = "publisher";
+    private static final String AUTHOR_TABLE = "author";
         
     public static final String SELECT_ALL_BOOKS = "SELECT * FROM  " + BOOK_TABLE;
     public static final String SELECT_ALL_PUBLISHERS = "SELECT * FROM " + PUBLISHER_TABLE;
@@ -28,9 +28,9 @@ public class DatabaseManager {
     
     
     /* Handles commands inserted by the user via gui and launches the respective routine */
-    public ObservableList<Object> commandManager(String cmd, Object[] args){  //forse non serve
+    public ObservableList<Object> commandManager(String cmd, Object[] args){
       
-         ArrayList<Object> result=null; // 
+         ArrayList<Object> result=null;
             
         try {
             connManager.connectionStart();
@@ -69,9 +69,6 @@ public class DatabaseManager {
          return extractResult(result);
     }
     
-   /* public void insertBook(String args){
-        //gli argomenti vanno presi dalla tabella 
-    }*/
     // Class initialization
     public DatabaseManager(){
         connManager = new ConnectionManager(); 
