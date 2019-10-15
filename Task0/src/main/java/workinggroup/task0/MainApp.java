@@ -10,7 +10,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-
 public class MainApp extends Application {
 
     public final int default_Width = 1200;
@@ -20,9 +19,7 @@ public class MainApp extends Application {
     private Task0Controller contr;
     
     public static void main(String[] args) throws Exception {
-     
         launch(args);
-
     }
 
     @Override
@@ -34,27 +31,25 @@ public class MainApp extends Application {
         mainbox.getChildren().add(table);
         container.getChildren().add(mainbox);
         contr = new Task0Controller(container,mainbox,table);
-    
-       
+   
         Scene scene = new Scene(new Group(), default_Width, default_Height);
         scene.getStylesheets().add("/styles/styles.css");
 
-       
-        Button button1 = new Button("Books");
+        Button button1 = new Button("Books");       //SELECT * FROM BOOK
         button1.setOnAction(new EventHandler<ActionEvent>() {
         @Override public void handle(ActionEvent e) {
            container.getChildren().clear();
            contr.submit_Button(1);
         }
 });
-       Button button2 = new Button("Authors");
+       Button button2 = new Button("Authors");      //SELECT * FORM AUTHOR
       button2.setOnAction(new EventHandler<ActionEvent>() {
     @Override public void handle(ActionEvent e) {
        container.getChildren().clear();
        contr.submit_Button(2);
     }
 });
-       Button button3 = new Button("Publishers");
+       Button button3 = new Button("Publishers");   //SELECT * FROM PUBLISHER
       button3.setOnAction(new EventHandler<ActionEvent>() {
     @Override public void handle(ActionEvent e) {
        container.getChildren().clear();

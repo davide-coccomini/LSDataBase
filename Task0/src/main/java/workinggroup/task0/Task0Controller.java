@@ -1,7 +1,5 @@
 package workinggroup.task0;
  
-
-
 import java.sql.Date;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,7 +17,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import workinggroup.task0.Obj.Book;
 
-
 public class Task0Controller
 {
     private ObservableList<Object> content;
@@ -27,10 +24,9 @@ public class Task0Controller
 
     @FXML private TableView<Object> tableView;
     @FXML private HBox mainBox;
-    @FXML private VBox edit_Container,insert_Container;
-    
-        
-    /* initialization for the main table. */
+    @FXML private VBox edit_Container, insert_Container;
+      
+    /* initializations for the main table */
     public Task0Controller(VBox c, HBox mb, TableView<Object> t) {
         insert_Container = c;
         mainBox = mb;
@@ -45,7 +41,7 @@ public class Task0Controller
         db_Manager = new DatabaseManager();
         
     }
-    /* event triggered by user click*/
+    /* Event triggered by user click */
     @FXML public void submit_Button(int button_Code){
      
         String query;          
@@ -66,15 +62,14 @@ public class Task0Controller
         content = db_Manager.commandManager(query,null);
         
         if((content!=null)&&(content.isEmpty()==false)){
-         
             tableView.setItems(content);
             format_Table(query);
         }
-        else{
+        else {
             System.out.println("Query result is empty");
         }
     }
-    /* create table columns according to the results expected */
+    /* Creates table columns according to the results expected */
     private void format_Table(String query){
         
         buttons_Clear();
@@ -103,7 +98,7 @@ public class Task0Controller
        
         }
     }
-    /* add columns to main table to display a Book */
+    /* Adds columns to main table to display a Book */
     private void format_Book(){ 
         TableColumn<Object,Integer> id_Col;
         id_Col = new TableColumn<>("Book Id");
@@ -133,7 +128,7 @@ public class Task0Controller
         generate_Edit_Buttons();
         generate_Form_Book();
     }
-    /* add columns to main table to display an author */
+    /* Adds columns to main table to display an author */
     private void format_Author(){   
         TableColumn<Object,String> fn_Col;
         fn_Col = new TableColumn<>("Author Name");
@@ -147,7 +142,7 @@ public class Task0Controller
   
          tableView.getColumns().setAll(fn_Col,ln_Col,bio_Col);
     }
-     /* add columns to main table to display a publisher */
+     /* Adds columns to main table to display a publisher */
     private void format_Publisher(){   
         TableColumn<Object,String> pub_Col;
         pub_Col = new TableColumn<>("Publisher Name");
@@ -158,21 +153,22 @@ public class Task0Controller
         
         tableView.getColumns().setAll(pub_Col,loc_Col);
     }
-    /* make the whole column of edit buttons */
+    /* Makes the whole column of edit buttons */
     private void generate_Edit_Buttons(){
          
         Book b;
         for(Object line:content) {
                
-            b=(Book)line;
+            b =(Book)line;
             
-            HBox hbox = make_Edit_Buttons(b.getIdBOOK(),b.getQuantity());
+            HBox hbox = make_Edit_Buttons(b.getIdBOOK(), b.getQuantity());
             hbox.getStyleClass().add("Edit_Container");
             edit_Container.getChildren().add(hbox);
            
         }
         
     }
+    /* Lets the user add a new book */
     private void generate_Form_Book(){
         VBox vbox = new VBox();
         final TextField title = new TextField();
@@ -204,7 +200,7 @@ public class Task0Controller
         
         insert_Container.getChildren().add(vbox);
     }
-    /* prepare the buttons to edit books::quantity in each row*/
+    /* Prepares the buttons to edit books::quantity in each row */
     private HBox make_Edit_Buttons(final int row_Id,final int quantity){
         
         final HBox hbox = new HBox();
@@ -235,7 +231,7 @@ public class Task0Controller
        
         
         EditButton button1 = new EditButton("+",row_Id,quantity+1,this);
-        EditButton button3 = new EditButton("-",row_Id,quantity-1,this);
+        EditButton button3 = new EditButton("-",row_Id,(quantity-1)<0?0:quantity-1,this);
         EditButton button4 = new EditButton("X",row_Id,0,this);
  
         button2.getStyleClass().add("SQUARE_EDIT");
@@ -246,13 +242,14 @@ public class Task0Controller
     }
  
     public void quantity_Edit(int row, int q){
-        
         Object[] args = new Object[2];
         args[1] = row;
         args[0] = q;
-       
-        db_Manager.commandManager("UPDATE_BOOK",args);
-        submit_Button(1);
+
+        if(q >= 0){
+            db_Manager.commandManager("UPDATE_BOOK",args);
+            submit_Button(1);
+        }
     }
     public void insert_Book(String title,String numPages,String quantity,String category,String price,String publicationDate, String author,String publisher){
         Object[] args = new Object[8];
@@ -267,13 +264,14 @@ public class Task0Controller
         db_Manager.commandManager("INSERT_BOOK",args);
         submit_Button(1);
     }
+    
     public void row_Delete(int row){
         Object[] args = new Object[1];
         args[0] = row;
-        content = db_Manager.commandManager("DELETE_BOOK",args);
+        content = db_Manager.commandManager("DELETE_BOOK", args);
         submit_Button(1);
     }
-    /* reset the table */
+    /* Resets the table */
     public void buttons_Clear(){
         edit_Container.getChildren().clear();
     }

@@ -11,7 +11,6 @@ public class Util {
     
     public ArrayList formatResult(){    //per la funzione di inserimento di un nuovo libro
         ArrayList <Object> a = new ArrayList<>();
-        //prendere i parametri inseriti dall'utente nell'ultima riga della tabella
         return a;
     }
     
@@ -40,12 +39,6 @@ public class Util {
                     Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
                 }
             break;
-            /*case INSERT:
-                n = new Book(rs.getString(BookShop.Book.Title),
-                        rs.getInt(BookShop.Book.ID)
-                ); */
-            /*default:
-                return null;    //error*/
         }
         return o;
     }

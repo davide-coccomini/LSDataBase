@@ -13,14 +13,16 @@ import javafx.scene.control.Button;
  *
  * @author Lorenzo
  */
+/* Links ActionEvents to buttons in order to delete a book or edit it's quantity */
 public class EditButton extends Button{
     private int row_Id;
     private Task0Controller controller;
     private int argument;
-    EditButton(String func,int row_Id,int argument,Task0Controller ctrl){
+    
+    EditButton(String func, int row_Id, int argument, Task0Controller ctrl){
         controller = ctrl;
-        this.row_Id=row_Id;
-        this.argument=argument;
+        this.row_Id = row_Id;
+        this.argument = argument;
         super.setText(func);
         
         switch(func){
@@ -44,15 +46,12 @@ public class EditButton extends Button{
           
             default: 
                 break;
-        }
-        
+        } 
     };
     public int get_Row_Id(){
         return row_Id;
     }
-     public int get_Argument(){
+    public int get_Argument(){
         return argument;
     }
-
- 
 }
