@@ -114,8 +114,8 @@ public class Task0Controller
         pages_Col = new TableColumn<>("Book Pages");
         pages_Col.setCellValueFactory(new PropertyValueFactory("numPages"));
         TableColumn<Object,Date> date_Col;
-        date_Col = new TableColumn<>("Publication Date");
-        date_Col.setCellValueFactory(new PropertyValueFactory("publicationDate"));
+        date_Col = new TableColumn<>("Publication Year");
+        date_Col.setCellValueFactory(new PropertyValueFactory("year"));
         TableColumn<Object,String> cat_Col;
         cat_Col = new TableColumn<>("Book Category");
         cat_Col.setCellValueFactory(new PropertyValueFactory("category"));
