@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Ott 15, 2019 alle 15:30
+-- Creato il: Ott 15, 2019 alle 18:08
 -- Versione del server: 10.4.8-MariaDB
 -- Versione PHP: 7.1.32
 
@@ -79,24 +79,23 @@ CREATE TABLE `book` (
 --
 
 INSERT INTO `book` (`idBOOK`, `title`, `price`, `category`, `publicationYear`, `numPages`, `AUTHOR_idAUTHOR`, `PUBLISHER_idPUBLISHER`, `quantity`) VALUES
-(59, 'David Copperfield', 3.95, 'Biography', 19970905, 768, 1, 2, 10),
-(60, 'The Divine Comedy', 14.29, 'Classics', 20030527, 928, 2, 1, 1),
-(61, 'The Betrothed', 18.74, 'Classics', 20120517, 275, 3, 3, 0),
-(62, 'The Count of Carmagnola and Adelchis', 11.55, 'Tragedy', 20040904, 360, 3, 4, 0),
-(63, 'Sandokan: The Tigers of Mompracem', 16.95, 'Adventure', 20070930, 272, 4, 5, 0),
-(64, 'The Prince', 5.69, 'Political treatise', 20170612, 88, 5, 6, 0),
-(65, 'Orlando Furioso', 17.95, 'Classics', 20080801, 656, 6, 4, 0),
-(66, 'Pleasure', 12.73, 'Romance', 20130730, 384, 4, 1, 0),
-(67, 'The Baron In The Trees', 11.64, 'Fiction', 20190103, 288, 8, 2, 0),
-(68, 'Faust', 20, 'Tragedy', 20080423, 496, 9, 3, 0),
-(69, 'Les Miserables', 17.93, 'Historical', 20180805, 1264, 10, 4, 0),
-(70, 'Chronicle in Stone: A Novel', 12.1, 'Historical', 20160312, 322, 11, 5, 0),
-(71, 'Crime and Punishment', 14.29, 'Psychological', 20030407, 565, 12, 6, 0),
-(72, 'War and Peace', 15.71, 'Historical', 20021103, 928, 13, 5, 0),
-(73, 'Hamlet', 5.76, 'Tragedy', 20150203, 342, 14, 2, 0),
-(74, 'Romeo and Juliet', 4.79, 'Tragedy', 20080917, 336, 14, 1, 0),
-(75, 'From the Earth to the Moon', 11.95, 'Science fiction', 20170415, 338, 15, 3, 0),
-(76, 'Twenty Thousand Leagues Under the Seas', 13.43, 'Science fiction', 20070214, 518, 15, 6, 0),
+(59, 'David Copperfield', 3.95, 'Biography', 1948, 768, 1, 2, 8),
+(60, 'The Divine Comedy', 14.29, 'Classics', 1951, 928, 2, 1, 1),
+(62, 'The Count of Carmagnola and Adelchis', 11.55, 'Tragedy', 1948, 360, 3, 4, 0),
+(63, 'Sandokan: The Tigers of Mompracem', 16.95, 'Adventure', 1948, 272, 4, 5, 0),
+(64, 'The Prince', 5.69, 'Political treatise', 1948, 88, 5, 6, 0),
+(65, 'Orlando Furioso', 17.95, 'Classics', 1944, 656, 6, 4, 0),
+(66, 'Pleasure', 12.73, 'Romance', 1948, 384, 4, 1, 0),
+(67, 'The Baron In The Trees', 11.64, 'Fiction', 1999, 288, 8, 2, 0),
+(68, 'Faust', 20, 'Tragedy', 1901, 496, 9, 3, 0),
+(69, 'Les Miserables', 17.93, 'Historical', 1940, 1264, 10, 4, 0),
+(70, 'Chronicle in Stone: A Novel', 12.1, 'Historical', 1945, 322, 11, 5, 0),
+(71, 'Crime and Punishment', 14.29, 'Psychological', 1948, 565, 12, 6, 0),
+(72, 'War and Peace', 15.71, 'Historical', 1948, 928, 13, 5, 0),
+(73, 'Hamlet', 5.76, 'Tragedy', 2005, 342, 14, 2, 0),
+(74, 'Romeo and Juliet', 4.79, 'Tragedy', 1948, 336, 14, 1, 0),
+(75, 'From the Earth to the Moon', 11.95, 'Science fiction', 2000, 338, 15, 3, 0),
+(76, 'Twenty Thousand Leagues Under the Seas', 13.43, 'Science fiction', 1999, 518, 15, 6, 0),
 (78, 'Il Signore Degli Anelli', 21, 'Fantasy', 1948, 400, 1, 1, 10);
 
 -- --------------------------------------------------------
