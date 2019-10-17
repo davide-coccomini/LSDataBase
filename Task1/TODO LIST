@@ -1,0 +1,24 @@
+@database
+>> popolare 
+
+
+@ DatabaseManager
+> funzione extract_Result (da array_list(object)
+> aggiungere lo switch per chiamare connectionmanager::worker
+> query prefabbricata coi placeholder
+> funzione che istanzia i placeholder in base ai filtri letti da interfaccia
+
+@ ConnectionManager
+> sistemare funzione per la stringa da usare nella connect
+> #worker estrazione del risultato usando databasemanager::extract_Result
+
+@book
+> riempire la classe con metodi e campi
+@author
+> riempire la classe
+@publishers
+> riempire la classe
+
+@interfaccia grafica
+> metterci un xml adeguato
+    tabella con i dati usando drawabletable di javafx
