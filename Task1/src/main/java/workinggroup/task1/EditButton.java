@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package workinggroup.task0;
+package workinggroup.task1;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,10 +11,10 @@ import javafx.scene.control.Button;
 /* Links ActionEvents to buttons in order to delete a book or edit it's quantity */
 public class EditButton extends Button{
     private int row_Id;
-    private Task0Controller controller;
+    private Task1Controller controller;
     private int argument;
     
-    EditButton(String func, int row_Id, int argument, Task0Controller ctrl){
+    EditButton(String func, int row_Id, int argument, Task1Controller ctrl){
         controller = ctrl;
         this.row_Id = row_Id;
         this.argument = argument;

@@ -1,4 +1,4 @@
-package workinggroup.task0;
+package workinggroup.task1;
  
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import static workinggroup.task0.Util.chooseType;
+import static workinggroup.task1.Util.chooseType;
 
 public class ConnectionManager {
     /*Parameters used to connect to the database "bookshop"*/

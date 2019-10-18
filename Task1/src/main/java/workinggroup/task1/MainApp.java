@@ -1,4 +1,4 @@
-package workinggroup.task0;
+package workinggroup.task1;
 
 import javafx.event.ActionEvent;
 import javafx.application.Application;
@@ -16,7 +16,7 @@ public class MainApp extends Application {
     public final int default_Height = 800;
 
     private TableView table = new TableView();
-    private Task0Controller contr;
+    private Task1Controller contr;
     
     public static void main(String[] args) throws Exception {
         launch(args);
@@ -30,7 +30,7 @@ public class MainApp extends Application {
         final HBox mainbox = new HBox();
         mainbox.getChildren().add(table);
         container.getChildren().add(mainbox);
-        contr = new Task0Controller(container,mainbox,table);
+        contr = new Task1Controller(container,mainbox,table);
    
         Scene scene = new Scene(new Group(), default_Width, default_Height);
         scene.getStylesheets().add("/styles/styles.css");

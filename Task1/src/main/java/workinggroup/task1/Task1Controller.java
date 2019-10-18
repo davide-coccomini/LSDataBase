@@ -1,4 +1,4 @@
-package workinggroup.task0;
+package workinggroup.task1;
  
 import java.sql.Date;
 import javafx.beans.value.ChangeListener;
@@ -15,9 +15,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import workinggroup.task0.Obj.Book;
+import workinggroup.task1.Obj.Book;
 
-public class Task0Controller
+public class Task1Controller
 {
     private ObservableList<Object> content;
     private DatabaseManager db_Manager;
@@ -27,7 +27,7 @@ public class Task0Controller
     @FXML private VBox edit_Container, insert_Container;
       
     /* initializations for the main table */
-    public Task0Controller(VBox c, HBox mb, TableView<Object> t) {
+    public Task1Controller(VBox c, HBox mb, TableView<Object> t) {
         insert_Container = c;
         mainBox = mb;
         tableView = t;

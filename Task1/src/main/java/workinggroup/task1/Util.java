@@ -1,11 +1,11 @@
-package workinggroup.task0;
+package workinggroup.task1;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.*;
-import static workinggroup.task0.DatabaseManager.*;
-import workinggroup.task0.Obj.*;
+import static workinggroup.task1.DatabaseManager.*;
+import workinggroup.task1.Obj.*;
 
 public class Util {
     

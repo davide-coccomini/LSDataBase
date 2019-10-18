@@ -1,5 +1,5 @@
 
-package workinggroup.task0.Obj;
+package workinggroup.task1.Obj;
 
 
 public class Author{
