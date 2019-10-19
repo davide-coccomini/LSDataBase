@@ -140,7 +140,6 @@ public class Task1Controller
                     public void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
                         if(getIndex()<content.size() && getIndex() >= 0){
-                            System.out.println(getIndex());
                             Book b = (Book)content.get(getIndex());
                             HBox hbox = make_Edit_Buttons(b.getIdBOOK(),b.getQuantity());
                             setGraphic(hbox);
