@@ -1,6 +1,7 @@
 package workinggroup.task1;
  
 import java.sql.Date;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -11,11 +12,13 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 import workinggroup.task1.Obj.Book;
 
 public class Task1Controller
@@ -124,9 +127,34 @@ public class Task1Controller
         q_Col = new TableColumn<>("Copies In Stock");
         q_Col.setCellValueFactory(new PropertyValueFactory("quantity"));             
   
-        tableView.getColumns().setAll(id_Col,title_Col, price_Col, pages_Col, date_Col, cat_Col, q_Col);
-       
-        generate_Edit_Buttons();
+        TableColumn action_Col = new TableColumn("Action");
+        action_Col.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+        Callback<TableColumn<Object, String>, TableCell<Object, String>> cellFactory
+                = //
+                new Callback<TableColumn<Object, String>, TableCell<Object, String>>() {
+            @Override
+            public TableCell call(final TableColumn<Object, String> param) {
+                final TableCell<Object, String> cell = new TableCell<Object, String>() {
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if(getIndex()<content.size() && getIndex() >= 0){
+                            System.out.println(getIndex());
+                            Book b = (Book)content.get(getIndex());
+                            HBox hbox = make_Edit_Buttons(b.getIdBOOK(),b.getQuantity());
+                            setGraphic(hbox);
+                            setText(null);
+                        }       
+                    }
+                };
+                return cell;
+            }
+        };
+        action_Col.setCellFactory(cellFactory);
+        
+        tableView.getColumns().setAll(id_Col,title_Col, price_Col, pages_Col, date_Col, cat_Col, q_Col, action_Col);
+        
         generate_Form_Book();
     }
     /* Adds columns to main table to display an author */
@@ -154,21 +182,7 @@ public class Task1Controller
         
         tableView.getColumns().setAll(pub_Col,loc_Col);
     }
-    /* Makes the whole column of edit buttons */
-    private void generate_Edit_Buttons(){
-         
-        Book b;
-        for(Object line:content) {
-               
-            b =(Book)line;
-            
-            HBox hbox = make_Edit_Buttons(b.getIdBOOK(), b.getQuantity());
-            hbox.getStyleClass().add("Edit_Container");
-            edit_Container.getChildren().add(hbox);
-           
-        }
-        
-    }
+    
     /* Lets the user add a new book */
     private void generate_Form_Book(){
         final VBox vbox = new VBox();
