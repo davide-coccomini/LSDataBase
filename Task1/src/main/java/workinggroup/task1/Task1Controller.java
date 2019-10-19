@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
@@ -170,7 +171,7 @@ public class Task1Controller
     }
     /* Lets the user add a new book */
     private void generate_Form_Book(){
-        VBox vbox = new VBox();
+        final VBox vbox = new VBox();
         final TextField title = new TextField();
         title.setPromptText("Title");
         final TextField numPages = new TextField();
@@ -188,16 +189,39 @@ public class Task1Controller
         final TextField publisher = new TextField();
         publisher.setPromptText("Publisher ID");
           
+        final VBox columnAuthor = new VBox();
+        Button addAuthor = new Button("+");
+        addAuthor.setOnAction(new EventHandler<ActionEvent>() {
+         @Override public void handle(ActionEvent e) {
+              final TextField newAuthor = new TextField();
+              newAuthor.setPromptText("Author ID");
+              columnAuthor.getChildren().add(newAuthor);
+          }
+        });
+       
+        final HBox rowAuthor = new HBox();
+        rowAuthor.getChildren().addAll(author,addAuthor);
+        columnAuthor.getChildren().add(rowAuthor);
         Button button = new Button("Add Book");
         button.setOnAction(new EventHandler<ActionEvent>() {
          @Override public void handle(ActionEvent e) {
-                insert_Book(title.getText(), numPages.getText(), quantity.getText(), category.getText(), price.getText(), publicationYear.getText(), author.getText(), publisher.getText());
+                String authors[] = new String[columnAuthor.getChildren().size()];
+                authors[0] = author.getText();
+                int i=0;
+                for(Node author:columnAuthor.getChildren()){
+                    if(i==0){ // Skip the author with the button
+                        i++;
+                        continue;
+                    }
+                    authors[i] = ((TextField) author).getText();
+                    i++;
+                }
+                insert_Book(title.getText(), numPages.getText(), quantity.getText(), category.getText(), price.getText(), publicationYear.getText(), authors, publisher.getText());
           }
         });
             
-        vbox.getChildren().addAll(title,numPages,quantity,category,price,publicationYear,author,publisher,button);
+        vbox.getChildren().addAll(title,numPages,quantity,category,price,publicationYear,columnAuthor,publisher,button);
         insert_Container.getStyleClass().add("Insert_Container");
-        
         insert_Container.getChildren().add(vbox);
     }
     /* Prepares the buttons to edit books::quantity in each row */
@@ -251,7 +275,7 @@ public class Task1Controller
             submit_Button(1);
         }
     }
-    public void insert_Book(String title,String numPages,String quantity,String category,String price,String publicationDate, String author,String publisher){
+    public void insert_Book(String title,String numPages,String quantity,String category,String price,String publicationDate, String[] authors,String publisher){
         Object[] args = new Object[8];
         args[0] = title;
         args[1] = numPages;
@@ -259,7 +283,7 @@ public class Task1Controller
         args[3] = category;
         args[4] = price;
         args[5] = publicationDate;
-        args[6] = author;
+        args[6] = authors; // TODO: Questo deve essere riadattato alle query dopo l'inserimento della relazione N:N
         args[7] = publisher;
         db_Manager.commandManager("INSERT_BOOK",args);
         submit_Button(1);
