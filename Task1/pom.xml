@@ -4,20 +4,25 @@
 
     <groupId>workingGroup</groupId>
     <artifactId>Task1</artifactId>
+    
     <version>1.0-SNAPSHOT</version>
+    
     <packaging>jar</packaging>
 
     <name>Task1</name>
     <description>A simple version of JavaFX setup as described at http://www.oracle.com/technetwork/articles/java/enterprisefxpt3-1735081.html</description>
 
-    <properties>
+     <properties>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+     
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <mainClass>workinggroup.task1.MainApp</mainClass>
     </properties>
 
     <organization>
         <!-- Used as the 'Vendor' for JNLP generation -->
-        <name>Your Organisation</name>
+        <name>Working Group</name>
     </organization>
 
     <build>
@@ -133,7 +138,11 @@
             <version>5.1.32</version>
         </dependency>
         
-
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.4.4.Final</version>
+        </dependency>
     </dependencies>
 
 
