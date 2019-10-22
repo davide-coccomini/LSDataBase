@@ -33,7 +33,7 @@ public class Author{
      
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name = "idBOOK")
+    @Column(name = "idAUTHOR")
     public int getId() {
         return id;
     }
@@ -67,15 +67,15 @@ public class Author{
     }
 
     public void setFirstName(String firstName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.firstName = firstName;
     }
 
     public void setLastName(String lastName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.lastName = lastName;
     }
 
     public void setBiography(String biography) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.biography = biography;
     }
     
 
