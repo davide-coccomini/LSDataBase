@@ -1,6 +1,7 @@
 package workinggroup.task1;
  
 import java.sql.Date;
+import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -18,13 +19,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import workinggroup.task1.Obj.Author;
 import workinggroup.task1.Obj.Book;
+import workinggroup.task1.Obj.Publisher;
 
 public class Task1Controller
 {
     private ObservableList<Object> content;
     private DatabaseManager db_Manager;
-
+   
+    private int busy = 0;
+    
     @FXML private TableView<Object> tableView;
     @FXML private HBox mainBox;
     @FXML private VBox edit_Container, insert_Container;
@@ -34,6 +39,7 @@ public class Task1Controller
         insert_Container = c;
         mainBox = mb;
         tableView = t;
+       
         edit_Container = new VBox();
         edit_Container.setSpacing(5);
         edit_Container.setPadding(new Insets(30, 0, 0, 10));
@@ -47,6 +53,15 @@ public class Task1Controller
     /* Event triggered by user click */
     @FXML public void submit_Button(int button_Code){
      
+        if(buttons_Are_Locked()) 
+        {
+            // if any operation is in progress, the current request is delayed
+            mutex_Queue(button_Code);
+            return;
+        }
+        
+        buttons_Lock();
+        
         String query;          
          
         switch(button_Code){
@@ -78,7 +93,44 @@ public class Task1Controller
         else {
             System.out.println("Query result is empty");
         }
+        
+        buttons_Unlock();
+        
     }
+    
+    /* check the mutex status */
+    private boolean buttons_Are_Locked(){
+        /* return false if server is free and user can operate */
+        /* return true if server is already busy, the request is stored */
+        if(busy==0) 
+            return false;
+        else
+            return true;
+    }
+    /* lock the mutex for user operations */
+    private void buttons_Lock(){
+        
+        if(busy==0)
+            busy = -1;
+    }
+    /* push a request in the mutex queue */
+    private void mutex_Queue(int queue){   
+        /* the operation is stored in queue */
+        /* queue can store only one operation (the last request asked by user)*/
+        if(queue<0)
+            busy = queue;
+    }
+    private void buttons_Unlock(){
+        /* unlock the mutex for user operations */
+        /* call the operation that was in queue, if there was one */
+        int queue = busy;
+        busy = 0;
+        if(queue>0)
+        {
+            submit_Button(queue);
+        }
+    }
+    
     /* Creates table columns according to the results expected */
     private void format_Table(String query){
         
@@ -174,7 +226,8 @@ public class Task1Controller
         bio_Col = new TableColumn<>("Author's Bio");
         bio_Col.setCellValueFactory(new PropertyValueFactory("biography"));
   
-         tableView.getColumns().setAll(fn_Col,ln_Col,bio_Col);
+        tableView.getColumns().setAll(fn_Col,ln_Col,bio_Col);
+        generate_Form_Author();
     }
      /* Adds columns to main table to display a publisher */
     private void format_Publisher(){   
@@ -238,11 +291,46 @@ public class Task1Controller
                 insert_Book(title.getText(), numPages.getText(), quantity.getText(), category.getText(), price.getText(), publicationYear.getText(), authors, publisher.getText());
           }
         });
-            
+        
         vbox.getChildren().addAll(title,numPages,quantity,category,price,publicationYear,columnAuthor,publisher,button);
         insert_Container.getStyleClass().add("Insert_Container");
         insert_Container.getChildren().add(vbox);
     }
+    /* Lets the user add a new author */
+    private void generate_Form_Author(){
+        final VBox vbox = new VBox();
+        final TextField firstName = new TextField();
+        firstName.setPromptText("First Name");
+        final TextField lastName = new TextField();
+        lastName.setPromptText("Last Name");
+        final TextField biography = new TextField();
+        biography.setPromptText("Biography");
+        
+        final Button button = new Button("Add Author");
+        /*
+        button.setOnAction(new EventHandler<ActionEvent>() {
+        @Override public void handle(ActionEvent e) {
+                
+                String authors[] = new String[columnAuthor.getChildren().size()];
+                authors[0] = author.getText();
+                int i=0;
+                for(Node author:columnAuthor.getChildren()){
+                    if(i==0){ // Skip the author with the button
+                        i++;
+                        continue;
+                    }
+                    authors[i] = ((TextField) author).getText();
+                    i++;
+                }
+                insert_Book(title.getText(), numPages.getText(), quantity.getText(), category.getText(), price.getText(), publicationYear.getText(), authors, publisher.getText());
+          }
+        });
+        */  
+        vbox.getChildren().addAll(firstName, lastName, biography,button);
+        insert_Container.getStyleClass().add("Insert_Container");
+        insert_Container.getChildren().add(vbox);
+    }
+    
     /* Prepares the buttons to edit books::quantity in each row */
     private HBox make_Edit_Buttons(final int row_Id,final int quantity){
         
@@ -288,33 +376,36 @@ public class Task1Controller
     }
  
     public void quantity_Edit(int row, int q){
-        Object[] args = new Object[2];
-        args[1] = row;
-        args[0] = q;
-
         if(q >= 0){
-            db_Manager.commandManager("UPDATE_BOOK",args);
+             
+            BookManager bmanager = new BookManager();
+            bmanager.setup();
+            bmanager.update(row, q);
+            
+            //refresh page content
             submit_Button(1);
         }
     }
     public void insert_Book(String title,String numPages,String quantity,String category,String price,String publicationDate, String[] authors,String publisher){
-        Object[] args = new Object[8];
-        args[0] = title;
-        args[1] = numPages;
-        args[2] = quantity;
-        args[3] = category;
-        args[4] = price;
-        args[5] = publicationDate;
-        args[6] = authors; // TODO: Questo deve essere riadattato alle query dopo l'inserimento della relazione N:N
-        args[7] = publisher;
-        db_Manager.commandManager("INSERT_BOOK",args);
+   
+        //se mancano degli argomenti, ci pensa l'sql a invalidare l'operazione
+        BookManager bmanager = new BookManager();
+        bmanager.setup();
+        bmanager.create(title,numPages,quantity,category,price,publicationDate,authors,publisher);
+        
+        //refresh page content
         submit_Button(1);
     }
     
     public void row_Delete(int row){
-        Object[] args = new Object[1];
-        args[0] = row;
-        content = db_Manager.commandManager("DELETE_BOOK", args);
+        if(row <=0) 
+            return;
+        
+        BookManager bmanager = new BookManager();
+        bmanager.setup();
+        bmanager.delete(row);
+        
+        // refresh page content 
         submit_Button(1);
     }
     /* Resets the table */
