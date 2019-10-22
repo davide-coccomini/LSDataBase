@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -25,6 +26,9 @@ public class Book{
     private int publicationYear;
     private String category;
     private int quantity;
+    private Publisher publisher;
+
+
     /* la lista degli autori sta nel bean book perché quando registri un autore
     non sai la lista dei libri che scriverà, mentre quando aggiungi un libro 
     puoi registrare quali autori lo hanno scritto */
@@ -40,6 +44,12 @@ public class Book{
         this.category = category;
         this.quantity = quantity;
     }
+
+    public Book() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="Placeholder_name")
     @Column(name="idBOOK")
@@ -88,7 +98,36 @@ public class Book{
     public int getQuantity() {
         return quantity;
     }
+    @ManyToOne
+    @JoinColumn(name="PUBLISHER_ID")
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
+    
     public void setQuantity(int quantity){
         this.quantity = quantity;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setNumPages(int numPages) {
+        this.numPages = numPages;
+    }
+
+    public void setPublicationYear(int publicationYear) {
+        this.publicationYear = publicationYear;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }
