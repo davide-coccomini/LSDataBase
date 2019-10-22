@@ -48,6 +48,7 @@ public class BookManager {
         // TODO: convertire autore e publisher da stringa a oggetto
        // b.setPublisher(publisher);
         try{
+
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
             entityManager.persist(b);
