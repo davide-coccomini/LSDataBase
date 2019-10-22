@@ -2,12 +2,14 @@
 package workinggroup.task1;
 
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import workinggroup.task1.Obj.Author;
 import workinggroup.task1.Obj.Book;
-import workinggroup.task1.Obj.Publisher;
 
 public class AuthorManager {
     private EntityManagerFactory factory;
@@ -67,5 +69,22 @@ public class AuthorManager {
         }finally{
             entityManager.close();
         }
+    }
+        public ObservableList<Object> selectAllAuthors(){
+        System.out.println("Selectallauthors()");
+        entityManager = factory.createEntityManager();
+        String query = "SELECT a FROM Author a";
+        TypedQuery<Object> tq = entityManager.createQuery(query,Object.class);
+        ObservableList<Object> authors = null;
+        try{
+            authors = FXCollections.observableList(tq.getResultList());
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            entityManager.close();
+        }
+        
+        
+        return authors;
     }
 }

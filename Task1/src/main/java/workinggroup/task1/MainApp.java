@@ -76,7 +76,7 @@ public class MainApp extends Application {
         ((Group)scene.getRoot()).getChildren().addAll(body);
         
       
-        stage.setTitle("Task0");
+        stage.setTitle("Task1");
         stage.setScene(scene);
         stage.show();
     }

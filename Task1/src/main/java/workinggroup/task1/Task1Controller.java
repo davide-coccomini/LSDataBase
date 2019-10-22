@@ -1,7 +1,6 @@
 package workinggroup.task1;
  
 import java.sql.Date;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -54,15 +53,21 @@ public class Task1Controller
             default:
             case 1:
                 query = "SELECT_ALL_BOOKS";
-                BookManager manager = new BookManager();
-                manager.setup();
-                content = manager.selectAllBooks();
+                BookManager bmanager = new BookManager();
+                bmanager.setup();
+                content = bmanager.selectAllBooks();
                 break;
             case 2:
                 query = "SELECT_ALL_AUTHORS";
+                AuthorManager amanager = new AuthorManager();
+                amanager.setup();
+                content = amanager.selectAllAuthors();
                 break;
             case 3:
                 query = "SELECT_ALL_PUBLISHERS";
+                PublisherManager pmanager = new PublisherManager();
+                pmanager.setup();
+                content = pmanager.selectAllPublishers();
                 break;
         }
      
@@ -260,7 +265,10 @@ public class Task1Controller
                     }
                 else
                     { // out of focus
-                        int val = Integer.parseInt(button2.getText());
+                        String t = button2.getText();
+                        if("".equals(t))
+                            return;
+                        int val = Integer.parseInt(t);
                         quantity_Edit(row_Id,val);
                     }
                 }

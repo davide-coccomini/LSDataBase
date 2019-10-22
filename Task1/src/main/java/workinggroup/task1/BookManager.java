@@ -1,6 +1,5 @@
 package workinggroup.task1;
 
-import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,7 +10,6 @@ import javax.persistence.TypedQuery;
 import workinggroup.task1.Obj.Author;
 import workinggroup.task1.Obj.Book;
 import workinggroup.task1.Obj.Publisher;
-import static workinggroup.task1.Util.chooseType;
 
 public class BookManager {
     private EntityManagerFactory factory;
