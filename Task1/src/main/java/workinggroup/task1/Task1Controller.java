@@ -174,7 +174,8 @@ public class Task1Controller
         bio_Col = new TableColumn<>("Author's Bio");
         bio_Col.setCellValueFactory(new PropertyValueFactory("biography"));
   
-         tableView.getColumns().setAll(fn_Col,ln_Col,bio_Col);
+        tableView.getColumns().setAll(fn_Col,ln_Col,bio_Col);
+        generate_Form_Author();
     }
      /* Adds columns to main table to display a publisher */
     private void format_Publisher(){   
@@ -238,11 +239,46 @@ public class Task1Controller
                 insert_Book(title.getText(), numPages.getText(), quantity.getText(), category.getText(), price.getText(), publicationYear.getText(), authors, publisher.getText());
           }
         });
-            
+        
         vbox.getChildren().addAll(title,numPages,quantity,category,price,publicationYear,columnAuthor,publisher,button);
         insert_Container.getStyleClass().add("Insert_Container");
         insert_Container.getChildren().add(vbox);
     }
+    /* Lets the user add a new author */
+    private void generate_Form_Author(){
+        final VBox vbox = new VBox();
+        final TextField firstName = new TextField();
+        firstName.setPromptText("First Name");
+        final TextField lastName = new TextField();
+        lastName.setPromptText("Last Name");
+        final TextField biography = new TextField();
+        biography.setPromptText("Biography");
+        
+        final Button button = new Button("Add Author");
+        /*
+        button.setOnAction(new EventHandler<ActionEvent>() {
+        @Override public void handle(ActionEvent e) {
+                
+                String authors[] = new String[columnAuthor.getChildren().size()];
+                authors[0] = author.getText();
+                int i=0;
+                for(Node author:columnAuthor.getChildren()){
+                    if(i==0){ // Skip the author with the button
+                        i++;
+                        continue;
+                    }
+                    authors[i] = ((TextField) author).getText();
+                    i++;
+                }
+                insert_Book(title.getText(), numPages.getText(), quantity.getText(), category.getText(), price.getText(), publicationYear.getText(), authors, publisher.getText());
+          }
+        });
+        */  
+        vbox.getChildren().addAll(firstName, lastName, biography,button);
+        insert_Container.getStyleClass().add("Insert_Container");
+        insert_Container.getChildren().add(vbox);
+    }
+    
     /* Prepares the buttons to edit books::quantity in each row */
     private HBox make_Edit_Buttons(final int row_Id,final int quantity){
         
