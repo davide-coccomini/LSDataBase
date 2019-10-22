@@ -29,3 +29,6 @@ Task0/target/maven-archiver/pom.properties
 Task0/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
 Task0/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
 Task0/TODO LIST
+*.class
+*.class
+Task1/target/classes/com/fasterxml/classmate/AnnotationConfiguration$StdConfiguration.class
