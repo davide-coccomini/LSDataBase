@@ -54,6 +54,9 @@ public class Task1Controller
             default:
             case 1:
                 query = "SELECT_ALL_BOOKS";
+                BookManager manager = new BookManager();
+                manager.setup();
+                content = manager.selectAllBooks();
                 break;
             case 2:
                 query = "SELECT_ALL_AUTHORS";
@@ -63,8 +66,6 @@ public class Task1Controller
                 break;
         }
      
-        content = db_Manager.commandManager(query,null);
-        
         if((content!=null)&&(content.isEmpty()==false)){
             tableView.setItems(content);
             format_Table(query);
