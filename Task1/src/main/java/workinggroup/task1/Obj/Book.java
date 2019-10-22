@@ -18,6 +18,7 @@ import javax.persistence.Table;
 @Table(name="book")
 @SequenceGenerator(name="Placeholder_name",sequenceName="placeholder_Table")
 public class Book{
+    
     private int idBOOK;
 
     private String title;
@@ -51,7 +52,7 @@ public class Book{
 
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="Placeholder_name")
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="idBOOK")
     public int getIdBOOK() {
         return idBOOK;
