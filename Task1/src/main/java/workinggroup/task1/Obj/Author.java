@@ -24,6 +24,10 @@ public class Author{
         this.biography = biography;
     }
 
+    public Author() {
+        
+    }
+
      
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -58,6 +62,18 @@ public class Author{
 
     public void setBooks(List<Book> books) {
         this.books = books;
+    }
+
+    public void setFirstName(String firstName) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void setLastName(String lastName) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void setBiography(String biography) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 
