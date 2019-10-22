@@ -49,13 +49,13 @@ public class Book{
 
     
     @ManyToMany
-    @JoinTable(name="placeholder_Table",
+    @JoinTable(name="book_has_author",
 		joinColumns={@JoinColumn(name="idBOOK")},
-		inverseJoinColumns={@JoinColumn(name="authorID")})
+		inverseJoinColumns={@JoinColumn(name="idAUTHOR")})
     public List<Author> getAuthors() {
 		return authors;
 	}
-    public void setEvents(List<Author> authors) {
+    public void setAuthors(List<Author> authors) {
 		this.authors = authors;
 	}
     

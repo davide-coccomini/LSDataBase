@@ -1,6 +1,7 @@
 
 package workinggroup.task1.Obj;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,21 +14,18 @@ public class Author{
     private String firstName;
     private String lastName;
     private String biography;
-
-    public Author() {
-    }
+    List<Book> books;
             
     public Author(String firstName, String lastName, String biography){
         this.firstName = firstName;
         this.lastName = lastName;
         this.biography = biography;
     }
-         
+
      
-    @ManyToMany(mappedBy="book")
-    @Column(name = "idAUTHOR")
     @Id
-    public int getId() {
+    @Column(name = "ID")
+    public int getIdAuthor() {
         return id;
     }
 
@@ -50,4 +48,15 @@ public class Author{
     public String getBiography() {
         return biography;
     }
+    @ManyToMany(mappedBy="authors")
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+    
+
+    
 }
