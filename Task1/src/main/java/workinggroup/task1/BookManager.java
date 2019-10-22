@@ -18,6 +18,8 @@ public class BookManager {
     private EntityManager entityManager;
     
     public void setup(){
+        
+        System.out.println("setup()");
         factory = Persistence.createEntityManagerFactory("bookshop");
     }
     
@@ -26,6 +28,8 @@ public class BookManager {
     }
     
     public void create(String title,int numPages,int quantity,String category,double price,int publicationYear, List<Author> authors, Publisher publisher){
+        
+        System.out.println("create()");
         Book b = new Book();
         b.setTitle(title);
         b.setNumPages(numPages);
@@ -47,8 +51,9 @@ public class BookManager {
         }
     }
     public ObservableList<Object> selectAllBooks(){
+        System.out.println("Selectallbooks()");
         entityManager = factory.createEntityManager();
-        String query = "SELECT * FROM book";
+        String query = "SELECT b FROM Book b";
         TypedQuery<Object> tq = entityManager.createQuery(query,Object.class);
         ObservableList<Object> books = null;
         try{

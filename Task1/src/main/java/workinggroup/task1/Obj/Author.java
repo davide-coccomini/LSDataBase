@@ -31,8 +31,8 @@ public class Author{
      
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name = "ID")
-    public int getIdAuthor() {
+    @Column(name = "idBOOK")
+    public int getId() {
         return id;
     }
 

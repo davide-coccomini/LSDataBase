@@ -36,7 +36,7 @@ public class Book{
     private List<Author> authors;
    
     
-    public Book(int ID,String title, double price, int numPages, int year, String category, int quantity){
+    public Book(int ID,String title, double price, int numPages, int year, String category, int quantity, List<Author> authors, Publisher publisher){
         this.idBOOK=ID;
         this.title = title;
         this.price = price;
@@ -44,10 +44,12 @@ public class Book{
         this.publicationYear = year;
         this.category = category;
         this.quantity = quantity;
+        this.authors = authors;
+        this.publisher = publisher;
     }
 
     public Book() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Book()");
     }
 
 
@@ -100,7 +102,7 @@ public class Book{
         return quantity;
     }
     @ManyToOne
-    @JoinColumn(name="PUBLISHER_ID")
+    @JoinColumn(name="PUBLISHER_idPUBLISHER")
     public Publisher getPublisher() {
         return publisher;
     }

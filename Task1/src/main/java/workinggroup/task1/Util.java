@@ -51,7 +51,9 @@ public class Util {
                     rs.getInt("numPages"),
                     rs.getInt("PublicationYear"),
                     rs.getString("category"),
-                    rs.getInt("quantity")      
+                    rs.getInt("quantity"),
+                    null,
+                    null
                 );
         return o;
     }
