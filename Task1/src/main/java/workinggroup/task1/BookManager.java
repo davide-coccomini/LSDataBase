@@ -1,5 +1,6 @@
 package workinggroup.task1;
 
+import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,19 +26,29 @@ public class BookManager {
         
     }
     
-    public void create(String title,int numPages,int quantity,String category,double price,int publicationYear, List<Author> authors, Publisher publisher){
+    public void create(String title, String numPages, String quantity, String category, String price, String publicationYear, String[] authors, String publisher) {
+  //  public void create(String title,String numPages,int quantity,String category,double price,int publicationYear, List<Author> authors, Publisher publisher){
         
         System.out.println("create()");
         Book b = new Book();
         b.setTitle(title);
-        b.setNumPages(numPages);
-        b.setQuantity(quantity);
+        b.setNumPages(Integer.parseInt(numPages));
+        b.setQuantity(Integer.parseInt(quantity));
         b.setCategory(category);
-        b.setPrice(price);
-        b.setPublicationYear(publicationYear);
-        b.setAuthors(authors);
-        b.setPublisher(publisher);
+        b.setPrice(Double.parseDouble(price));
+        b.setPublicationYear(Integer.parseInt(publicationYear));
+        
+        /* test material */
+        List<Author> temp = new ArrayList<Author>();;
+        temp.add(new Author("test","author","to be converted"));
+        b.setAuthors(temp);
+        b.setPublisher(new Publisher("test","to be converted"));
+        
+       // b.setAuthors(authors);
+        // TODO: convertire autore e publisher da stringa a oggetto
+       // b.setPublisher(publisher);
         try{
+
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
             entityManager.persist(b);
@@ -107,7 +118,7 @@ public class BookManager {
         }
         // TODO: Update table
     }
-    public void delete(long bookId){
+    public void delete(int bookId){
         try{
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
@@ -121,4 +132,6 @@ public class BookManager {
             entityManager.close();
         }
     }
+
+
 }
