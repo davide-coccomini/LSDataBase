@@ -226,6 +226,7 @@ public class Task1Controller
         tableView.getColumns().setAll(fn_Col,ln_Col,bio_Col);
         generate_Form_Author();
     }
+    
      /* Adds columns to main table to display a publisher */
     private void format_Publisher(){   
         TableColumn<Object,String> pub_Col;
@@ -236,6 +237,7 @@ public class Task1Controller
         loc_Col.setCellValueFactory(new PropertyValueFactory("location"));
         
         tableView.getColumns().setAll(pub_Col,loc_Col);
+        generate_Form_Publisher();
     }
     
     /* Lets the user add a new book */
@@ -257,7 +259,7 @@ public class Task1Controller
         author.setPromptText("Author ID");
         final TextField publisher = new TextField();
         publisher.setPromptText("Publisher ID");
-          
+        
         final VBox columnAuthor = new VBox();
         Button addAuthor = new Button("+");
         addAuthor.setOnAction(new EventHandler<ActionEvent>() {
@@ -267,7 +269,7 @@ public class Task1Controller
               columnAuthor.getChildren().add(newAuthor);
           }
         });
-       
+
         final HBox rowAuthor = new HBox();
         rowAuthor.getChildren().addAll(author,addAuthor);
         columnAuthor.getChildren().add(rowAuthor);
@@ -293,6 +295,7 @@ public class Task1Controller
         insert_Container.getStyleClass().add("Insert_Container");
         insert_Container.getChildren().add(vbox);
     }
+    
     /* Lets the user add a new author */
     private void generate_Form_Author(){
         final VBox vbox = new VBox();
@@ -304,28 +307,47 @@ public class Task1Controller
         biography.setPromptText("Biography");
         
         final Button button = new Button("Add Author");
-        /*
+        
         button.setOnAction(new EventHandler<ActionEvent>() {
         @Override public void handle(ActionEvent e) {
+            
+                Author newAuthor = new Author();
+                insert_Author(firstName.getText(), lastName.getText(), biography.getText());
                 
-                String authors[] = new String[columnAuthor.getChildren().size()];
-                authors[0] = author.getText();
-                int i=0;
-                for(Node author:columnAuthor.getChildren()){
-                    if(i==0){ // Skip the author with the button
-                        i++;
-                        continue;
-                    }
-                    authors[i] = ((TextField) author).getText();
-                    i++;
-                }
-                insert_Book(title.getText(), numPages.getText(), quantity.getText(), category.getText(), price.getText(), publicationYear.getText(), authors, publisher.getText());
           }
+
         });
-        */  
+
         vbox.getChildren().addAll(firstName, lastName, biography,button);
         insert_Container.getStyleClass().add("Insert_Container");
         insert_Container.getChildren().add(vbox);
+        
+    }
+    
+    /* Lets the user add a new author */
+    private void generate_Form_Publisher(){
+        final VBox vbox = new VBox();
+        final TextField name = new TextField();
+        name.setPromptText("Name");
+        final TextField location = new TextField();
+        location.setPromptText("Location");
+        
+        final Button button = new Button("Add Publisher");
+        
+        button.setOnAction(new EventHandler<ActionEvent>() {
+        @Override public void handle(ActionEvent e) {
+            
+                Publisher newPublisher = new Publisher();
+                insert_Publisher(name.getText(), location.getText());
+                
+          }
+
+        });
+
+        vbox.getChildren().addAll(name, location,button);
+        insert_Container.getStyleClass().add("Insert_Container");
+        insert_Container.getChildren().add(vbox);
+        
     }
     
     /* Prepares the buttons to edit books::quantity in each row */
@@ -389,6 +411,24 @@ public class Task1Controller
         BookManager bmanager = new BookManager();
         bmanager.setup();
         bmanager.create(title,numPages,quantity,category,price,publicationDate,authors,publisher);
+        
+        //refresh page content
+        submit_Button(1);
+    }
+    
+    public void insert_Author(String firstName, String lastName, String biography) {
+        AuthorManager aManager = new AuthorManager();
+        aManager.setup();
+        aManager.create(firstName, lastName, biography, null);
+        
+        //refresh page content
+        submit_Button(1);
+    }
+    
+    public void insert_Publisher(String name, String location) {
+        PublisherManager pManager = new PublisherManager();
+        pManager.setup();
+        pManager.create(name, location, null);
         
         //refresh page content
         submit_Button(1);
