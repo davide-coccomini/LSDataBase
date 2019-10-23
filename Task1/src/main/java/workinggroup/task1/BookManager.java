@@ -40,6 +40,7 @@ public class BookManager {
         List<Author> authors = new ArrayList<Author>();
         
         AuthorManager am = new AuthorManager();
+        am.setup();
         for(int i=0; i<authorsId.length; i++){
             Author a = am.read(Integer.parseInt(authorsId[i]));
             authors.add(a);
@@ -47,6 +48,7 @@ public class BookManager {
         
         b.setAuthors(authors);
         PublisherManager pm = new PublisherManager();
+        pm.setup();
         Publisher p = pm.read(Integer.parseInt(publisherId));
         b.setPublisher(p);
         

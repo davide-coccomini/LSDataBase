@@ -43,8 +43,7 @@ public class AuthorManager {
         }
     }
     public Author read(int authorId){
-        
-        Author a = null;
+        Author a = new Author();
         try{
             entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
