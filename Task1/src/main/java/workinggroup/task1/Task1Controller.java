@@ -422,7 +422,7 @@ public class Task1Controller
         aManager.create(firstName, lastName, biography, null);
         
         //refresh page content
-        submit_Button(1);
+        submit_Button(2);
     }
     
     public void insert_Publisher(String name, String location) {
@@ -431,7 +431,7 @@ public class Task1Controller
         pManager.create(name, location, null);
         
         //refresh page content
-        submit_Button(1);
+        submit_Button(3);
     }
     
     public void row_Delete(int row){
