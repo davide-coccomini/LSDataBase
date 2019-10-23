@@ -26,8 +26,7 @@ public class BookManager {
         
     }
     
-    public void create(String title, String numPages, String quantity, String category, String price, String publicationYear, String[] authors, String publisher) {
-  //  public void create(String title,String numPages,int quantity,String category,double price,int publicationYear, List<Author> authors, Publisher publisher){
+    public void create(String title, String numPages, String quantity, String category, String price, String publicationYear, String[] authorsId, String publisherId) {
         
         System.out.println("create()");
         Book b = new Book();
@@ -38,15 +37,19 @@ public class BookManager {
         b.setPrice(Double.parseDouble(price));
         b.setPublicationYear(Integer.parseInt(publicationYear));
         
-        /* test material */
-        List<Author> temp = new ArrayList<Author>();;
-        temp.add(new Author("test","author","to be converted"));
-        b.setAuthors(temp);
-        b.setPublisher(new Publisher("test","to be converted"));
+        List<Author> authors = new ArrayList<Author>();
         
-       // b.setAuthors(authors);
-        // TODO: convertire autore e publisher da stringa a oggetto
-       // b.setPublisher(publisher);
+        AuthorManager am = new AuthorManager();
+        for(int i=0; i<authorsId.length; i++){
+            Author a = am.read(Integer.parseInt(authorsId[i]));
+            authors.add(a);
+        }
+        
+        b.setAuthors(authors);
+        PublisherManager pm = new PublisherManager();
+        Publisher p = pm.read(Integer.parseInt(publisherId));
+        b.setPublisher(p);
+        
         try{
 
             entityManager = factory.createEntityManager();
