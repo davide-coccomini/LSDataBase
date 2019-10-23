@@ -26,8 +26,6 @@ import workinggroup.task1.Obj.Publisher;
 public class Task1Controller
 {
     private ObservableList<Object> content;
-    private DatabaseManager db_Manager;
-   
     private int busy = 0;
     
     @FXML private TableView<Object> tableView;
@@ -47,7 +45,6 @@ public class Task1Controller
         t.getStyleClass().add("TABLE");
         
         content = null;
-        db_Manager = new DatabaseManager();
         
     }
     /* Event triggered by user click */
