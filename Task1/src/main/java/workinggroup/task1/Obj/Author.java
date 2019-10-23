@@ -32,7 +32,7 @@ public class Author{
 
      
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "idAUTHOR")
     public int getId() {
         return id;

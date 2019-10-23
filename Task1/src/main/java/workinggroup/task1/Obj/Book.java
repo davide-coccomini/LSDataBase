@@ -54,7 +54,7 @@ public class Book{
 
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="idBOOK")
     public int getIdBOOK() {
         return idBOOK;

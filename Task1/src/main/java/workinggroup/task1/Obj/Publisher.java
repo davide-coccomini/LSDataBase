@@ -26,7 +26,7 @@ public class Publisher{
     }
 
     @Id   
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "idPUBLISHER")
     public int getId() {
         return id;
