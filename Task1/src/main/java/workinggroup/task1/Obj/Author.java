@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Table(name="author")
 public class Author{
        
-    private int id;
+    private int idAUTHOR;
     private String firstName;
     private String lastName;
     private String biography;
@@ -34,12 +34,12 @@ public class Author{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "idAUTHOR")
-    public int getId() {
-        return id;
+    public int getIdAUTHOR() {
+        return idAUTHOR;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdAUTHOR(int id) {
+        this.idAUTHOR = id;
     }
     
     @Column(name = "firstName")

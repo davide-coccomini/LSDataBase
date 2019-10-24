@@ -162,7 +162,6 @@ public class UIController
         TableColumn<Object,Integer> id_Col;
         id_Col = new TableColumn<>("Book Id");
         id_Col.setCellValueFactory(new PropertyValueFactory("idBOOK"));
-       // id_Col.setVisible(false);
         TableColumn<Object,String> title_Col;
         title_Col = new TableColumn<>("Book Title");
         title_Col.setCellValueFactory(new PropertyValueFactory("title"));
@@ -213,6 +212,9 @@ public class UIController
     }
     /* Adds columns to main table to display an author */
     private void format_Author(){   
+        TableColumn<Object,Integer> id_Col;
+        id_Col = new TableColumn<>("Author Id");
+        id_Col.setCellValueFactory(new PropertyValueFactory("idAUTHOR"));
         TableColumn<Object,String> fn_Col;
         fn_Col = new TableColumn<>("Author Name");
         fn_Col.setCellValueFactory(new PropertyValueFactory("firstName"));
@@ -223,12 +225,15 @@ public class UIController
         bio_Col = new TableColumn<>("Author's Bio");
         bio_Col.setCellValueFactory(new PropertyValueFactory("biography"));
   
-        tableView.getColumns().setAll(fn_Col,ln_Col,bio_Col);
+        tableView.getColumns().setAll(id_Col,fn_Col,ln_Col,bio_Col);
         generate_Form_Author();
     }
     
      /* Adds columns to main table to display a publisher */
     private void format_Publisher(){   
+        TableColumn<Object,Integer> id_Col;
+        id_Col = new TableColumn<>("Publisher Id");
+        id_Col.setCellValueFactory(new PropertyValueFactory("idPUBLISHER"));
         TableColumn<Object,String> pub_Col;
         pub_Col = new TableColumn<>("Publisher Name");
         pub_Col.setCellValueFactory(new PropertyValueFactory("name"));
@@ -236,7 +241,7 @@ public class UIController
         loc_Col = new TableColumn<>("Publisher Location");
         loc_Col.setCellValueFactory(new PropertyValueFactory("location"));
         
-        tableView.getColumns().setAll(pub_Col,loc_Col);
+        tableView.getColumns().setAll(id_Col,pub_Col,loc_Col);
         generate_Form_Publisher();
     }
     

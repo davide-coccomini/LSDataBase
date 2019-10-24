@@ -12,7 +12,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name="publisher")
 public class Publisher{
-    private int id;
+    private int idPUBLISHER;
+
     private String name;
     private String location;
     private List<Book> books;
@@ -28,12 +29,12 @@ public class Publisher{
     @Id   
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "idPUBLISHER")
-    public int getId() {
-        return id;
+    public int getIdPUBLISHER() {
+        return idPUBLISHER;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdPUBLISHER(int id) {
+        this.idPUBLISHER = id;
     }
     @Column(name = "name")
     public String getName() {

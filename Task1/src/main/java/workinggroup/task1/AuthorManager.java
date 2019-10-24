@@ -69,7 +69,7 @@ public class AuthorManager {
             entityManager.close();
         }
     }
-        public ObservableList<Object> selectAllAuthors(){
+    public ObservableList<Object> selectAllAuthors(){
         System.out.println("Selectallauthors()");
         entityManager = factory.createEntityManager();
         String query = "SELECT a FROM Author a";
