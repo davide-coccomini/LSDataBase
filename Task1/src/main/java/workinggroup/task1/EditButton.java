@@ -11,10 +11,10 @@ import javafx.scene.control.Button;
 /* Links ActionEvents to buttons in order to delete a book or edit it's quantity */
 public class EditButton extends Button{
     private int row_Id;
-    private Task1Controller controller;
+    private UIController controller;
     private int argument;
     
-    EditButton(String func, int row_Id, int argument, Task1Controller ctrl){
+    EditButton(String func, int row_Id, int argument, UIController ctrl){
         controller = ctrl;
         this.row_Id = row_Id;
         this.argument = argument;

@@ -23,7 +23,7 @@ import workinggroup.task1.Obj.Author;
 import workinggroup.task1.Obj.Book;
 import workinggroup.task1.Obj.Publisher;
 
-public class Task1Controller
+public class UIController
 {
     private ObservableList<Object> content;
     private int busy = 0;
@@ -33,7 +33,7 @@ public class Task1Controller
     @FXML private VBox edit_Container, insert_Container;
       
     /* initializations for the main table */
-    public Task1Controller(VBox c, HBox mb, TableView<Object> t) {
+    public UIController(VBox c, HBox mb, TableView<Object> t) {
         insert_Container = c;
         mainBox = mb;
         tableView = t;
