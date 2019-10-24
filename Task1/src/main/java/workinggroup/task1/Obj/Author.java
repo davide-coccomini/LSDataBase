@@ -4,6 +4,7 @@ package workinggroup.task1.Obj;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,10 +21,11 @@ public class Author{
     private String biography;
     List<Book> books;
             
-    public Author(String firstName, String lastName, String biography){
+    public Author(String firstName, String lastName, String biography, List<Book> books){
         this.firstName = firstName;
         this.lastName = lastName;
         this.biography = biography;
+        this.books = books;
     }
 
     public Author() {
