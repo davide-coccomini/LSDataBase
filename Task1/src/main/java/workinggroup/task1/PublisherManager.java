@@ -8,40 +8,19 @@ package workinggroup.task1;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import workinggroup.task1.Obj.Book;
 import workinggroup.task1.Obj.Publisher;
 
-public class PublisherManager {
-    private EntityManagerFactory factory;
-    private EntityManager entityManager;
-    
-    public void setup(){
-        factory = Persistence.createEntityManagerFactory("bookshop");
-    }
-    
-    public void exit(){
-        
-    }
+public class PublisherManager extends JpaManager{
+     
     public void create(String name, String location, List<Book> books){
         Publisher p = new Publisher();
         p.setName(name);
         p.setLocation(location);
         p.setBooks(books);
          
-        try{
-            entityManager = factory.createEntityManager();
-            entityManager.getTransaction().begin();
-            entityManager.persist(p);
-            entityManager.getTransaction().commit();
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }finally{
-            entityManager.close();
-        }
+        super.createCommit(p);
     }
     public Publisher read(int publisherId){
         

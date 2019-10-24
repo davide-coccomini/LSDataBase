@@ -4,28 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import workinggroup.task1.Obj.Author;
 import workinggroup.task1.Obj.Book;
 import workinggroup.task1.Obj.Publisher;
 
-public class BookManager {
-    private EntityManagerFactory factory;
-    private EntityManager entityManager;
-    
-    public void setup(){
-        
-        System.out.println("setup()");
-        factory = Persistence.createEntityManagerFactory("bookshop");
-    }
-    
-    public void exit(){
-        
-    }
-    
+public class BookManager extends JpaManager{
+ 
     public void create(String title, String numPages, String quantity, String category, String price, String publicationYear, String[] authorsId, String publisherId) {
         
         System.out.println("create()");
@@ -52,17 +37,7 @@ public class BookManager {
         Publisher p = pm.read(Integer.parseInt(publisherId));
         b.setPublisher(p);
         
-        try{
-
-            entityManager = factory.createEntityManager();
-            entityManager.getTransaction().begin();
-            entityManager.persist(b);
-            entityManager.getTransaction().commit();
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }finally{
-            entityManager.close();
-        }
+        super.createCommit(b);
     }
     public ObservableList<Object> selectAllBooks(){
         System.out.println("Selectallbooks()");

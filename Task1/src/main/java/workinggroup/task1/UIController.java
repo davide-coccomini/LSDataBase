@@ -1,7 +1,6 @@
 package workinggroup.task1;
  
 import java.sql.Date;
-import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -194,10 +193,13 @@ public class UIController
                     public void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
                         if(getIndex()<content.size() && getIndex() >= 0){
-                            Book b = (Book)content.get(getIndex());
-                            HBox hbox = make_Edit_Buttons(b.getIdBOOK(),b.getQuantity());
-                            setGraphic(hbox);
-                            setText(null);
+                            if(content.get(getIndex()).getClass()==Book.class) {
+                            
+                                Book b = (Book)content.get(getIndex());
+                                HBox hbox = make_Edit_Buttons(b.getIdBOOK(),b.getQuantity());
+                                setGraphic(hbox);
+                                setText(null);
+                            }
                         }       
                     }
                 };

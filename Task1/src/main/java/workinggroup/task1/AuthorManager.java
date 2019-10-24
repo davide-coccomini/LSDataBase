@@ -4,26 +4,13 @@ package workinggroup.task1;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import workinggroup.task1.Obj.Author;
 import workinggroup.task1.Obj.Book;
 
-public class AuthorManager {
-    private EntityManagerFactory factory;
-    private EntityManager entityManager;
-    
-    public void setup(){
-        factory = Persistence.createEntityManagerFactory("bookshop");
-    }
-    
-    public void exit(){
-        
-    } 
-    
-    
+
+public class AuthorManager extends JpaManager{
+  
      public void create(String firstName, String lastName, String biography, List<Book> books){
         Author a = new Author();
         a.setFirstName(firstName);
@@ -31,16 +18,7 @@ public class AuthorManager {
         a.setBiography(biography);
         a.setBooks(books);
          
-        try{
-            entityManager = factory.createEntityManager();
-            entityManager.getTransaction().begin();
-            entityManager.persist(a);
-            entityManager.getTransaction().commit();
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }finally{
-            entityManager.close();
-        }
+        super.createCommit(a);
     }
     public Author read(int authorId){
         Author a = new Author();
@@ -85,5 +63,5 @@ public class AuthorManager {
         
         
         return authors;
-    }
+    } 
 }
