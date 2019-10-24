@@ -3,6 +3,7 @@ package workinggroup.task1.Obj;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -61,7 +62,7 @@ public class Book{
     }
 
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="book_has_author",
 		joinColumns={@JoinColumn(name="idBOOK")},
 		inverseJoinColumns={@JoinColumn(name="idAUTHOR")})

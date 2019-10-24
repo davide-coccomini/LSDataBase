@@ -1,6 +1,7 @@
 package workinggroup.task1;
  
 import java.sql.Date;
+import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -180,6 +181,77 @@ public class UIController
         q_Col = new TableColumn<>("Copies In Stock");
         q_Col.setCellValueFactory(new PropertyValueFactory("quantity"));             
   
+        
+        TableColumn authors_Col = new TableColumn("Authors");
+  
+        authors_Col.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+        Callback<TableColumn<Object, String>, TableCell<Object, String>> authorsCellFactory
+                = //
+                new Callback<TableColumn<Object, String>, TableCell<Object, String>>() {
+            @Override
+            public TableCell call(final TableColumn<Object, String> param) {
+                final TableCell<Object, String> cell = new TableCell<Object, String>() {
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if(getIndex()<content.size() && getIndex() >= 0){
+                            if(content.get(getIndex()).getClass()==Book.class) {
+                                String authorsString = "";
+                                Book b = (Book)content.get(getIndex());
+                                List<Author> authors = b.getAuthors();
+                                for(int i=0; i<authors.size();i++){
+                                    String firstName = authors.get(i).getFirstName();
+                                    String lastName = authors.get(i).getLastName();
+                                    String authorName = firstName + " " + lastName;
+                                    if(i==0)
+                                        authorsString += authorName;
+                                    else
+                                        authorsString += ", " + authorName;
+                                }
+                                setText(authorsString);
+                            }
+                        }       
+                    }
+                };
+                return cell;
+            }
+        };
+        authors_Col.setCellFactory(authorsCellFactory);
+        
+        
+        
+        TableColumn publisher_Col = new TableColumn("Publisher");
+  
+        publisher_Col.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+        Callback<TableColumn<Object, String>, TableCell<Object, String>> publisherCellFactory
+                = //
+                new Callback<TableColumn<Object, String>, TableCell<Object, String>>() {
+            @Override
+            public TableCell call(final TableColumn<Object, String> param) {
+                final TableCell<Object, String> cell = new TableCell<Object, String>() {
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if(getIndex()<content.size() && getIndex() >= 0){
+                            if(content.get(getIndex()).getClass()==Book.class) {
+                                String authorsString = "";
+                                Book b = (Book)content.get(getIndex());
+                                Publisher p = b.getPublisher();
+                                setText(p.getName());
+                            }
+                        }       
+                    }
+                };
+                return cell;
+            }
+        };
+        publisher_Col.setCellFactory(publisherCellFactory);
+        
+        
+        q_Col.setCellValueFactory(new PropertyValueFactory("quantity"));    
+        
         TableColumn action_Col = new TableColumn("Action");
         action_Col.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
         Callback<TableColumn<Object, String>, TableCell<Object, String>> cellFactory
@@ -208,7 +280,7 @@ public class UIController
         };
         action_Col.setCellFactory(cellFactory);
         
-        tableView.getColumns().setAll(id_Col,title_Col, price_Col, pages_Col, date_Col, cat_Col, q_Col, action_Col);
+        tableView.getColumns().setAll(id_Col,title_Col, price_Col, pages_Col, date_Col, cat_Col, q_Col, authors_Col, publisher_Col, action_Col);
         
         generate_Form_Book();
     }
