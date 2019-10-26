@@ -280,7 +280,7 @@ public class UIController
         };
         action_Col.setCellFactory(cellFactory);
         
-        tableView.getColumns().setAll(id_Col,title_Col, price_Col, pages_Col, date_Col, cat_Col, q_Col, authors_Col, publisher_Col, action_Col);
+        tableView.getColumns().setAll(action_Col, id_Col,title_Col, price_Col, pages_Col, date_Col, cat_Col, q_Col, authors_Col, publisher_Col);
         
         generate_Form_Book();
     }
@@ -299,7 +299,37 @@ public class UIController
         bio_Col = new TableColumn<>("Author's Bio");
         bio_Col.setCellValueFactory(new PropertyValueFactory("biography"));
   
-        tableView.getColumns().setAll(id_Col,fn_Col,ln_Col,bio_Col);
+        TableColumn action_Col = new TableColumn("Action");
+        action_Col.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+        Callback<TableColumn<Object, String>, TableCell<Object, String>> cellFactory
+                = //
+                new Callback<TableColumn<Object, String>, TableCell<Object, String>>() {
+            @Override
+            public TableCell call(final TableColumn<Object, String> param) {
+                final TableCell<Object, String> cell = new TableCell<Object, String>() {
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if(getIndex()<content.size() && getIndex() >= 0){
+                            if(content.get(getIndex()).getClass()==Author.class) {
+                                
+                                Author a = (Author)content.get(getIndex());
+                                Button delBtn = make_Delete_Button(a.getIdAUTHOR(), 2);
+                                setGraphic(delBtn);
+                                setText(null);
+                                
+                            }
+                        }       
+                    }
+                };
+                return cell;
+            }
+        };
+        action_Col.setCellFactory(cellFactory);
+        
+        
+        tableView.getColumns().setAll(action_Col, id_Col,fn_Col,ln_Col,bio_Col);
         generate_Form_Author();
     }
     
@@ -315,7 +345,36 @@ public class UIController
         loc_Col = new TableColumn<>("Publisher Location");
         loc_Col.setCellValueFactory(new PropertyValueFactory("location"));
         
-        tableView.getColumns().setAll(id_Col,pub_Col,loc_Col);
+        TableColumn action_Col = new TableColumn("Action");
+        action_Col.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+        Callback<TableColumn<Object, String>, TableCell<Object, String>> cellFactory
+                = //
+                new Callback<TableColumn<Object, String>, TableCell<Object, String>>() {
+            @Override
+            public TableCell call(final TableColumn<Object, String> param) {
+                final TableCell<Object, String> cell = new TableCell<Object, String>() {
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if(getIndex()<content.size() && getIndex() >= 0){
+                            if(content.get(getIndex()).getClass()==Publisher.class) {
+                                
+                                Publisher p = (Publisher)content.get(getIndex());
+                                Button delBtn = make_Delete_Button(p.getIdPUBLISHER(), 3);
+                                setGraphic(delBtn);
+                                setText(null);
+                                
+                            }
+                        }       
+                    }
+                };
+                return cell;
+            }
+        };
+        action_Col.setCellFactory(cellFactory);
+        
+        tableView.getColumns().setAll(action_Col, id_Col,pub_Col,loc_Col);
         generate_Form_Publisher();
     }
     
@@ -460,11 +519,11 @@ public class UIController
                 }
             });
         
-       
         
-        EditButton button1 = new EditButton("+",row_Id,quantity+1,this);
-        EditButton button3 = new EditButton("-",row_Id,(quantity-1)<0?0:quantity-1,this);
-        EditButton button4 = new EditButton("X",row_Id,0,this);
+        
+        EditButton button1 = new EditButton("+",row_Id,quantity+1,this,1);
+        EditButton button3 = new EditButton("-",row_Id,(quantity-1)<0?0:quantity-1,this,1);
+        EditButton button4 = new EditButton("X",row_Id,0,this,1);
  
         button2.getStyleClass().add("SQUARE_EDIT");
   
@@ -473,6 +532,12 @@ public class UIController
         return hbox;
     }
  
+    /**/
+    private Button make_Delete_Button(final int row_Id, final int type){
+        final Button delButton = new EditButton("X",row_Id, 0, this, type);
+        return delButton;
+    }
+    
     public void quantity_Edit(int row, int q){
         if(q >= 0){
              
@@ -513,16 +578,39 @@ public class UIController
         submit_Button(3);
     }
     
-    public void row_Delete(int row){
+    /* row = object id; type = type of object whom */
+    public void row_Delete(int row, int type){
         if(row <=0) 
             return;
+        /*
+        type : 
+        1 = BOOK
+        2 = AUTHOR
+        3 = PUBLISHER
+        */
+        switch(type){
+            case 1 : 
+                BookManager bmanager = new BookManager();
+                bmanager.setup();
+                bmanager.delete(row);
+
+                break;
+            case 2 : 
+                AuthorManager amanager = new AuthorManager();
+                amanager.setup();
+                amanager.delete(row);
+
+                break;
+            case 3 : 
+                PublisherManager pmanager = new PublisherManager();
+                pmanager.setup();
+                pmanager.delete(row);
+
+                break;        
+        }
         
-        BookManager bmanager = new BookManager();
-        bmanager.setup();
-        bmanager.delete(row);
+        submit_Button(type);
         
-        // refresh page content 
-        submit_Button(1);
     }
     /* Resets the table */
     public void buttons_Clear(){

@@ -1,6 +1,7 @@
 package workinggroup.task1.Obj;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,7 +45,7 @@ public class Publisher{
     public String getLocation() {
         return location;
     }
-    @OneToMany(mappedBy="publisher")
+    @OneToMany(mappedBy="publisher", cascade = CascadeType.REMOVE)
     public List<Book> getBooks() {
         return books;
     }

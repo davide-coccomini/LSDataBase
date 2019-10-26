@@ -8,13 +8,13 @@ import javafx.scene.control.Button;
  *
  * @author Lorenzo
  */
-/* Links ActionEvents to buttons in order to delete a book or edit it's quantity */
+/* Links ActionEvents to buttons in order to delete a book or edit its quantity */
 public class EditButton extends Button{
     private int row_Id;
     private UIController controller;
     private int argument;
     
-    EditButton(String func, int row_Id, int argument, UIController ctrl){
+    EditButton(String func, int row_Id, int argument, UIController ctrl, final int type){
         controller = ctrl;
         this.row_Id = row_Id;
         this.argument = argument;
@@ -25,9 +25,9 @@ public class EditButton extends Button{
                 super.getStyleClass().add("DELETE_BTT");
                 super.setOnAction(new EventHandler<ActionEvent>() {
                 @Override public void handle(ActionEvent e) {
-                    controller.row_Delete(get_Row_Id());
+                    controller.row_Delete(get_Row_Id(),type);
                     }
-                });    
+                });
                 break;
             case "+":
             case "-":

@@ -2,6 +2,7 @@
 package workinggroup.task1.Obj;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -59,7 +60,7 @@ public class Author{
     public String getBiography() {
         return biography;
     }
-    @ManyToMany(mappedBy="authors")
+    @ManyToMany(mappedBy="authors", cascade = CascadeType.REMOVE)
     public List<Book> getBooks() {
         return books;
     }
