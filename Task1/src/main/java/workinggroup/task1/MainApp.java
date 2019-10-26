@@ -36,25 +36,29 @@ public class MainApp extends Application {
         Scene scene = new Scene(new Group(), default_Width, default_Height);
         scene.getStylesheets().add("/styles/styles.css");
 
-        Button button1 = new Button("Books");       //SELECT * FROM BOOK
+        final Button button1 = new Button("Books");       //SELECT * FROM BOOK
+        final Button button2 = new Button("Authors");      //SELECT * FORM AUTHOR
+        final Button button3 = new Button("Publishers");   //SELECT * FROM PUBLISHER
+       
         button1.setOnAction(new EventHandler<ActionEvent>() {
         @Override public void handle(ActionEvent e) {
            container.getChildren().clear();
            contr.submit_Button(1);
+           set_Button_Style(1,button1,button2,button3);
         }
 });
-       Button button2 = new Button("Authors");      //SELECT * FORM AUTHOR
       button2.setOnAction(new EventHandler<ActionEvent>() {
     @Override public void handle(ActionEvent e) {
        container.getChildren().clear();
        contr.submit_Button(2);
+       set_Button_Style(2,button1,button2,button3);
     }
 });
-       Button button3 = new Button("Publishers");   //SELECT * FROM PUBLISHER
       button3.setOnAction(new EventHandler<ActionEvent>() {
     @Override public void handle(ActionEvent e) {
        container.getChildren().clear();
        contr.submit_Button(3);
+       set_Button_Style(3,button1,button2,button3);
     }
 });
       
@@ -80,5 +84,14 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();
     }
- 
+    private void set_Button_Style(int section, Button b1, Button b2, Button b3){
+       Button mainButton = (section==1)?b1:(section==2)?b2:b3;
+       
+       b1.getStyleClass().removeAll("buttonFocus"); 
+       b2.getStyleClass().removeAll("buttonFocus"); 
+       b3.getStyleClass().removeAll("buttonFocus"); 
+       
+       mainButton.getStyleClass().add("buttonFocus");
+       
+    }
 }
