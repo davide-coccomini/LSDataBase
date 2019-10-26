@@ -245,7 +245,6 @@ public class UIController
                         }       
                     }
                 };
-                cell.setAlignment(Pos.CENTER);
                 return cell;
             }
         };
@@ -372,6 +371,7 @@ public class UIController
                         }       
                     }
                 };
+                cell.setAlignment(Pos.CENTER);
                 return cell;
             }
         };
