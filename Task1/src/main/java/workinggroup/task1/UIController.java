@@ -403,6 +403,7 @@ public class UIController
         
         final VBox columnAuthor = new VBox();
         Button addAuthor = new Button("+");
+        addAuthor.getStyleClass().add("button");
         addAuthor.setOnAction(new EventHandler<ActionEvent>() {
          @Override public void handle(ActionEvent e) {
               final TextField newAuthor = new TextField();
@@ -415,6 +416,7 @@ public class UIController
         rowAuthor.getChildren().addAll(author,addAuthor);
         columnAuthor.getChildren().add(rowAuthor);
         Button button = new Button("Add Book");
+        button.getStyleClass().add("button");
         button.setOnAction(new EventHandler<ActionEvent>() {
          @Override public void handle(ActionEvent e) {
                 String authors[] = new String[columnAuthor.getChildren().size()];
@@ -448,7 +450,8 @@ public class UIController
         biography.setPromptText("Biography");
         
         final Button button = new Button("Add Author");
-        
+        button.getStyleClass().add("button");
+       
         button.setOnAction(new EventHandler<ActionEvent>() {
         @Override public void handle(ActionEvent e) {
             
@@ -474,6 +477,7 @@ public class UIController
         location.setPromptText("Location");
         
         final Button button = new Button("Add Publisher");
+        button.getStyleClass().add("button");
         
         button.setOnAction(new EventHandler<ActionEvent>() {
         @Override public void handle(ActionEvent e) {

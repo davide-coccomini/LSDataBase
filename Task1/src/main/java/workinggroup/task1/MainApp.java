@@ -39,6 +39,10 @@ public class MainApp extends Application {
         final Button button1 = new Button("Books");       //SELECT * FROM BOOK
         final Button button2 = new Button("Authors");      //SELECT * FORM AUTHOR
         final Button button3 = new Button("Publishers");   //SELECT * FROM PUBLISHER
+        
+        button1.getStyleClass().add("button");
+        button2.getStyleClass().add("button");
+        button3.getStyleClass().add("button");
        
         button1.setOnAction(new EventHandler<ActionEvent>() {
         @Override public void handle(ActionEvent e) {
@@ -90,6 +94,10 @@ public class MainApp extends Application {
        b1.getStyleClass().removeAll("buttonFocus"); 
        b2.getStyleClass().removeAll("buttonFocus"); 
        b3.getStyleClass().removeAll("buttonFocus"); 
+       
+       b1.getStyleClass().add("button");
+       b2.getStyleClass().add("button");
+       b3.getStyleClass().add("button");
        
        mainButton.getStyleClass().add("buttonFocus");
        
