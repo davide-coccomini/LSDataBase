@@ -13,6 +13,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
@@ -51,6 +52,7 @@ public class UIController
     /* Event triggered by user click */
     @FXML public void submit_Button(int button_Code){
      
+        content = null;
         if(buttons_Are_Locked()) 
         {
             // if any operation is in progress, the current request is delayed
@@ -281,6 +283,7 @@ public class UIController
         };
         action_Col.setCellFactory(cellFactory);
         
+        tableView.setPrefSize( 800, 600 );
         tableView.getColumns().setAll(action_Col, id_Col,title_Col, price_Col, pages_Col, date_Col, cat_Col, q_Col, authors_Col, publisher_Col);
         
         generate_Form_Book();
@@ -331,6 +334,7 @@ public class UIController
         action_Col.setCellFactory(cellFactory);
         
         
+        tableView.setPrefSize( 800, 600 );
         tableView.getColumns().setAll(action_Col, id_Col,fn_Col,ln_Col,bio_Col);
         generate_Form_Author();
     }
@@ -376,14 +380,19 @@ public class UIController
             }
         };
         action_Col.setCellFactory(cellFactory);
-        
+        tableView.setPrefSize( 500, 600 );
         tableView.getColumns().setAll(action_Col, id_Col,pub_Col,loc_Col);
         generate_Form_Publisher();
     }
     
     /* Lets the user add a new book */
     private void generate_Form_Book(){
+        final ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setVmax(700);
+        scrollPane.setPrefSize(260, 470);
+        scrollPane.getStyleClass().add("scrollPane");
         final VBox vbox = new VBox();
+        vbox.setSpacing(5);
         final TextField title = new TextField();
         title.setPromptText("Title");
         final TextField numPages = new TextField();
@@ -435,13 +444,15 @@ public class UIController
         });
         
         vbox.getChildren().addAll(title,numPages,quantity,category,price,publicationYear,columnAuthor,publisher,button);
+        scrollPane.setContent(vbox);
         insert_Container.getStyleClass().add("Insert_Container");
-        insert_Container.getChildren().add(vbox);
+        insert_Container.getChildren().add(scrollPane);
     }
     
     /* Lets the user add a new author */
     private void generate_Form_Author(){
         final VBox vbox = new VBox();
+        vbox.setSpacing(5);
         final TextField firstName = new TextField();
         firstName.setPromptText("First Name");
         final TextField lastName = new TextField();
@@ -471,6 +482,7 @@ public class UIController
     /* Lets the user add a new author */
     private void generate_Form_Publisher(){
         final VBox vbox = new VBox();
+        vbox.setSpacing(5);
         final TextField name = new TextField();
         name.setPromptText("Name");
         final TextField location = new TextField();

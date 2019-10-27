@@ -25,7 +25,6 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        table.setPrefSize( 800, 700 );
         final VBox container = new VBox();
         container.setPadding(new Insets(100, 0, 0, 50));
         final HBox mainbox = new HBox();
@@ -65,7 +64,9 @@ public class MainApp extends Application {
        set_Button_Style(3,button1,button2,button3);
     }
 });
-      
+
+        contr.submit_Button(1);
+        set_Button_Style(1,button1,button2,button3);
         final HBox hbox = new HBox(); // 3 Buttons container
         hbox.setSpacing(5);
         hbox.setPadding(new Insets(10, 0, 0, 10));

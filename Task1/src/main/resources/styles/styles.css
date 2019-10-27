@@ -18,7 +18,12 @@
 .button:hover{
     -fx-base: #395bae;
 }
-
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+.scroll-pane {
+   -fx-background-color: transparent;
+}
 /* Component specific styles */
 .button{
         -fx-background-color:#3b5998;
