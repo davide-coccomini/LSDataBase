@@ -72,6 +72,8 @@ public class PublisherManager{
         return p;
     }
     public void delete(int publisherId){  
+        System.out.println("Delete publisher");
+        dbmanager.open();
         try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
             keyIterator.seekToFirst();
 
@@ -82,23 +84,21 @@ public class PublisherManager{
                 if(!"publisher".equals(splittedString[0])){
                     keyIterator.next();
                     continue;
-                    }
+                }
 
                 String resultAttribute = asString(dbmanager.getDB().get(bytes(key)));
                 JSONObject jpublisher = new JSONObject(resultAttribute);
 
                 if(jpublisher.getInt("idPUBLISHER")==publisherId){
-                    
                     dbmanager.getDB().delete(bytes(key));
                     break;
                 }
                 keyIterator.next();
-                    
-                }
             }
-        catch(Exception ex){
+        }catch(Exception ex){
             ex.printStackTrace();
         } 
+        dbmanager.close();
     }
     public ObservableList<Object> selectAllPublishers(){
         System.out.println("selectAllPublishers()");

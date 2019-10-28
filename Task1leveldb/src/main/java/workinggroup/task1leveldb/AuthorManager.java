@@ -69,6 +69,7 @@ public class AuthorManager{
 
   
     public void delete(int authorId){  // TODO : decidere se serve open, close
+        dbmanager.open();
         try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
             keyIterator.seekToFirst();
 
@@ -96,6 +97,7 @@ public class AuthorManager{
         catch(Exception ex){
             ex.printStackTrace();
         } 
+        dbmanager.close();
     }
  public ObservableList<Object> selectAllAuthors(){ 
         System.out.println("Selectallauthors()");
