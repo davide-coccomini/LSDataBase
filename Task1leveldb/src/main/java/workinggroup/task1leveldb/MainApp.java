@@ -1,4 +1,4 @@
-package workinggroup.Task1b;
+package workinggroup.task1leveldb;
 
 import javafx.event.ActionEvent;
 import javafx.application.Application;
@@ -10,10 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-	
-@SpringBootApplication
 public class MainApp extends Application {
 
     public final int default_Width = 1200;

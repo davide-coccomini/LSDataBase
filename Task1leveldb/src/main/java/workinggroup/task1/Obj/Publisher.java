@@ -1,12 +1,9 @@
 package workinggroup.task1.Obj;
 
 import java.util.List;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection="bookshop3")
+
 public class Publisher{
-    @Id
     private int idPUBLISHER;
 
     private String name;
@@ -28,7 +25,7 @@ public class Publisher{
     public void setIdPUBLISHER(int id) {
         this.idPUBLISHER = id;
     }
-   
+    
     public String getName() {
         return name;
     }
@@ -36,7 +33,7 @@ public class Publisher{
     public String getLocation() {
         return location;
     }
- 
+   
     public List<Book> getBooks() {
         return books;
     }

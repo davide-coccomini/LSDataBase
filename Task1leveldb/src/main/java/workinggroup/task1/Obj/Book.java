@@ -1,14 +1,10 @@
 package workinggroup.task1.Obj;
  
 import java.util.List;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.json.JSONObject;
 
-
-@Document(collection="bookshop1")
 public class Book{
     
-    @Id
     private int idBOOK;
 
     private String title;
@@ -42,10 +38,24 @@ public class Book{
         System.out.println("Book()");
     }
 
+    public Book(JSONObject jbook) {
+        this.idBOOK = (int) jbook.get("idBOOK");
+        this.title = (String) jbook.get("title");
+        this.price = (double) jbook.get("price");
+        this.numPages = (int) jbook.get("numPages");
+        this.publicationYear = (int) jbook.get("publicationYear");
+        this.category = (String) jbook.get("category");
+        this.quantity = (int) jbook.get("quantity");
+        this.authors = (List<Author>) jbook.get("authors");
+        this.publisher = (Publisher) jbook.get("publisher");
+
+    }
+
     public int getIdBOOK() {
         return idBOOK;
     }
 
+   
     public List<Author> getAuthors() {
 		return authors;
 	}
@@ -58,11 +68,11 @@ public class Book{
         this.idBOOK = idBOOK;
     }
   
-
+   
     public String getTitle() {
         return title;
     }
- 
+
     public double getPrice() {
         return price;
     }
@@ -70,11 +80,11 @@ public class Book{
     public int getNumPages() {
         return numPages;
     }
- 
+
     public int getPublicationYear() {
         return publicationYear;
     }
- 
+
     public String getCategory() {
         return category;
     }
@@ -82,7 +92,7 @@ public class Book{
     public int getQuantity() {
         return quantity;
     }
-
+   
     public Publisher getPublisher() {
         return publisher;
     }

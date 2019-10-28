@@ -1,0 +1,90 @@
+/* Application wide styles */
+
+.label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+
+.button {
+    -fx-text-fill: white;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+.button:hover{
+    -fx-base: #395bae;
+}
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+.scroll-pane {
+   -fx-background-color: transparent;
+}
+/* Component specific styles */
+.button{
+        -fx-background-color:#3b5998;
+         -fx-background-radius: 5,5,4;
+        -fx-background-insets: 0 0 -1 0,0,1;
+        -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+        -fx-text-alignment: center;
+}
+.buttonFocus{
+        -fx-background-color:#5f72a9;
+        -fx-background-radius: 5,5,4;
+        -fx-background-insets: 0 0 -1 0,0,1;
+        -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+        -fx-text-alignment: center;
+}
+.buttonFocus:hover{
+
+        -fx-background-color:#5f72a9;
+        -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+        -fx-text-alignment: center;
+}
+.main-panel {
+    -fx-background-image: url("../images/background.jpg");
+}
+
+.TABLE {
+     
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+
+.INSERT_CONTAINER{
+    -fx-valignment: top;
+}
+.EDIT_CONTAINER{
+    -fx-alignment: CENTER_LEFT;
+    -fx-max-height: 14px;
+    -fx-spacing: 1px;
+}
+.SQUARE_BTT{
+    -fx-font-size: 11;
+    -fx-max-height: 14px;
+    -fx-max-width: 14px;
+    -fx-min-height: 14px;
+    -fx-min-width: 14px;
+    -fx-padding: 0;
+}
+.SQUARE_EDIT{
+    -fx-padding: 0;
+    -fx-font-size: 12;
+    -fx-max-height: 14px;
+    -fx-min-height: 14px;
+    -fx-min-width: 10px;
+    -fx-max-width: 18px;
+}
+.DELETE_BTT{
+    -fx-padding: 0;
+    -fx-font-size: 11;
+    -fx-font-align: center;
+    -fx-max-height: 14px;
+    -fx-min-height: 14px;
+    -fx-min-width: 14px;
+    -fx-max-width: 14px;
+    -fx-background-color: red;
+}

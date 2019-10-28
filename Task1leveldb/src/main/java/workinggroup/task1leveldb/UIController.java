@@ -1,4 +1,4 @@
-package workinggroup.Task1b;
+package workinggroup.task1leveldb;
  
 import java.sql.Date;
 import java.util.List;
@@ -68,15 +68,21 @@ public class UIController
             default:
             case 1:
                 query = "SELECT_ALL_BOOKS";
-              
+                BookManager bmanager = new BookManager();
+                
+                content = bmanager.selectAllBooks();
                 break;
             case 2:
                 query = "SELECT_ALL_AUTHORS";
-               
+                AuthorManager amanager = new AuthorManager();
+                
+                content = amanager.selectAllAuthors();
                 break;
             case 3:
                 query = "SELECT_ALL_PUBLISHERS";
-               
+                PublisherManager pmanager = new PublisherManager();
+                
+                content = pmanager.selectAllPublishers();
                 break;
         }
      
@@ -554,7 +560,10 @@ public class UIController
     public void quantity_Edit(int row, int q){
         if(q >= 0){
              
-            // TODO update query: HERE 
+            BookManager bmanager = new BookManager();
+             
+            bmanager.update(row, q);
+            
             //refresh page content
             submit_Button(1);
         }
@@ -562,19 +571,28 @@ public class UIController
     public void insert_Book(String title,String numPages,String quantity,String category,String price,String publicationDate, String[] authors,String publisher){
    
         //se mancano degli argomenti, ci pensa l'sql a invalidare l'operazione
-// TODO: INSERT QUERY        
+        BookManager bmanager = new BookManager();
+        
+        bmanager.create(title,numPages,quantity,category,price,publicationDate,authors,publisher);
+        
         //refresh page content
         submit_Button(1);
     }
     
     public void insert_Author(String firstName, String lastName, String biography) {
-        // TODO: INSERT QUERY
+        AuthorManager aManager = new AuthorManager();
+      
+        aManager.create(firstName, lastName, biography, null);
+        
         //refresh page content
         submit_Button(2);
     }
     
     public void insert_Publisher(String name, String location) {
-      // TODO: INSERT QUERY
+        PublisherManager pManager = new PublisherManager();
+         
+        pManager.create(name, location, null);
+        
         //refresh page content
         submit_Button(3);
     }
@@ -591,15 +609,22 @@ public class UIController
         */
         switch(type){
             case 1 : 
-                // TODO: BOOK DELETE QUERY
+                BookManager bmanager = new BookManager();
+               
+                bmanager.delete(row);
+
                 break;
             case 2 : 
-                // TODO: AUTHOR DELETE QUERYnager.delete(row);
-                
+                AuthorManager amanager = new AuthorManager();
+              
+                amanager.delete(row);
 
                 break;
             case 3 : 
-                // TODO: PUBLISHER DELETE QUERY
+                PublisherManager pmanager = new PublisherManager();
+                 
+                pmanager.delete(row);
+
                 break;        
         }
         

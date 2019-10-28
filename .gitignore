@@ -72,3 +72,4 @@ Task1/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/
 *.class
 *.lst
 Task1/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
+/Task1leveldb/target/

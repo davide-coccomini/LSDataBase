@@ -3,12 +3,8 @@ package workinggroup.task1.Obj;
 
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection="bookshop2")
 public class Author{
-    @Id   
+       
     private int idAUTHOR;
     private String firstName;
     private String lastName;
@@ -33,7 +29,7 @@ public class Author{
     public void setIdAUTHOR(int id) {
         this.idAUTHOR = id;
     }
-    
+
     public String getFirstName() {
         return firstName;
     }
