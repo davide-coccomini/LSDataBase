@@ -6,89 +6,134 @@
 package workinggroup.task1leveldb;
 
 import java.io.IOException;
-import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.iq80.leveldb.DBIterator;
 import static org.iq80.leveldb.impl.Iq80DBFactory.asString;
 import static org.iq80.leveldb.impl.Iq80DBFactory.bytes;
 import org.json.JSONObject;
-import workinggroup.task1.Obj.Author;
-import workinggroup.task1.Obj.Book;
 import workinggroup.task1.Obj.Publisher;
 
-public class PublisherManager extends DatabaseManager{
+public class PublisherManager{
     
-    private int nextId;
-    
-    public String getNextId(){// TODO: Generare adeguatamente questa chiave (magari iterare su tutti i publisher alla ricerca dell'id più alto e incrementarlo di 1)
-        return "publisher-0";    
+    DatabaseManager dbmanager;
+
+    public PublisherManager(DatabaseManager parentManager) {
+        this.dbmanager = parentManager;
+    }
+
+    public String getNextPublisherId(){
+        return "publisher-"+dbmanager.getNextId();    
     }
  
     
     public void create(String name, String location){
-        JSONObject item = new JSONObject();
-        item.put("idPUBLISHER", 0);
-        item.put("name", name);
-        item.put("location", location);
+        dbmanager.open();
+            JSONObject item = new JSONObject();
+            item.put("idPUBLISHER", dbmanager.getNextId());
+            item.put("name", name);
+            item.put("location", location);
 
+            dbmanager.createCommit(getNextPublisherId(),item);
         
-        super.createCommit(getNextId(),item);
-        
-        this.close();
+        dbmanager.close();
     }
-    public Publisher read(int publisherId){ // TODO: Aggiornare questa funzione
-        
+    public Publisher read(int publisherId){  
+        System.out.println("looking for publisher with id "+publisherId);
         Publisher p = null;
-        try{
-            
-        }catch(Exception ex){
+         
+        try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
+            keyIterator.seekToFirst();
+
+            while (keyIterator.hasNext()) {
+                String key = asString(keyIterator.peekNext().getKey());
+                String[] splittedString = key.split("-");
+
+                if(!"publisher".equals(splittedString[0])){
+                    keyIterator.next();
+                    continue;
+                    }
+
+                String resultAttribute = asString(dbmanager.getDB().get(bytes(key)));
+                JSONObject jpublisher = new JSONObject(resultAttribute);
+
+                if(jpublisher.getInt("idPUBLISHER")==publisherId){
+                    p=new Publisher(jpublisher);
+                    break;
+                }
+                keyIterator.next();
+                    
+                }
+            }
+        catch(Exception ex){
             ex.printStackTrace();
-        }finally{
-             
-        }
+        } 
+         
         return p;
     }
-    public void delete(int publisherId){ // TODO: Aggiornare questa funzione
-        try{
-           
-        }catch(Exception ex){
+    public void delete(int publisherId){  
+        try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
+            keyIterator.seekToFirst();
+
+            while (keyIterator.hasNext()) {
+                String key = asString(keyIterator.peekNext().getKey());
+                String[] splittedString = key.split("-");
+
+                if(!"publisher".equals(splittedString[0])){
+                    keyIterator.next();
+                    continue;
+                    }
+
+                String resultAttribute = asString(dbmanager.getDB().get(bytes(key)));
+                JSONObject jpublisher = new JSONObject(resultAttribute);
+
+                if(jpublisher.getInt("idPUBLISHER")==publisherId){
+                    
+                    dbmanager.getDB().delete(bytes(key));
+                    break;
+                }
+                keyIterator.next();
+                    
+                }
+            }
+        catch(Exception ex){
             ex.printStackTrace();
-        }finally{
-           
-        }
+        } 
     }
     public ObservableList<Object> selectAllPublishers(){
         System.out.println("selectAllPublishers()");
- 
-        ObservableList<Object> result = FXCollections.observableArrayList();
-  
-        try{
-            try (DBIterator keyIterator = super.getDB().iterator()) {
-                keyIterator.seekToFirst();
-                
-                while (keyIterator.hasNext()) {
-                    String key = asString(keyIterator.peekNext().getKey());
-                    String[] splittedString = key.split("-");
-                    if(!"publisher".equals(splittedString[0])){
+        dbmanager.open();
+            ObservableList<Object> result = FXCollections.observableArrayList();
+
+            try{
+                try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
+                    keyIterator.seekToFirst();
+
+                    while (keyIterator.hasNext()) {
+                        String key = asString(keyIterator.peekNext().getKey());
+                        String[] splittedString = key.split("-");
+
+                        dbmanager.incrementNextId(Integer.parseInt(splittedString[1]));
+
+                        if(!"publisher".equals(splittedString[0])){
+                            keyIterator.next();
+                            continue;
+                        }
+
+                        String resultAttribute = asString(dbmanager.getDB().get(bytes(key)));
+                        JSONObject jpublisher = new JSONObject(resultAttribute);
+
+                        Publisher publisher = new Publisher(jpublisher);
+                        result.add(publisher);
                         keyIterator.next();
-                        continue;
                     }
-                    
-                    String resultAttribute = asString(super.getDB().get(bytes(key)));
-                    JSONObject jpublisher = new JSONObject(resultAttribute);
-                    
-                    Publisher publisher = new Publisher(jpublisher);
-                    result.add(publisher);
-                    keyIterator.next();
                 }
             }
-        }
-        
-        catch(IOException e){
-           e.printStackTrace();
-        }
-        this.close();
+
+            catch(IOException e){
+               e.printStackTrace();
+            }
+        dbmanager.close();
         return result;
     } 
 }
