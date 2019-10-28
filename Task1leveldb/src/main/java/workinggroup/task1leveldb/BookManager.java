@@ -16,71 +16,63 @@ import workinggroup.task1.Obj.Publisher;
 
 public class BookManager extends DatabaseManager{
     
-    private int nextId;
+    private String nextId;
     
-    public int getNextId(){
-     return nextId;   
+    public String getNextId(){ // TODO: Generare adeguatamente questa chiave (magari iterare su tutti i libri alla ricerca dell'id più alto e incrementarlo di 1)
+     return "book-0";   
     }
- 
+    
     public void create(String title, String numPages, String quantity, String category, String price, String publicationYear, String[] authorsId, String publisherId) {
         
         System.out.println("create book()");
         
         JSONObject item = new JSONObject();
+        item.put("idBOOK", 0);
         item.put("title", title);
         item.put("numPages", numPages);
         item.put("quantity", quantity);
         item.put("category", category);
         item.put("price", price);
         item.put("publicationYear", publicationYear);
- 
-//    
-//        AuthorManager am = new AuthorManager();
-//        am.setup();
-//        for(int i=0; i<authorsId.length; i++){
-//            Author a = am.read(Integer.parseInt(authorsId[i]));
-//            authors.add(a);
-//        }
-//        
-//        b.setAuthors(authors);
-//        PublisherManager pm = new PublisherManager();
-//        pm.setup();
-//        Publisher p = pm.read(Integer.parseInt(publisherId));
-//        b.setPublisher(p);
+        item.put("authors", authorsId);
+        item.put("publishers", publisherId);
         
         super.createCommit(getNextId(),item);
+        
+        this.close();
     }
     public ObservableList<Object> selectAllBooks(){
         System.out.println("Selectallbooks()");
  
-        ObservableList<Object> result = FXCollections.observableArrayList();
+        ObservableList<Object> books = FXCollections.observableArrayList();
   
         try{
-            DBIterator keyIterator = super.getDB().iterator();           
-            keyIterator.seekToFirst();
-            
-            while (keyIterator.hasNext()) {
-                String key = asString(keyIterator.peekNext().getKey());
-               
-               
-                String resultAttribute = new String(key + ":" + asString(super.getDB().get(bytes(key))));
-                
-                JSONObject jbook = new JSONObject(resultAttribute);
-                
-                Book book = new Book(jbook);
-                result.add(book);
-                keyIterator.next();
+            try (DBIterator keyIterator = super.getDB().iterator()) {
+                keyIterator.seekToFirst();
+                while (keyIterator.hasNext()) {
+                    String key = asString(keyIterator.peekNext().getKey());
+                    String[] splittedString = key.split("-");
+                    if(!"book".equals(splittedString[0])){
+                        keyIterator.next();
+                        continue;
+                    }
+                    String resultAttribute = asString(super.getDB().get(bytes(key)));
+                    JSONObject jbook = new JSONObject(resultAttribute);
+                    
+                    Book book = new Book(jbook);
+                    books.add(book);
+                    keyIterator.next();
+                }
             }
-            keyIterator.close();
         }
         
         catch(IOException e){
            e.printStackTrace();
         }
-   
-        return result;
+        this.close();
+        return books;
     } 
-    public Book read(int bookId){
+    public Book read(int bookId){ // TODO: Aggiornare questa funzione
         
         Book b = null;
         try{
@@ -92,7 +84,7 @@ public class BookManager extends DatabaseManager{
         }
         return b;
     }
-    public void update(int bookId, int quantity){
+    public void update(int bookId, int quantity){ // TODO: Aggiornare questa funzione
         Book book = new Book();
         Book book_original = new Book();
         book_original = read(bookId);
@@ -115,9 +107,8 @@ public class BookManager extends DatabaseManager{
         }finally{
            
         }
-        // TODO: Update table
     }
-    public void delete(int bookId){
+    public void delete(int bookId){ // TODO: Aggiornare questa funzione
         try{
          
         }catch(Exception ex){

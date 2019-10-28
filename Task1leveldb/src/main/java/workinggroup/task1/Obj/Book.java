@@ -41,14 +41,18 @@ public class Book{
     public Book(JSONObject jbook) {
         this.idBOOK = (int) jbook.get("idBOOK");
         this.title = (String) jbook.get("title");
-        this.price = (double) jbook.get("price");
-        this.numPages = (int) jbook.get("numPages");
-        this.publicationYear = (int) jbook.get("publicationYear");
+        this.price = Double.parseDouble((String) jbook.get("price"));
+        this.numPages = Integer.parseInt((String) jbook.get("numPages"));
+        this.publicationYear = Integer.parseInt((String) jbook.get("publicationYear"));
         this.category = (String) jbook.get("category");
-        this.quantity = (int) jbook.get("quantity");
-        this.authors = (List<Author>) jbook.get("authors");
-        this.publisher = (Publisher) jbook.get("publisher");
-
+        this.quantity = Integer.parseInt((String) jbook.get("quantity"));
+        
+        
+        String authorsId = (String)jbook.get("authors");
+        //TODO: Iterare sugli id ricevuti dall'utente, prelevare le info dell'autore tramite un'apposita funzione che deve essere fatta in authormanager, creare un oggetto Autore e metterlo in una lista che sarà poi la List<Authors>
+        
+        String publisherId = (String)jbook.get("publisher");
+        //TODO: Leggere le informazioni del publisher partendo dal suo id passandolo ad una funzione che deve essere fatta in publisher manager, creare un oggetto Publisher e metterlo nella variabile this.publisher
     }
 
     public int getIdBOOK() {

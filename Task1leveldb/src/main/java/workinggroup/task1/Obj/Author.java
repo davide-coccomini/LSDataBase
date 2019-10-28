@@ -2,6 +2,7 @@
 package workinggroup.task1.Obj;
 
 import java.util.List;
+import org.json.JSONObject;
 
 public class Author{
        
@@ -9,18 +10,23 @@ public class Author{
     private String firstName;
     private String lastName;
     private String biography;
-    List<Book> books;
             
-    public Author(String firstName, String lastName, String biography, List<Book> books){
+    public Author(String firstName, String lastName, String biography){
         this.firstName = firstName;
         this.lastName = lastName;
         this.biography = biography;
-        this.books = books;
     }
 
     public Author() {
         
     }
+    public Author(JSONObject jauthor) {
+        this.idAUTHOR = (int)jauthor.get("idAUTHOR");
+        this.firstName = (String) jauthor.get("firstName");
+        this.lastName = (String) jauthor.get("lastName");
+        this.biography = (String) jauthor.get("biography");
+    }
+
 
     public int getIdAUTHOR() {
         return idAUTHOR;
@@ -40,14 +46,6 @@ public class Author{
 
     public String getBiography() {
         return biography;
-    }
-
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
     }
 
     public void setFirstName(String firstName) {

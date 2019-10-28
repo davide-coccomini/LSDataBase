@@ -88,12 +88,11 @@ public class UIController
      
         if((content!=null)&&(content.isEmpty()==false)){
             tableView.setItems(content);
-            format_Table(query);
         }
         else {
             System.out.println("Query result is empty");
         }
-        
+        format_Table(query);
         buttons_Unlock();
         
     }
@@ -582,7 +581,7 @@ public class UIController
     public void insert_Author(String firstName, String lastName, String biography) {
         AuthorManager aManager = new AuthorManager();
       
-        aManager.create(firstName, lastName, biography, null);
+        aManager.create(firstName, lastName, biography);
         
         //refresh page content
         submit_Button(2);
@@ -591,7 +590,7 @@ public class UIController
     public void insert_Publisher(String name, String location) {
         PublisherManager pManager = new PublisherManager();
          
-        pManager.create(name, location, null);
+        pManager.create(name, location);
         
         //refresh page content
         submit_Button(3);

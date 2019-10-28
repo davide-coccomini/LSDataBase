@@ -1,6 +1,7 @@
 package workinggroup.task1.Obj;
 
 import java.util.List;
+import org.json.JSONObject;
 
 
 public class Publisher{
@@ -8,7 +9,6 @@ public class Publisher{
 
     private String name;
     private String location;
-    private List<Book> books;
 
     public Publisher() {
     }
@@ -17,7 +17,11 @@ public class Publisher{
         this.name = name;
         this.location = location; 
     }
-
+    public Publisher(JSONObject jpublisher) {
+        this.idPUBLISHER = (int) jpublisher.get("idPUBLISHER");
+        this.name = (String) jpublisher.get("name");
+        this.location = (String) jpublisher.get("location");
+    }
     public int getIdPUBLISHER() {
         return idPUBLISHER;
     }
@@ -34,14 +38,6 @@ public class Publisher{
         return location;
     }
    
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
