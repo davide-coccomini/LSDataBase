@@ -79,7 +79,6 @@ public class AuthorManager{
             while (keyIterator.hasNext()) {
                 String key = asString(keyIterator.peekNext().getKey());
                 String[] splittedString = key.split("-");
-   System.out.println("<<<<<<<<<<<<<<<");
                 System.out.println(splittedString[0]);
                 if("publisher".equals(splittedString[0])){ // There is no relationship between author and publisher
                     keyIterator.next();
@@ -96,14 +95,9 @@ public class AuthorManager{
                 }else{ // Delete all books referring to the author
                         JSONObject jbook = new JSONObject(resultAttribute);  
                         JSONArray jauthors  = jbook.getJSONArray("authors");
-                        
-                            System.out.println("weoo");
-                            System.out.println(jauthors);
                         for(int i=0; i<jauthors.length(); i++){
                             
                             int currentId = jauthors.getInt(i);
-                            System.out.println("we");
-                            System.out.println(currentId);
                             if(currentId == authorId){ // To be deleted
                                 dbmanager.close();
                                 dbmanager.getBmanager().delete(jbook.getInt("idBOOK"));
