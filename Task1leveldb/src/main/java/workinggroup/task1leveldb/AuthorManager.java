@@ -79,28 +79,35 @@ public class AuthorManager{
             while (keyIterator.hasNext()) {
                 String key = asString(keyIterator.peekNext().getKey());
                 String[] splittedString = key.split("-");
-
+   System.out.println("<<<<<<<<<<<<<<<");
+                System.out.println(splittedString[0]);
                 if("publisher".equals(splittedString[0])){ // There is no relationship between author and publisher
                     keyIterator.next();
                     continue;
                 }
 
                 String resultAttribute = asString(dbmanager.getDB().get(bytes(key)));
+             
                 if("author".equals(splittedString[0])){ // Delete author      
                     JSONObject jauthor = new JSONObject(resultAttribute);
                     if(jauthor.getInt("idAUTHOR")==authorId){
                         dbmanager.getDB().delete(bytes(key));
-                        break;
                     }
                 }else{ // Delete all books referring to the author
                         JSONObject jbook = new JSONObject(resultAttribute);  
                         JSONArray jauthors  = jbook.getJSONArray("authors");
-                        List<Author> authors = new ArrayList();
+                        
+                            System.out.println("weoo");
+                            System.out.println(jauthors);
                         for(int i=0; i<jauthors.length(); i++){
-                            int a=-1;
+                            
                             int currentId = jauthors.getInt(i);
+                            System.out.println("we");
+                            System.out.println(currentId);
                             if(currentId == authorId){ // To be deleted
+                                dbmanager.close();
                                 dbmanager.getBmanager().delete(jbook.getInt("idBOOK"));
+                                dbmanager.open();
                                 break;
                             }
                         }

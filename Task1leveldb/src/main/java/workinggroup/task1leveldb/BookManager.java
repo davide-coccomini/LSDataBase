@@ -76,18 +76,14 @@ public class BookManager{
                          
                         JSONArray jauthors  = jbook.getJSONArray("authors");
                         List<Author> authors = new ArrayList();
-                        System.out.println(jauthors);
                         for(int i=0; i<jauthors.length(); i++){
                             
                             int a=-1;
                             a=jauthors.getInt(i);
                             if(a>=0){ 
                                 authors.add(dbmanager.getAmanager().read(a));
-                                
-                                }
-                            else{
-                                System.out.println("a book has mysterious author");
-                                
+                            }else{
+                                System.out.println("A book has mysterious author");   
                             }
                           
                         }
