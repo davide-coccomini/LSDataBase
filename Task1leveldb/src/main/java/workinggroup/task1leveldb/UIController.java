@@ -103,6 +103,7 @@ public class UIController
         }
         else {
             System.out.println("Query result is empty");
+            tableView.setItems(null);
         }
         format_Table(query);
         buttons_Unlock();

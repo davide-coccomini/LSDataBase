@@ -81,15 +81,17 @@ public class PublisherManager{
                 String key = asString(keyIterator.peekNext().getKey());
                 String[] splittedString = key.split("-");
 
-                if("author".equals(splittedString[0]) ){ // There is no relationship between publisher and author
+                String resultAttribute = asString(dbmanager.getDB().get(bytes(key)));
+                if("author".equals(splittedString[0]) || resultAttribute == null){ // There is no relationship between publisher and author
                     keyIterator.next();
                     continue;
                 }
                 
-                String resultAttribute = asString(dbmanager.getDB().get(bytes(key)));
-               
+            
+               System.out.println("ciao");
+                System.out.println(dbmanager.getDB().get(bytes(key)));
                 
-                if("publisher".equals(splittedString[0]) ){ // Delete the publisher
+                if("publisher".equals(splittedString[0])){ // Delete the publisher
                     JSONObject jpublisher = new JSONObject(resultAttribute);
                     if(jpublisher.getInt("idPUBLISHER")==publisherId){
                         dbmanager.getDB().delete(bytes(key));
