@@ -1,11 +1,14 @@
 package workinggroup.task1leveldb;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.iq80.leveldb.DBIterator;
 import static org.iq80.leveldb.impl.Iq80DBFactory.asString;
 import static org.iq80.leveldb.impl.Iq80DBFactory.bytes;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import workinggroup.task1.Obj.Author;
 
@@ -34,7 +37,7 @@ public class AuthorManager{
         dbmanager.close();
     }
     public Author read(int authorId){  
-        System.out.println("looking for publisher with id "+authorId);
+        System.out.println("looking for author with id "+authorId);
         Author a = new Author();
  
         try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
@@ -68,7 +71,7 @@ public class AuthorManager{
     }
 
   
-    public void delete(int authorId){  // TODO : decidere se serve open, close
+    public void delete(int authorId){  
         dbmanager.open();
         try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
             keyIterator.seekToFirst();
@@ -77,23 +80,35 @@ public class AuthorManager{
                 String key = asString(keyIterator.peekNext().getKey());
                 String[] splittedString = key.split("-");
 
-                if(!"author".equals(splittedString[0])){
+                if("publisher".equals(splittedString[0])){ // There is no relationship between author and publisher
                     keyIterator.next();
                     continue;
-                    }
+                }
 
                 String resultAttribute = asString(dbmanager.getDB().get(bytes(key)));
-                JSONObject jauthor = new JSONObject(resultAttribute);
-
-                if(jauthor.getInt("idAUTHOR")==authorId){
-                    
-                    dbmanager.getDB().delete(bytes(key));
-                    break;
+                if("author".equals(splittedString[0])){ // Delete author      
+                    JSONObject jauthor = new JSONObject(resultAttribute);
+                    if(jauthor.getInt("idAUTHOR")==authorId){
+                        dbmanager.getDB().delete(bytes(key));
+                        break;
+                    }
+                }else{ // Delete all books referring to the author
+                        JSONObject jbook = new JSONObject(resultAttribute);  
+                        JSONArray jauthors  = jbook.getJSONArray("authors");
+                        List<Author> authors = new ArrayList();
+                        for(int i=0; i<jauthors.length(); i++){
+                            int a=-1;
+                            int currentId = jauthors.getInt(i);
+                            if(currentId == authorId){ // To be deleted
+                                dbmanager.getBmanager().delete(jbook.getInt("idBOOK"));
+                                break;
+                            }
+                        }
                 }
                 keyIterator.next();
                     
                 }
-            }
+        }
         catch(Exception ex){
             ex.printStackTrace();
         } 

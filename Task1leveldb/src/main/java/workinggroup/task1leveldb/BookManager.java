@@ -108,50 +108,111 @@ public class BookManager{
         dbmanager.close();
         return books;
     } 
-    public Book read(int bookId){ // TODO: Aggiornare questa funzione
-        
-        Book b = null;
-        try{
-         
-        }catch(Exception ex){
+    public Book read(int bookId){
+        System.out.println("looking for Book with id "+bookId);
+        Book b = new Book();
+ 
+        try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
+            keyIterator.seekToFirst();
+
+            while (keyIterator.hasNext()) {
+                String key = asString(keyIterator.peekNext().getKey());
+                String[] splittedString = key.split("-");
+
+                if(!"book".equals(splittedString[0])){
+                    keyIterator.next();
+                    continue;
+                    }
+
+                String resultAttribute = asString(dbmanager.getDB().get(bytes(key)));
+                JSONObject jbook = new JSONObject(resultAttribute);
+
+                if(jbook.getInt("idBOOK")==bookId){
+                    b=new Book(jbook);
+                    break;
+                }
+                keyIterator.next();
+                    
+                }
+            }
+        catch(Exception ex){
             ex.printStackTrace();
-        }finally{
-           
-        }
+        } 
         return b;
     }
-    public void update(int bookId, int quantity){ // TODO: Aggiornare questa funzione
-        Book book = new Book();
-        Book book_original = new Book();
-        book_original = read(bookId);
-        
-        book.setIdBOOK(bookId);
-        book.setQuantity(quantity);
-        
-        book.setTitle(book_original.getTitle());
-        book.setNumPages(book_original.getNumPages());
-        book.setCategory(book_original.getCategory());
-        book.setPrice(book_original.getPrice());
-        book.setPublicationYear(book_original.getPublicationYear());
-        book.setAuthors(book_original.getAuthors());
-        book.setPublisher(book_original.getPublisher());
-        
-        try {
-           
-        }catch(Exception ex){
+    
+    public JSONObject readJSON(int bookId){
+        System.out.println("looking for Book JSON with id "+bookId);
+        dbmanager.open();
+        JSONObject jbook = new JSONObject();
+        try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
+            keyIterator.seekToFirst();
+
+            while (keyIterator.hasNext()) {
+                String key = asString(keyIterator.peekNext().getKey());
+                String[] splittedString = key.split("-");
+
+                if(!"book".equals(splittedString[0])){
+                    keyIterator.next();
+                    continue;
+                    }
+
+                String resultAttribute = asString(dbmanager.getDB().get(bytes(key)));
+                jbook = new JSONObject(resultAttribute);
+
+                if(jbook.getInt("idBOOK")==bookId){              
+                    break;
+                }
+                keyIterator.next();
+                    
+                }
+            }
+        catch(Exception ex){
             ex.printStackTrace();
-        }finally{
-           
-        }
+        } 
+        dbmanager.close();
+        return jbook;
     }
-    public void delete(int bookId){ // TODO: Aggiornare questa funzione
-        try{
-         
-        }catch(Exception ex){
+    public void update(int bookId, int quantity){ 
+        JSONObject jbook = dbmanager.getBmanager().readJSON(bookId);
+        dbmanager.getBmanager().delete(bookId);
+        jbook.remove("quantity");
+        jbook.put("quantity", Integer.toString(quantity));
+        dbmanager.open();
+        dbmanager.createCommit(getNextBookId(),jbook);
+        dbmanager.close();
+        
+    }
+    public void delete(int bookId){ 
+        dbmanager.open();
+        try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
+            keyIterator.seekToFirst();
+
+            while (keyIterator.hasNext()) {
+                String key = asString(keyIterator.peekNext().getKey());
+                String[] splittedString = key.split("-");
+
+                if(!"book".equals(splittedString[0])){
+                    keyIterator.next();
+                    continue;
+                }
+
+                String resultAttribute = asString(dbmanager.getDB().get(bytes(key)));
+                JSONObject jauthor = new JSONObject(resultAttribute);
+
+                if(jauthor.getInt("idBOOK")==bookId){
+                    
+                    dbmanager.getDB().delete(bytes(key));
+                    break;
+                }
+                keyIterator.next();
+                    
+                }
+            }
+        catch(Exception ex){
             ex.printStackTrace();
-        }finally{
-          
-        }
+        } 
+        dbmanager.close();
     }
 
 

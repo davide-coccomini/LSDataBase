@@ -81,17 +81,26 @@ public class PublisherManager{
                 String key = asString(keyIterator.peekNext().getKey());
                 String[] splittedString = key.split("-");
 
-                if(!"publisher".equals(splittedString[0])){
+                if("author".equals(splittedString[0]) ){ // There is no relationship between publisher and author
                     keyIterator.next();
                     continue;
                 }
-
+                
                 String resultAttribute = asString(dbmanager.getDB().get(bytes(key)));
-                JSONObject jpublisher = new JSONObject(resultAttribute);
-
-                if(jpublisher.getInt("idPUBLISHER")==publisherId){
-                    dbmanager.getDB().delete(bytes(key));
-                    break;
+               
+                
+                if("publisher".equals(splittedString[0]) ){ // Delete the publisher
+                    JSONObject jpublisher = new JSONObject(resultAttribute);
+                    if(jpublisher.getInt("idPUBLISHER")==publisherId){
+                        dbmanager.getDB().delete(bytes(key));
+                        continue;
+                    }
+                }else{ // Delete the book referring to this publisher (Implementing cascade)
+                    JSONObject jbook = new JSONObject(resultAttribute);
+                    if(jbook.getInt("publisher")==publisherId){
+                        dbmanager.getDB().delete(bytes(key));
+                        continue;
+                    }
                 }
                 keyIterator.next();
             }
