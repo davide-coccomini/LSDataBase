@@ -217,9 +217,31 @@ public class UIController
                                 List<Author> authors = b.getAuthors();
                                 if(authors!=null)
                                     for(int i=0; i<authors.size();i++){
+                                        String authorName = "";
                                         String firstName = authors.get(i).getFirstName();
                                         String lastName = authors.get(i).getLastName();
-                                        String authorName = firstName + " " + lastName;
+                                        if(firstName!=null){
+                                            /* senza questo if, il database diventa inconsistente 
+                                            nel caso l'utente inserisca un dato errato (un id non 
+                                            esistente). questo non poteva succedere nel database
+                                            relazionale che avevamo con JPA */
+                                            authorName = firstName;
+                                            if(lastName!=null){
+                                                authorName = authorName+" ";
+                                            }
+                                        }
+                                        if(lastName!=null){
+                                            /* senza questo if, il database diventa inconsistente 
+                                            nel caso l'utente inserisca un dato errato (un id non 
+                                            esistente). questo non poteva succedere nel database
+                                            relazionale che avevamo con JPA */
+                                            authorName = authorName+lastName;
+                                        }
+                                        
+                                        if("".equals(authorName)){
+                                            authorName = "Unknown";
+                                        }
+                                        
                                         if(i==0)
                                             authorsString += authorName;
                                         else
@@ -255,10 +277,19 @@ public class UIController
                         super.updateItem(item, empty);
                         if(getIndex()<content.size() && getIndex() >= 0){
                             if(content.get(getIndex()).getClass()==Book.class) {
-                                String authorsString = "";
+                                 
                                 Book b = (Book)content.get(getIndex());
                                 Publisher p = b.getPublisher();
-                                setText(p.getName());
+                                if(p==null){
+                                    /* senza questo if, il database diventa inconsistente 
+                                    nel caso l'utente inserisca un dato errato (un id non 
+                                    esistente). questo non poteva succedere nel database
+                                    relazionale che avevamo con JPA */
+                                    setText("Unknown");
+                                }
+                                else{
+                                    setText(p.getName());
+                                }
                             }
                         }       
                     }
