@@ -35,9 +35,9 @@ public class MainApp extends Application {
         Scene scene = new Scene(new Group(), default_Width, default_Height);
         scene.getStylesheets().add("/styles/styles.css");
 
-        final Button button1 = new Button("Books");       //SELECT * FROM BOOK
-        final Button button2 = new Button("Authors");      //SELECT * FORM AUTHOR
-        final Button button3 = new Button("Publishers");   //SELECT * FROM PUBLISHER
+        final Button button1 = new Button("Books");       //BROWSE BOOK
+        final Button button2 = new Button("Authors");      //BROWSE AUTHOR
+        final Button button3 = new Button("Publishers");   //BROWSE PUBLISHER
         
         button1.getStyleClass().add("button");
         button2.getStyleClass().add("button");

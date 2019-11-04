@@ -10,7 +10,12 @@ import workinggroup.task1.Obj.Book;
 import workinggroup.task1.Obj.Publisher;
 
 public class BookManager extends JpaManager{
- 
+    private AuthorManager amanager;
+    private PublisherManager pmanager;
+    public BookManager(AuthorManager a, PublisherManager p){
+        amanager=a;
+        pmanager=p;
+    }
     public void create(String title, String numPages, String quantity, String category, String price, String publicationYear, String[] authorsId, String publisherId) {
         
         System.out.println("create()");
@@ -23,18 +28,15 @@ public class BookManager extends JpaManager{
         b.setPublicationYear(Integer.parseInt(publicationYear));
         
         List<Author> authors = new ArrayList<Author>();
-        
-        AuthorManager am = new AuthorManager();
-        am.setup();
+   
         for(int i=0; i<authorsId.length; i++){
-            Author a = am.read(Integer.parseInt(authorsId[i]));
+            Author a = amanager.read(Integer.parseInt(authorsId[i]));
             authors.add(a);
         }
         
         b.setAuthors(authors);
-        PublisherManager pm = new PublisherManager();
-        pm.setup();
-        Publisher p = pm.read(Integer.parseInt(publisherId));
+  
+        Publisher p = pmanager.read(Integer.parseInt(publisherId));
         b.setPublisher(p);
         
         super.createCommit(b);

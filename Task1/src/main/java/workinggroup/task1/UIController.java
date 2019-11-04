@@ -34,6 +34,10 @@ public class UIController
     @FXML private HBox mainBox;
     @FXML private VBox edit_Container, insert_Container;
       
+    AuthorManager amanager;
+    BookManager bmanager;
+    PublisherManager pmanager;
+    
     /* initializations for the main table */
     public UIController(VBox c, HBox mb, TableView<Object> t) {
         insert_Container = c;
@@ -47,7 +51,10 @@ public class UIController
         t.getStyleClass().add("TABLE");
         
         content = null;
-        
+        amanager = new AuthorManager();
+        pmanager = new PublisherManager();
+        bmanager = new BookManager(amanager,pmanager);
+    
     }
     /* Event triggered by user click */
     @FXML public void submit_Button(int button_Code){
@@ -68,20 +75,14 @@ public class UIController
             default:
             case 1:
                 query = "SELECT_ALL_BOOKS";
-                BookManager bmanager = new BookManager();
-                bmanager.setup();
                 content = bmanager.selectAllBooks();
                 break;
             case 2:
-                query = "SELECT_ALL_AUTHORS";
-                AuthorManager amanager = new AuthorManager();
-                amanager.setup();
+                query = "SELECT_ALL_AUTHORS";           
                 content = amanager.selectAllAuthors();
                 break;
             case 3:
-                query = "SELECT_ALL_PUBLISHERS";
-                PublisherManager pmanager = new PublisherManager();
-                pmanager.setup();
+                query = "SELECT_ALL_PUBLISHERS";            
                 content = pmanager.selectAllPublishers();
                 break;
         }
@@ -560,8 +561,6 @@ public class UIController
     public void quantity_Edit(int row, int q){
         if(q >= 0){
              
-            BookManager bmanager = new BookManager();
-            bmanager.setup();
             bmanager.update(row, q);
             
             //refresh page content
@@ -571,8 +570,6 @@ public class UIController
     public void insert_Book(String title,String numPages,String quantity,String category,String price,String publicationDate, String[] authors,String publisher){
    
         //se mancano degli argomenti, ci pensa l'sql a invalidare l'operazione
-        BookManager bmanager = new BookManager();
-        bmanager.setup();
         bmanager.create(title,numPages,quantity,category,price,publicationDate,authors,publisher);
         
         //refresh page content
@@ -580,18 +577,16 @@ public class UIController
     }
     
     public void insert_Author(String firstName, String lastName, String biography) {
-        AuthorManager aManager = new AuthorManager();
-        aManager.setup();
-        aManager.create(firstName, lastName, biography, null);
+
+        amanager.create(firstName, lastName, biography, null);
         
         //refresh page content
         submit_Button(2);
     }
     
     public void insert_Publisher(String name, String location) {
-        PublisherManager pManager = new PublisherManager();
-        pManager.setup();
-        pManager.create(name, location, null);
+
+        pmanager.create(name, location, null);
         
         //refresh page content
         submit_Button(3);
@@ -609,20 +604,17 @@ public class UIController
         */
         switch(type){
             case 1 : 
-                BookManager bmanager = new BookManager();
-                bmanager.setup();
+
                 bmanager.delete(row);
 
                 break;
             case 2 : 
-                AuthorManager amanager = new AuthorManager();
-                amanager.setup();
+
                 amanager.delete(row);
 
                 break;
             case 3 : 
-                PublisherManager pmanager = new PublisherManager();
-                pmanager.setup();
+ 
                 pmanager.delete(row);
 
                 break;        

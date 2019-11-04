@@ -8,7 +8,6 @@ package workinggroup.task1;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import org.hibernate.annotations.NamedQuery;
 
 /* non funziona
 @NamedQuery(name = "Author.selectAllAuthors", query = "SELECT a FROM Author a")
@@ -19,7 +18,7 @@ public class JpaManager {
     EntityManagerFactory factory;
     EntityManager entityManager;
     
-    public void setup(){
+    public JpaManager(){
         factory = Persistence.createEntityManagerFactory("bookshop");
     }
     
