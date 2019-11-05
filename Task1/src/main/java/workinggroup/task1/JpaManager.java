@@ -20,6 +20,7 @@ public class JpaManager {
     
     public JpaManager(){
         factory = Persistence.createEntityManagerFactory("bookshop");
+        entityManager = factory.createEntityManager();
     }
     
     public void exit(){
@@ -28,7 +29,6 @@ public class JpaManager {
     
     public void createCommit(Object a){
         try{
-            entityManager = factory.createEntityManager();
             entityManager.getTransaction().begin();
             entityManager.persist(a);
             entityManager.getTransaction().commit();
@@ -37,6 +37,10 @@ public class JpaManager {
         }finally{
             entityManager.close();
         }
+    }
+    
+    public EntityManager getEntityManager(){
+        return entityManager;
     }
    
 }

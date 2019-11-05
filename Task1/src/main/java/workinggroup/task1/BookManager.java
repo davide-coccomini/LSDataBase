@@ -43,7 +43,7 @@ public class BookManager extends JpaManager{
     }
     public ObservableList<Object> selectAllBooks(){
         System.out.println("Selectallbooks()");
-        entityManager = factory.createEntityManager();
+        entityManager = super.getEntityManager();
         String query = "SELECT b FROM Book b";
         TypedQuery<Object> tq = entityManager.createQuery(query,Object.class);
         ObservableList<Object> books = null;
@@ -62,7 +62,7 @@ public class BookManager extends JpaManager{
         
         Book b = null;
         try{
-            entityManager = factory.createEntityManager();
+            entityManager = super.getEntityManager();
             entityManager.getTransaction().begin();
             b = entityManager.find(Book.class, bookId);
         }catch(Exception ex){
@@ -89,7 +89,7 @@ public class BookManager extends JpaManager{
         book.setPublisher(book_original.getPublisher());
         
         try {
-            entityManager = factory.createEntityManager();
+            entityManager = super.getEntityManager();
             entityManager.getTransaction().begin();
             entityManager.merge(book);
             entityManager.getTransaction().commit();
@@ -102,7 +102,7 @@ public class BookManager extends JpaManager{
     }
     public void delete(int bookId){
         try{
-            entityManager = factory.createEntityManager();
+            entityManager = super.getEntityManager();
             entityManager.getTransaction().begin();
             Book reference = entityManager.getReference(Book.class,bookId);
             entityManager.remove(reference);

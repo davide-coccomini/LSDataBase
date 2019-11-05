@@ -26,7 +26,7 @@ public class PublisherManager extends JpaManager{
         
         Publisher p = null;
         try{
-            entityManager = factory.createEntityManager();
+            entityManager = super.getEntityManager();
             entityManager.getTransaction().begin();
             p = entityManager.find(Publisher.class, publisherId);
         }catch(Exception ex){
@@ -38,7 +38,7 @@ public class PublisherManager extends JpaManager{
     }
     public void delete(int publisherId){
         try{
-            entityManager = factory.createEntityManager();
+            entityManager = super.getEntityManager();
             entityManager.getTransaction().begin();
             Publisher reference = entityManager.getReference(Publisher.class,publisherId);
             entityManager.remove(reference);
@@ -52,7 +52,7 @@ public class PublisherManager extends JpaManager{
     }
         public ObservableList<Object> selectAllPublishers(){
         System.out.println("SelectAllPublishers()");
-        entityManager = factory.createEntityManager();
+        entityManager = super.getEntityManager();
         String query = "SELECT p FROM Publisher p";
         TypedQuery<Object> tq = entityManager.createQuery(query,Object.class);
         ObservableList<Object> publishers = null;

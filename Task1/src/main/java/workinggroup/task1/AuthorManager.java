@@ -23,7 +23,7 @@ public class AuthorManager extends JpaManager{
     public Author read(int authorId){
         Author a = new Author();
         try{
-            entityManager = factory.createEntityManager();
+            entityManager = super.getEntityManager();
             entityManager.getTransaction().begin();
             a = entityManager.find(Author.class, authorId);
         }catch(Exception ex){
@@ -35,7 +35,7 @@ public class AuthorManager extends JpaManager{
     }
     public void delete(int authorId){
         try{
-            entityManager = factory.createEntityManager();
+            entityManager = super.getEntityManager();
             entityManager.getTransaction().begin();
             Author reference = entityManager.getReference(Author.class,authorId);
             entityManager.remove(reference);
@@ -49,7 +49,7 @@ public class AuthorManager extends JpaManager{
     }
     public ObservableList<Object> selectAllAuthors(){
         System.out.println("Selectallauthors()");
-        entityManager = factory.createEntityManager();
+        entityManager = super.getEntityManager();
         String query = "SELECT a FROM Author a";
         TypedQuery<Object> tq = entityManager.createQuery(query,Object.class);
         ObservableList<Object> authors = null;
