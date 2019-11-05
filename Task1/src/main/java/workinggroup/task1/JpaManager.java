@@ -9,10 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-/* non funziona
-@NamedQuery(name = "Author.selectAllAuthors", query = "SELECT a FROM Author a")
-*/
-
 public class JpaManager {
       
     EntityManagerFactory factory;
@@ -24,6 +20,7 @@ public class JpaManager {
     }
     
     public void exit(){
+        // unreachable code
         entityManager.close();
         factory.close();
     } 
