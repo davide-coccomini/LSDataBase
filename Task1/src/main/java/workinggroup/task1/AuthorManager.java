@@ -39,7 +39,6 @@ public class AuthorManager extends JpaManager{
             Author reference = entityManager.getReference(Author.class,authorId);
             entityManager.remove(reference);
             entityManager.getTransaction().commit();
-            //TODO: Update table
         }catch(Exception ex){
             ex.printStackTrace();
         }
