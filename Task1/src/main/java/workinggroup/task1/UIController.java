@@ -37,6 +37,7 @@ public class UIController
     AuthorManager amanager;
     BookManager bmanager;
     PublisherManager pmanager;
+    JpaManager jmanager;
     
     /* initializations for the main table */
     public UIController(VBox c, HBox mb, TableView<Object> t) {
@@ -51,9 +52,10 @@ public class UIController
         t.getStyleClass().add("TABLE");
         
         content = null;
-        amanager = new AuthorManager();
-        pmanager = new PublisherManager();
-        bmanager = new BookManager(amanager,pmanager);
+        jmanager = new JpaManager();
+        amanager = new AuthorManager(jmanager);
+        pmanager = new PublisherManager(jmanager);
+        bmanager = new BookManager(jmanager,amanager,pmanager);
     
     }
     /* Event triggered by user click */
@@ -240,7 +242,6 @@ public class UIController
                         super.updateItem(item, empty);
                         if(getIndex()<content.size() && getIndex() >= 0){
                             if(content.get(getIndex()).getClass()==Book.class) {
-                                String authorsString = "";
                                 Book b = (Book)content.get(getIndex());
                                 Publisher p = b.getPublisher();
                                 setText(p.getName());

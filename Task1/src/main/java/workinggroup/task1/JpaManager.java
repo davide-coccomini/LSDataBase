@@ -24,7 +24,8 @@ public class JpaManager {
     }
     
     public void exit(){
-        
+        entityManager.close();
+        factory.close();
     } 
     
     public void createCommit(Object a){

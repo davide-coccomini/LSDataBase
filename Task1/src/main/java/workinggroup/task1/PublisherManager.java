@@ -8,25 +8,32 @@ package workinggroup.task1;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import workinggroup.task1.Obj.Book;
 import workinggroup.task1.Obj.Publisher;
 
-public class PublisherManager extends JpaManager{
+public class PublisherManager{
      
+    private EntityManager entityManager;
+    private JpaManager jmanager;
+    
+    public PublisherManager(JpaManager jm){
+        jmanager = jm;
+        entityManager = jm.getEntityManager();
+    }
     public void create(String name, String location, List<Book> books){
         Publisher p = new Publisher();
         p.setName(name);
         p.setLocation(location);
         p.setBooks(books);
          
-        super.createCommit(p);
+        jmanager.createCommit(p);
     }
     public Publisher read(int publisherId){
         
         Publisher p = null;
         try{
-            entityManager = super.getEntityManager();
             entityManager.getTransaction().begin();
             p = entityManager.find(Publisher.class, publisherId);
         }catch(Exception ex){
@@ -36,7 +43,6 @@ public class PublisherManager extends JpaManager{
     }
     public void delete(int publisherId){
         try{
-            entityManager = super.getEntityManager();
             entityManager.getTransaction().begin();
             Publisher reference = entityManager.getReference(Publisher.class,publisherId);
             entityManager.remove(reference);
@@ -48,7 +54,6 @@ public class PublisherManager extends JpaManager{
     }
         public ObservableList<Object> selectAllPublishers(){
         System.out.println("SelectAllPublishers()");
-        entityManager = super.getEntityManager();
         String query = "SELECT p FROM Publisher p";
         TypedQuery<Object> tq = entityManager.createQuery(query,Object.class);
         ObservableList<Object> publishers = null;
@@ -57,8 +62,7 @@ public class PublisherManager extends JpaManager{
         }catch(Exception ex){
             ex.printStackTrace();
         }
-        
-        
+
         return publishers;
     }
 }

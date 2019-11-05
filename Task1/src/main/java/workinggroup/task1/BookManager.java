@@ -4,17 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import workinggroup.task1.Obj.Author;
 import workinggroup.task1.Obj.Book;
 import workinggroup.task1.Obj.Publisher;
 
-public class BookManager extends JpaManager{
+public class BookManager {
+    private JpaManager jmanager;
     private AuthorManager amanager;
     private PublisherManager pmanager;
-    public BookManager(AuthorManager a, PublisherManager p){
+    private EntityManager entityManager;
+    
+    public BookManager(JpaManager j, AuthorManager a, PublisherManager p){
         amanager=a;
         pmanager=p;
+        jmanager=j;
+        entityManager=j.getEntityManager();
     }
     public void create(String title, String numPages, String quantity, String category, String price, String publicationYear, String[] authorsId, String publisherId) {
         
@@ -39,11 +45,10 @@ public class BookManager extends JpaManager{
         Publisher p = pmanager.read(Integer.parseInt(publisherId));
         b.setPublisher(p);
         
-        super.createCommit(b);
+        jmanager.createCommit(b);
     }
     public ObservableList<Object> selectAllBooks(){
         System.out.println("Selectallbooks()");
-        entityManager = super.getEntityManager();
         String query = "SELECT b FROM Book b";
         TypedQuery<Object> tq = entityManager.createQuery(query,Object.class);
         ObservableList<Object> books = null;
@@ -60,7 +65,6 @@ public class BookManager extends JpaManager{
         
         Book b = null;
         try{
-            entityManager = super.getEntityManager();
             entityManager.getTransaction().begin();
             b = entityManager.find(Book.class, bookId);
         }catch(Exception ex){
@@ -85,7 +89,6 @@ public class BookManager extends JpaManager{
         book.setPublisher(book_original.getPublisher());
         
         try {
-            entityManager = super.getEntityManager();
             entityManager.getTransaction().begin();
             entityManager.merge(book);
             entityManager.getTransaction().commit();
@@ -95,7 +98,6 @@ public class BookManager extends JpaManager{
     }
     public void delete(int bookId){
         try{
-            entityManager = super.getEntityManager();
             entityManager.getTransaction().begin();
             Book reference = entityManager.getReference(Book.class,bookId);
             entityManager.remove(reference);
