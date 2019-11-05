@@ -34,8 +34,6 @@ public class JpaManager {
             entityManager.getTransaction().commit();
         }catch(Exception ex){
             ex.printStackTrace();
-        }finally{
-            entityManager.close();
         }
     }
     

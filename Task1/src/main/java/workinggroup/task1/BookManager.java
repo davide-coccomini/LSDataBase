@@ -51,8 +51,6 @@ public class BookManager extends JpaManager{
             books = FXCollections.observableList(tq.getResultList());
         }catch(Exception ex){
             ex.printStackTrace();
-        }finally{
-            entityManager.close();
         }
         
         
@@ -67,8 +65,6 @@ public class BookManager extends JpaManager{
             b = entityManager.find(Book.class, bookId);
         }catch(Exception ex){
             ex.printStackTrace();
-        }finally{
-            entityManager.close();
         }
         return b;
     }
@@ -95,10 +91,7 @@ public class BookManager extends JpaManager{
             entityManager.getTransaction().commit();
         }catch(Exception ex){
             ex.printStackTrace();
-        }finally{
-            entityManager.close();
         }
-        // TODO: Update table
     }
     public void delete(int bookId){
         try{
@@ -110,8 +103,6 @@ public class BookManager extends JpaManager{
             //TODO: Update table
         }catch(Exception ex){
             ex.printStackTrace();
-        }finally{
-            entityManager.close();
         }
     }
 

@@ -1,4 +1,5 @@
 
+
 package workinggroup.task1;
 
 import java.util.List;
@@ -28,8 +29,6 @@ public class AuthorManager extends JpaManager{
             a = entityManager.find(Author.class, authorId);
         }catch(Exception ex){
             ex.printStackTrace();
-        }finally{
-            entityManager.close();
         }
         return a;
     }
@@ -43,8 +42,6 @@ public class AuthorManager extends JpaManager{
             //TODO: Update table
         }catch(Exception ex){
             ex.printStackTrace();
-        }finally{
-            entityManager.close();
         }
     }
     public ObservableList<Object> selectAllAuthors(){
@@ -57,8 +54,6 @@ public class AuthorManager extends JpaManager{
             authors = FXCollections.observableList(tq.getResultList());
         }catch(Exception ex){
             ex.printStackTrace();
-        }finally{
-            entityManager.close();
         }
         
         

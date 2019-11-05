@@ -31,8 +31,6 @@ public class PublisherManager extends JpaManager{
             p = entityManager.find(Publisher.class, publisherId);
         }catch(Exception ex){
             ex.printStackTrace();
-        }finally{
-            entityManager.close();
         }
         return p;
     }
@@ -46,8 +44,6 @@ public class PublisherManager extends JpaManager{
             //TODO: Update table
         }catch(Exception ex){
             ex.printStackTrace();
-        }finally{
-            entityManager.close();
         }
     }
         public ObservableList<Object> selectAllPublishers(){
@@ -60,8 +56,6 @@ public class PublisherManager extends JpaManager{
             publishers = FXCollections.observableList(tq.getResultList());
         }catch(Exception ex){
             ex.printStackTrace();
-        }finally{
-            entityManager.close();
         }
         
         
