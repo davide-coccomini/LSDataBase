@@ -67,9 +67,11 @@ public class BookManager {
         try{
             entityManager.getTransaction().begin();
             b = entityManager.find(Book.class, bookId);
+            entityManager.getTransaction().commit();
         }catch(Exception ex){
             ex.printStackTrace();
         }
+        
         return b;
     }
     public void update(int bookId, int quantity){
@@ -89,6 +91,7 @@ public class BookManager {
         book.setPublisher(book_original.getPublisher());
         
         try {
+  
             entityManager.getTransaction().begin();
             entityManager.merge(book);
             entityManager.getTransaction().commit();

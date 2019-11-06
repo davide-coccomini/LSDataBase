@@ -36,6 +36,7 @@ public class PublisherManager{
         try{
             entityManager.getTransaction().begin();
             p = entityManager.find(Publisher.class, publisherId);
+            entityManager.getTransaction().commit();
         }catch(Exception ex){
             ex.printStackTrace();
         }
@@ -52,7 +53,7 @@ public class PublisherManager{
             ex.printStackTrace();
         }
     }
-        public ObservableList<Object> selectAllPublishers(){
+    public ObservableList<Object> selectAllPublishers(){
         System.out.println("SelectAllPublishers()");
         String query = "SELECT p FROM Publisher p";
         TypedQuery<Object> tq = entityManager.createQuery(query,Object.class);
