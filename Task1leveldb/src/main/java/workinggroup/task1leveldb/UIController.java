@@ -641,7 +641,7 @@ public class UIController
     
     /* row = object id; type = type of object whom */
     public void row_Delete(int row, int type){
-        if(row <=0) 
+        if(row <0) 
             return;
         /*
         type : 
