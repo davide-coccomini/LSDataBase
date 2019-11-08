@@ -58,15 +58,6 @@ public class DatabaseManager {
         this.nextId=(newId>=oldId)?(newId+1):(oldId);
     }
     
-    public void deleteValuesFromUser(ArrayList<String> toDelete){ 
-// TODO SPOSTARE O CAMBIARE
-        
-        System.out.println("dentro Delete: " + toDelete.size());
-        for (String key : toDelete) {
-            
-        }
-       
-    }
  
     public void close(){
        try{
