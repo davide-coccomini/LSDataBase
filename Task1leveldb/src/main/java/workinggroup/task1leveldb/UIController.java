@@ -215,8 +215,8 @@ public class UIController
                                 String authorsString = "";
                                 Book b = (Book)content.get(getIndex());
                                 List<Author> authors = b.getAuthors();
-                                if(authors!=null)
-                                    for(int i=0; i<authors.size();i++){
+                                if(authors != null)
+                                    for(int i=0; i<authors.size(); i++){
                                         String authorName = "";
                                         String firstName = authors.get(i).getFirstName();
                                         String lastName = authors.get(i).getLastName();
@@ -226,7 +226,7 @@ public class UIController
                                             esistente). questo non poteva succedere nel database
                                             relazionale che avevamo con JPA */
                                             authorName = firstName;
-                                            if(lastName!=null){
+                                            if(lastName != null){
                                                 authorName = authorName+" ";
                                             }
                                         }

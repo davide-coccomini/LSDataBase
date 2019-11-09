@@ -21,14 +21,15 @@ public class BookManager{
         this.dbmanager = parentManager;
     }
     
-   
+    /* Returns the id that will be used for the next book in the DB*/
     public String getNextBookId(){  
-     return "book-"+dbmanager.getNextId();   
+     return "book-" + dbmanager.getNextId();   
     }
     
+    /* Creates a new book and puts it into the DB as a JSONObject*/
     public void create(String title, String numPages, String quantity, String category, String price, String publicationYear, String[] authorsId, String publisherId) {
         
-        System.out.println("create book()");
+        System.out.println("creating book " + title + " by "+ authorsId[0] + " published by " + publisherId);
         dbmanager.open();
             
             JSONObject item = new JSONObject();
@@ -46,8 +47,10 @@ public class BookManager{
             
         dbmanager.close();
     }
+    
+    /* Displays a all the books using an observableList*/
     public ObservableList<Object> selectAllBooks(){
-        System.out.println("Selectallbooks()");
+        System.out.println("selectallbooks()");
         dbmanager.open();
             ObservableList<Object> books = FXCollections.observableArrayList();
 
@@ -104,8 +107,10 @@ public class BookManager{
         dbmanager.close();
         return books;
     } 
+    
+    /* Reads a book with give id from the DB */
     public Book read(int bookId){
-        System.out.println("looking for Book with id "+bookId);
+        System.out.println("looking for Book with id " + bookId);
         Book b = new Book();
  
         try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
@@ -118,27 +123,26 @@ public class BookManager{
                 if(!"book".equals(splittedString[0])){
                     keyIterator.next();
                     continue;
-                    }
+                }
 
                 String resultAttribute = asString(dbmanager.getDB().get(bytes(key)));
                 JSONObject jbook = new JSONObject(resultAttribute);
 
-                if(jbook.getInt("idBOOK")==bookId){
-                    b=new Book(jbook);
+                if(jbook.getInt("idBOOK") == bookId){
+                    b = new Book(jbook);
                     break;
                 }
-                keyIterator.next();
-                    
-                }
+                keyIterator.next();   
             }
+        }
         catch(Exception ex){
             ex.printStackTrace();
         } 
         return b;
     }
-    
+    /* Reads a book with given id as a JSONObject */
     public JSONObject readJSON(int bookId){
-        System.out.println("looking for Book JSON with id "+bookId);
+        System.out.println("looking for Book JSON with id " + bookId);
         dbmanager.open();
         JSONObject jbook = new JSONObject();
         try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
@@ -151,24 +155,24 @@ public class BookManager{
                 if(!"book".equals(splittedString[0])){
                     keyIterator.next();
                     continue;
-                    }
+                }
 
                 String resultAttribute = asString(dbmanager.getDB().get(bytes(key)));
                 jbook = new JSONObject(resultAttribute);
 
-                if(jbook.getInt("idBOOK")==bookId){              
+                if(jbook.getInt("idBOOK") == bookId){              
                     break;
                 }
-                keyIterator.next();
-                    
-                }
+                keyIterator.next();      
             }
+        }
         catch(Exception ex){
             ex.printStackTrace();
         } 
         dbmanager.close();
         return jbook;
     }
+    /* Updates the quantity of a book */
     public void update(int bookId, int quantity){ 
         JSONObject jbook = dbmanager.getBmanager().readJSON(bookId);
         dbmanager.getBmanager().delete(bookId);
@@ -179,6 +183,7 @@ public class BookManager{
         dbmanager.close();
         
     }
+    /* Deletes a book */
     public void delete(int bookId){ 
         dbmanager.open();
         try (DBIterator keyIterator = dbmanager.getDB().iterator()) {

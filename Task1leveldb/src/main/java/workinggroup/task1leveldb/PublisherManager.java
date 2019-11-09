@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package workinggroup.task1leveldb;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.iq80.leveldb.DBIterator;
@@ -22,12 +18,14 @@ public class PublisherManager{
         this.dbmanager = parentManager;
     }
 
+    /* Returns the id that will be used for the next publisher in the DB*/
     public String getNextPublisherId(){
-        return "publisher-"+dbmanager.getNextId();    
+        return "publisher-" + dbmanager.getNextId();    
     }
  
-    
+    /* Creates a new publisher and puts it into the DB as a JSONObject*/
     public void create(String name, String location){
+        System.out.println("creating publisher " + name + " " + location);
         dbmanager.open();
             JSONObject item = new JSONObject();
             item.put("idPUBLISHER", dbmanager.getNextId());
@@ -38,6 +36,8 @@ public class PublisherManager{
         
         dbmanager.close();
     }
+    
+    /* Reads a publisher with give id from the DB */
     public Publisher read(int publisherId){  
         System.out.println("looking for publisher with id "+publisherId);
         Publisher p = null;
@@ -71,8 +71,9 @@ public class PublisherManager{
          
         return p;
     }
+    /* Deletes te publisher with given id */
     public void delete(int publisherId){  
-        System.out.println("Delete publisher");
+        System.out.println("deleting publisher " + publisherId);
         dbmanager.open();
         try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
             keyIterator.seekToFirst();
@@ -99,7 +100,7 @@ public class PublisherManager{
                     }
                 }else{ // Delete the book referring to this publisher (Implementing cascade)
                     JSONObject jbook = new JSONObject(resultAttribute);
-                    if(jbook.getInt("publisher")==publisherId){
+                    if(jbook.getInt("publisher") == publisherId){
                         dbmanager.getDB().delete(bytes(key));
                         continue;
                     }
@@ -111,6 +112,8 @@ public class PublisherManager{
         } 
         dbmanager.close();
     }
+    
+    /* Displays a all the books using an observableList */
     public ObservableList<Object> selectAllPublishers(){
         System.out.println("selectAllPublishers()");
         dbmanager.open();
@@ -140,7 +143,6 @@ public class PublisherManager{
                     }
                 }
             }
-
             catch(IOException e){
                e.printStackTrace();
             }

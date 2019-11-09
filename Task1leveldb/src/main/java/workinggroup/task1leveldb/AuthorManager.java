@@ -21,11 +21,14 @@ public class AuthorManager{
         this.dbmanager = parentManager;
     }
     
+    /* Returns the id that will be used for the next author in the DB*/
     public String getNextAuthorId(){  
-        return "author-"+dbmanager.getNextId();   
+        return "author-" + dbmanager.getNextId();   
     }
  
-     public void create(String firstName, String lastName, String biography){
+    /* Creates a new author and puts it into the DB as a JSONObject*/
+    public void create(String firstName, String lastName, String biography){
+        System.out.println("creating author " + firstName + " " + lastName);
         dbmanager.open();
             JSONObject item = new JSONObject();
             item.put("idAUTHOR", dbmanager.getNextId());
@@ -36,6 +39,8 @@ public class AuthorManager{
             dbmanager.createCommit(getNextAuthorId(),item);
         dbmanager.close();
     }
+     
+    /* Reads an author with give id from the DB */
     public Author read(int authorId){  
         System.out.println("looking for author with id "+authorId);
         Author a = new Author();
@@ -70,8 +75,9 @@ public class AuthorManager{
         return a;
     }
 
-  
+  /* Deletes the author with give id and all the books written by him/her */
     public void delete(int authorId){  
+        System.out.println("deleting author " + authorId);
         dbmanager.open();
         try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
             keyIterator.seekToFirst();
@@ -115,8 +121,10 @@ public class AuthorManager{
         } 
         dbmanager.close();
     }
- public ObservableList<Object> selectAllAuthors(){ 
-        System.out.println("Selectallauthors()");
+    
+    /* Displays a all the authors using an observableList*/
+    public ObservableList<Object> selectAllAuthors(){ 
+        System.out.println("selectallauthors()");
         dbmanager.open();
             ObservableList<Object> result = FXCollections.observableArrayList();
 
