@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `bookshop`.`author` ;
 CREATE TABLE IF NOT EXISTS `bookshop`.`author` (
   `idAUTHOR` INT(10) NOT NULL AUTO_INCREMENT,
   `firstName` VARCHAR(45) NOT NULL,
-  `lastName` VARCHAR(45) NOT NULL,
+  `lastName` VARCHAR(45) UNIQUE NOT NULL,
   `biography` VARCHAR(511) NOT NULL,
   PRIMARY KEY (`idAUTHOR`))
 ENGINE = InnoDB
@@ -60,7 +60,7 @@ DROP TABLE IF EXISTS `bookshop`.`publisher` ;
 
 CREATE TABLE IF NOT EXISTS `bookshop`.`publisher` (
   `idPUBLISHER` INT(10) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(45) UNIQUE NOT NULL,
   `location` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idPUBLISHER`))
 ENGINE = InnoDB
@@ -87,7 +87,7 @@ DROP TABLE IF EXISTS `bookshop`.`book` ;
 
 CREATE TABLE IF NOT EXISTS `bookshop`.`book` (
   `idBOOK` INT(10) NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(100) NOT NULL,
+  `title` VARCHAR(100) UNIQUE NOT NULL,
   `price` FLOAT NOT NULL,
   `category` VARCHAR(45) NOT NULL,
   `publicationYear` YEAR NOT NULL,

@@ -1,5 +1,3 @@
-
-
 package workinggroup.task1;
 
 import java.util.List;
@@ -13,8 +11,8 @@ import workinggroup.task1.Obj.Book;
 
 public class AuthorManager{
   
-    private EntityManager entityManager;
-    private JpaManager jmanager;
+    private final EntityManager entityManager;
+    private final JpaManager jmanager;
     
     public AuthorManager (JpaManager jm){
         jmanager = jm;

@@ -16,7 +16,7 @@ public class MainApp extends Application {
     public final int default_Width = 1200;
     public final int default_Height = 800;
 
-    private TableView table = new TableView();
+    private final TableView table = new TableView();
     private UIController contr;
     
     public static void main(String[] args) throws Exception {
@@ -35,7 +35,7 @@ public class MainApp extends Application {
         Scene scene = new Scene(new Group(), default_Width, default_Height);
         scene.getStylesheets().add("/styles/styles.css");
 
-        final Button button1 = new Button("Books");       //BROWSE BOOK
+        final Button button1 = new Button("Books");        //BROWSE BOOK
         final Button button2 = new Button("Authors");      //BROWSE AUTHOR
         final Button button3 = new Button("Publishers");   //BROWSE PUBLISHER
         
@@ -44,26 +44,26 @@ public class MainApp extends Application {
         button3.getStyleClass().add("button");
        
         button1.setOnAction(new EventHandler<ActionEvent>() {
-        @Override public void handle(ActionEvent e) {
-           container.getChildren().clear();
-           contr.submit_Button(1);
-           set_Button_Style(1,button1,button2,button3);
-        }
-});
-      button2.setOnAction(new EventHandler<ActionEvent>() {
-    @Override public void handle(ActionEvent e) {
-       container.getChildren().clear();
-       contr.submit_Button(2);
-       set_Button_Style(2,button1,button2,button3);
-    }
-});
-      button3.setOnAction(new EventHandler<ActionEvent>() {
-    @Override public void handle(ActionEvent e) {
-       container.getChildren().clear();
-       contr.submit_Button(3);
-       set_Button_Style(3,button1,button2,button3);
-    }
-});
+            @Override public void handle(ActionEvent e) {
+               container.getChildren().clear();
+               contr.submit_Button(1);
+               set_Button_Style(1,button1,button2,button3);
+            }
+        });
+        button2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                container.getChildren().clear();
+                contr.submit_Button(2);
+                set_Button_Style(2,button1,button2,button3);
+            }
+        });
+        button3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+             container.getChildren().clear();
+             contr.submit_Button(3);
+             set_Button_Style(3,button1,button2,button3);
+            }
+        });
 
         contr.submit_Button(1);
         set_Button_Style(1,button1,button2,button3);

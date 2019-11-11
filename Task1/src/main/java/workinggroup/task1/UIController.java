@@ -30,9 +30,9 @@ public class UIController
     private ObservableList<Object> content;
     private int busy = 0;
     
-    @FXML private TableView<Object> tableView;
-    @FXML private HBox mainBox;
-    @FXML private VBox edit_Container, insert_Container;
+    @FXML private final TableView<Object> tableView;
+    @FXML private final HBox mainBox;
+    @FXML private final VBox edit_Container, insert_Container;
       
     AuthorManager amanager;
     BookManager bmanager;
@@ -324,7 +324,6 @@ public class UIController
                                 Button delBtn = make_Delete_Button(a.getIdAUTHOR(), 2);
                                 setGraphic(delBtn);
                                 setText(null);
-                                
                             }
                         }       
                     }
@@ -334,7 +333,6 @@ public class UIController
             }
         };
         action_Col.setCellFactory(cellFactory);
-        
         
         tableView.setPrefSize( 800, 600 );
         tableView.getColumns().setAll(action_Col, id_Col,fn_Col,ln_Col,bio_Col);
@@ -466,19 +464,16 @@ public class UIController
         button.getStyleClass().add("button");
        
         button.setOnAction(new EventHandler<ActionEvent>() {
-        @Override public void handle(ActionEvent e) {
-            
+            @Override public void handle(ActionEvent e) {
                 Author newAuthor = new Author();
                 insert_Author(firstName.getText(), lastName.getText(), biography.getText());
-                
-          }
 
+            }
         });
 
         vbox.getChildren().addAll(firstName, lastName, biography,button);
         insert_Container.getStyleClass().add("Insert_Container");
         insert_Container.getChildren().add(vbox);
-        
     }
     
     /* Lets the user add a new author */
@@ -494,12 +489,10 @@ public class UIController
         button.getStyleClass().add("button");
         
         button.setOnAction(new EventHandler<ActionEvent>() {
-        @Override public void handle(ActionEvent e) {
-            
+            @Override public void handle(ActionEvent e) {
                 Publisher newPublisher = new Publisher();
-                insert_Publisher(name.getText(), location.getText());
-                
-          }
+                insert_Publisher(name.getText(), location.getText());     
+            }
 
         });
 
@@ -523,14 +516,13 @@ public class UIController
         button2.focusedProperty().addListener(new ChangeListener<Boolean>()
             {
             @Override
-            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue)
-                {
-                if (newPropertyValue)
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                /*if (newPropertyValue)
                     { // on focus
                         
                     }
-                else
-                    { // out of focus
+                else*/
+                   if(!newPropertyValue) { // out of focus
                         String t = button2.getText();
                         if("".equals(t))
                             return;
@@ -539,7 +531,6 @@ public class UIController
                     }
                 }
             });
-        
         
         
         EditButton button1 = new EditButton("+",row_Id,quantity+1,this,1);
@@ -622,7 +613,6 @@ public class UIController
         }
         
         submit_Button(type);
-        
     }
     /* Resets the table */
     public void buttons_Clear(){

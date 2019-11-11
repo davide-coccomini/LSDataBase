@@ -11,16 +11,16 @@ import workinggroup.task1.Obj.Book;
 import workinggroup.task1.Obj.Publisher;
 
 public class BookManager {
-    private JpaManager jmanager;
-    private AuthorManager amanager;
-    private PublisherManager pmanager;
-    private EntityManager entityManager;
+    private final JpaManager jmanager;
+    private final AuthorManager amanager;
+    private final PublisherManager pmanager;
+    private final EntityManager entityManager;
     
     public BookManager(JpaManager j, AuthorManager a, PublisherManager p){
-        amanager=a;
-        pmanager=p;
-        jmanager=j;
-        entityManager=j.getEntityManager();
+        amanager = a;
+        pmanager = p;
+        jmanager = j;
+        entityManager = j.getEntityManager();
     }
     public void create(String title, String numPages, String quantity, String category, String price, String publicationYear, String[] authorsId, String publisherId) {
         
@@ -33,9 +33,9 @@ public class BookManager {
         b.setPrice(Double.parseDouble(price));
         b.setPublicationYear(Integer.parseInt(publicationYear));
         
-        List<Author> authors = new ArrayList<Author>();
+        List<Author> authors = new ArrayList<>();
    
-        for(int i=0; i<authorsId.length; i++){
+        for(int i=0; i < authorsId.length; i++){
             Author a = amanager.read(Integer.parseInt(authorsId[i]));
             authors.add(a);
         }
@@ -105,7 +105,6 @@ public class BookManager {
             Book reference = entityManager.getReference(Book.class,bookId);
             entityManager.remove(reference);
             entityManager.getTransaction().commit();
-            //TODO: Update table
         }catch(Exception ex){
             ex.printStackTrace();
         }

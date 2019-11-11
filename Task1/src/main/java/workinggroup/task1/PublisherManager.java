@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package workinggroup.task1;
 
 import java.util.List;
@@ -15,8 +10,8 @@ import workinggroup.task1.Obj.Publisher;
 
 public class PublisherManager{
      
-    private EntityManager entityManager;
-    private JpaManager jmanager;
+    private final EntityManager entityManager;
+    private final JpaManager jmanager;
     
     public PublisherManager(JpaManager jm){
         jmanager = jm;
@@ -48,7 +43,6 @@ public class PublisherManager{
             Publisher reference = entityManager.getReference(Publisher.class,publisherId);
             entityManager.remove(reference);
             entityManager.getTransaction().commit();
-            //TODO: Update table
         }catch(Exception ex){
             ex.printStackTrace();
         }
