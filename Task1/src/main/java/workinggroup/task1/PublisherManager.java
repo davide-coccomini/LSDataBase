@@ -24,11 +24,11 @@ public class PublisherManager{
     /* Creates a new Publisher and puts it into the DB */
     public void create(String name, String location, List<Book> books){
         System.out.println("creating publisher: " + name + " " + location); 
-        /*Publisher result = findByName(name);    //checking if the publisher is in the DB already
+        Publisher result = findByName(name);    //checking if the publisher is in the DB already
         if(result != null){
             System.out.println("The publisher is in the database already");
             return;
-        }*/
+        }
         
         Publisher p = new Publisher();
         p.setName(name);

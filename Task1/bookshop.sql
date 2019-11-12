@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `bookshop`.`author` ;
 CREATE TABLE IF NOT EXISTS `bookshop`.`author` (
   `idAUTHOR` INT(10) NOT NULL AUTO_INCREMENT,
   `firstName` VARCHAR(45) NOT NULL,
-  `lastName` VARCHAR(45) UNIQUE NOT NULL,
+  `lastName` VARCHAR(45) NOT NULL,
   `biography` VARCHAR(511) NOT NULL,
   PRIMARY KEY (`idAUTHOR`))
 ENGINE = InnoDB
@@ -35,21 +35,21 @@ INSERT INTO `author` (`idAUTHOR`, `firstName`, `lastName`, `biography`) VALUES
 (2, 'Dante', 'Alighieri', 'Dante, (Florence 1265 - 1321 Ravenna), was an Italian poet. His Divine Comedy, originally called Commedia and later christened Divina by Giovanni Boccaccio, is widely considered the most important poem of the Middle Ages and the greatest literary work in the Italian language.'),
 (3, 'Alessandro', 'Manzoni', 'Alessandro Francesco Tommaso Antonio Manzoni was an Italian poet and novelist. He is famous for the novel The Betrothed (orig. Italian: I promessi sposi) (1827), generally ranked among the masterpieces of world literature. The novel is also a symbol of the Italian Risorgimento, both for its patriotic message and because it was a fundamental milestone in the development of the modern, unified Italian language.'),
 (4, 'Emilio', 'Salgari', 'Emilio Salgari (21 August 1862 - 25 April 1911) was an Italian writer of action adventure swashbucklers and a pioneer of science fiction.'),
-(5, 'Niccolò', 'Machiavelli', 'Niccolò di Bernardo dei Machiavelli (3 May 1469 - 21 June 1527) was an Italian diplomat, politician, historian, philosopher, writer, playwright and poet of the Renaissance period.'),
+(5, 'Niccol�', 'Machiavelli', 'Niccol� di Bernardo dei Machiavelli (3 May 1469 - 21 June 1527) was an Italian diplomat, politician, historian, philosopher, writer, playwright and poet of the Renaissance period.'),
 (6, 'Ludovico', 'Ariosto', 'Ludovico Ariosto (8 September 1474 - 6 July 1533) was an Italian poet. He is best known as the author of the romance epic Orlando Furioso (1516).'),
 (7, 'Gabriele', 'D\'Annunzio', 'General Gabriele D\'Annunzio, Prince of Montenevoso, Duke of Gallese (12 March 1863 - 1 March 1938), sometimes spelled d\'Annunzio, was an Italian poet, journalist, playwright and soldier during World War I.'),
 (8, 'Italo', 'Calvino', 'Italo Calvino (15 October 1923 - 19 September 1985) was an Italian journalist and writer of short stories and novels. His best known works include the Our Ancestors trilogy (1952 - 1959), the Cosmicomics collection of short stories (1965), and the novels Invisible Cities (1972) and If on a winter\'s night a traveler (1979).'),
 (9, 'Johann Wolfgang', 'von Goethe', 'Johann Wolfgang von Goethe (28 August 1749 - 22 March 1832) was a German writer and statesman. His works include: four novels; epic and lyric poetry; prose and verse dramas; memoirs; an autobiography; literary and aesthetic criticism; and treatises on botany, anatomy, and colour. In addition, numerous literary and scientific fragments, more than 10,000 letters, and nearly 3,000 drawings by him have survived.'),
 (10, 'Victor', 'Hugo', 'Victor Marie Hugo (26 February 1802 - 22 May 1885) was a French poet, novelist, and dramatist of the Romantic movement.'),
-(11, 'Ismail', 'Kadare', 'Ismail Kadare (born 28 January 1936) is an Albanian novelist, poet, essayist and playwright. He has been a leading literary figure in Albania since the 1960s. He focused on poetry until the publication of his first novel \"The General of the Dead Army\" which made him famous outside of Albania. In 1996, he became a lifetime member of the AcadÃ©mie des Sciences Morales et Politiques of France.'),
-(12, 'Fëdor', 'Dostoevskij', 'Fyodor Mikhailovich Dostoevsky (11 November 1821 - 9 February 1881), sometimes transliterated Dostoyevsky, was a Russian novelist, short story writer, essayist, journalist and philosopher. Dostoevsky\'s literary works explore human psychology in the troubled political, social, and spiritual atmospheres of 19th-century Russia, and engage with a variety of philosophical and religious themes.'),
+(11, 'Ismail', 'Kadare', 'Ismail Kadare (born 28 January 1936) is an Albanian novelist, poet, essayist and playwright. He has been a leading literary figure in Albania since the 1960s. He focused on poetry until the publication of his first novel \"The General of the Dead Army\" which made him famous outside of Albania. In 1996, he became a lifetime member of the Acad\eacutemie des Sciences Morales et Politiques of France.'),
+(12, 'Fyodor', 'Dostoevskij', 'Fyodor Mikhailovich Dostoevsky (11 November 1821 - 9 February 1881), sometimes transliterated Dostoyevsky, was a Russian novelist, short story writer, essayist, journalist and philosopher. Dostoevsky\'s literary works explore human psychology in the troubled political, social, and spiritual atmospheres of 19th-century Russia, and engage with a variety of philosophical and religious themes.'),
 (13, 'Lev', 'Tolstoj', 'Count Lev Nikolayevich Tolstoy (9 September 1828 - 20 November 1910), usually referred to in English as Leo Tolstoy, was a Russian writer who is regarded as one of the greatest authors of all time. He received multiple nominations for Nobel Prize in Literature every year from 1902 to 1906, and nominations for Nobel Peace Prize in 1901, 1902 and 1910, and his miss of the prize is a major Nobel prize controversy.'),
 (14, 'William', 'Shakespeare', 'William Shakespeare (26 April 1564 - 23 April 1616) was an English poet, playwright, and actor, widely regarded as the greatest writer in the English language and the world\'s greatest dramatist. His extant works, including collaborations, consist of some 39 plays, 154 sonnets, two long narrative poems, and a few other verses, some of uncertain authorship. His plays have been translated into every major living language and are performed more often than those of any other playwright.'),
 (15, 'Jules', 'Verne', 'Jules Gabriel Verne (8 February 1828 - 24 March 1905) was a French novelist, poet, and playwright.Verne\'s collaboration with the publisher Pierre-Jules Hetzel led to the creation of the Voyages extraordinaires, a widely popular series of scrupulously researched adventure novels including Journey to the Center of the Earth (1864), Twenty Thousand Leagues Under the Sea (1870), and Around the World in Eighty Days (1873).'),
-(16, 'David', 'Halliday', 'David Halliday (March 3, 1916 – April 2, 2010) was an American physicist known for his physics textbooks, Physics and Fundamentals of Physics, which he wrote with Robert Resnick. Both textbooks have been in continuous use since 1960 and are available in more than 47 languages.'),
-(17, 'Robert', 'Resnick', 'Robert Resnick (January 11, 1923 – January 29, 2014) was a physics educator and author of physics textbooks. He was born in Baltimore, Maryland on January 11, 1923 and graduated from the Baltimore City College high school in 1939. He received his B.A. in 1943 and his Ph.D. in 1949, both in physics from Johns Hopkins University. From 1949 to 1956, he was a member of the faculty at the University of Pittsburgh. He later became a professor at Rensselaer Polytechnic Institute'),
+(16, 'David', 'Halliday', 'David Halliday (March 3, 1916 - April 2, 2010) was an American physicist known for his physics textbooks, Physics and Fundamentals of Physics, which he wrote with Robert Resnick. Both textbooks have been in continuous use since 1960 and are available in more than 47 languages.'),
+(17, 'Robert', 'Resnick', 'Robert Resnick (January 11, 1923 - January 29, 2014) was a physics educator and author of physics textbooks. He was born in Baltimore, Maryland on January 11, 1923 and graduated from the Baltimore City College high school in 1939. He received his B.A. in 1943 and his Ph.D. in 1949, both in physics from Johns Hopkins University. From 1949 to 1956, he was a member of the faculty at the University of Pittsburgh. He later became a professor at Rensselaer Polytechnic Institute'),
 (18, 'Kenneth', 'Krane', 'Kenneth Samuel Krane (May 15, 1944 - Philadelphia, Pennsylvania) was an American physicist and professor at the Oregon State University. He later got an American Association of Physics Teachers Distinguished Service Certificate in 2017'),
-(19, 'John', 'Tolkien', 'John Ronald Reuel Tolkien (3 January 1892 – 2 September 1973) was an English writer, poet, philologist, and academic, who is best known as the author of the classic high fantasy works The Hobbit, The Lord of the Rings, and The Silmarillion.');
+(19, 'John', 'Tolkien', 'John Ronald Reuel Tolkien (3 January 1892 - 2 September 1973) was an English writer, poet, philologist, and academic, who is best known as the author of the classic high fantasy works The Hobbit, The Lord of the Rings, and The Silmarillion.');
 
 
 
@@ -60,7 +60,7 @@ DROP TABLE IF EXISTS `bookshop`.`publisher` ;
 
 CREATE TABLE IF NOT EXISTS `bookshop`.`publisher` (
   `idPUBLISHER` INT(10) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) UNIQUE NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
   `location` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idPUBLISHER`))
 ENGINE = InnoDB
@@ -87,7 +87,7 @@ DROP TABLE IF EXISTS `bookshop`.`book` ;
 
 CREATE TABLE IF NOT EXISTS `bookshop`.`book` (
   `idBOOK` INT(10) NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(100) UNIQUE NOT NULL,
+  `title` VARCHAR(100) NOT NULL,
   `price` FLOAT NOT NULL,
   `category` VARCHAR(45) NOT NULL,
   `publicationYear` YEAR NOT NULL,

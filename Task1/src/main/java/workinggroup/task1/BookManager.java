@@ -1,6 +1,7 @@
 package workinggroup.task1;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,22 +29,26 @@ public class BookManager {
     /* Creates a new Book and puts it into the DB */
     public void create(String title, String numPages, String quantity, String category, String price, String publicationYear, String[] authorsId, String publisherId) {
         System.out.println("creating book: " + title + " written by " + authorsId[0] + " published by " + publisherId);
-        /*List<Book> list = findByTitle(title);   //checking if the book is in the DB already
+        List<Book> list = findByTitle(title);   //checking if the book is in the DB already
         if(list != null){
             for (Book item : list) {
-                //checking if the first author, the category, the publisher and the edition are the same
-                if(item.getAuthors().get(0).equals(authorsId) && item.getCategory().equals(category) && 
-                    Integer.toString(item.getPublisher().getIdPUBLISHER()).equals(publisherId)       &&
+                //checking if the first author, the publisher and the edition are the same
+                
+                System.out.println("are the books the same?");
+                if( Integer.toString(item.getAuthors().get(0).getIdAUTHOR()).equals(authorsId[0]) &&
+                    Integer.toString(item.getPublisher().getIdPUBLISHER()).equals(publisherId) &&
                     Integer.toString(item.getPublicationYear()).equals(publicationYear)){
-                    
-                    if(!Integer.toString(item.getQuantity()).equals(quantity))
+                
+                    if(!Integer.toString(item.getQuantity()).equals(quantity)){
                         update(item.getIdBOOK(), Integer.parseInt(quantity));
-                    
-                    System.out.println("The book is in the database already");
-                    return;
+                        System.out.println("New edition added");
+                    } else {
+                        System.out.println("The book is in the database already");
+                        return;
+                    }
                 }  
             }
-        }*/
+        }
         Book b = new Book();
         b.setTitle(title);
         b.setNumPages(Integer.parseInt(numPages));

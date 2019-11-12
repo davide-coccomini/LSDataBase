@@ -24,7 +24,7 @@ public class AuthorManager{
     /* Creates a new Author and puts it into the DB */
     public void create(String firstName, String lastName, String biography, List<Book> books){
         System.out.println("creating author: " + firstName + " " + lastName);
-        /*List<Author> list = findBySurname(lastName);    //checking if the book is in the DB already
+        List<Author> list = findBySurname(lastName);    //checking if the book is in the DB already
         
         if(list != null){  //checks if the DB already contains an author with the same name and surname
             for (Author item : list) {
@@ -33,7 +33,7 @@ public class AuthorManager{
                     return;
                 }
             }
-        }*/
+        }
         Author a = new Author();
         a.setFirstName(firstName);
         a.setLastName(lastName);
