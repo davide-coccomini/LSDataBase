@@ -25,8 +25,7 @@ import workinggroup.task1.Obj.Author;
 import workinggroup.task1.Obj.Book;
 import workinggroup.task1.Obj.Publisher;
 
-public class UIController
-{
+public class UIController {
     private ObservableList<Object> content;
     private int busy = 0;
     
@@ -97,8 +96,7 @@ public class UIController
             System.out.println("Query result is empty");
         }
         
-        buttons_Unlock();
-        
+        buttons_Unlock(); 
     }
     
     /* check the mutex status */
@@ -191,8 +189,7 @@ public class UIController
         TableColumn authors_Col = new TableColumn("Authors");
   
         authors_Col.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
-        Callback<TableColumn<Object, String>, TableCell<Object, String>> authorsCellFactory
-                = //
+        Callback<TableColumn<Object, String>, TableCell<Object, String>> authorsCellFactory = //
                 new Callback<TableColumn<Object, String>, TableCell<Object, String>>() {
             @Override
             public TableCell call(final TableColumn<Object, String> param) {
@@ -224,8 +221,6 @@ public class UIController
             }
         };
         authors_Col.setCellFactory(authorsCellFactory);
-        
-        
         
         TableColumn publisher_Col = new TableColumn("Publisher");
   
@@ -259,8 +254,7 @@ public class UIController
         
         TableColumn action_Col = new TableColumn("Action");
         action_Col.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
-        Callback<TableColumn<Object, String>, TableCell<Object, String>> cellFactory
-                = //
+        Callback<TableColumn<Object, String>, TableCell<Object, String>> cellFactory = //
                 new Callback<TableColumn<Object, String>, TableCell<Object, String>>() {
             @Override
             public TableCell call(final TableColumn<Object, String> param) {
@@ -271,7 +265,6 @@ public class UIController
                         super.updateItem(item, empty);
                         if(getIndex()<content.size() && getIndex() >= 0){
                             if(content.get(getIndex()).getClass()==Book.class) {
-                            
                                 Book b = (Book)content.get(getIndex());
                                 HBox hbox = make_Edit_Buttons(b.getIdBOOK(),b.getQuantity());
                                 setGraphic(hbox);
@@ -307,8 +300,7 @@ public class UIController
   
         TableColumn action_Col = new TableColumn("Action");
         action_Col.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
-        Callback<TableColumn<Object, String>, TableCell<Object, String>> cellFactory
-                = //
+        Callback<TableColumn<Object, String>, TableCell<Object, String>> cellFactory = //
                 new Callback<TableColumn<Object, String>, TableCell<Object, String>>() {
             @Override
             public TableCell call(final TableColumn<Object, String> param) {
@@ -319,7 +311,6 @@ public class UIController
                         super.updateItem(item, empty);
                         if(getIndex()<content.size() && getIndex() >= 0){
                             if(content.get(getIndex()).getClass()==Author.class) {
-                                
                                 Author a = (Author)content.get(getIndex());
                                 Button delBtn = make_Delete_Button(a.getIdAUTHOR(), 2);
                                 setGraphic(delBtn);
@@ -353,8 +344,7 @@ public class UIController
         
         TableColumn action_Col = new TableColumn("Action");
         action_Col.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
-        Callback<TableColumn<Object, String>, TableCell<Object, String>> cellFactory
-                = //
+        Callback<TableColumn<Object, String>, TableCell<Object, String>> cellFactory = //
                 new Callback<TableColumn<Object, String>, TableCell<Object, String>>() {
             @Override
             public TableCell call(final TableColumn<Object, String> param) {
@@ -365,7 +355,6 @@ public class UIController
                         super.updateItem(item, empty);
                         if(getIndex()<content.size() && getIndex() >= 0){
                             if(content.get(getIndex()).getClass()==Publisher.class) {
-                                
                                 Publisher p = (Publisher)content.get(getIndex());
                                 Button delBtn = make_Delete_Button(p.getIdPUBLISHER(), 3);
                                 setGraphic(delBtn);
@@ -414,11 +403,11 @@ public class UIController
         Button addAuthor = new Button("+");
         addAuthor.getStyleClass().add("button");
         addAuthor.setOnAction(new EventHandler<ActionEvent>() {
-         @Override public void handle(ActionEvent e) {
-              final TextField newAuthor = new TextField();
-              newAuthor.setPromptText("Author ID");
-              columnAuthor.getChildren().add(newAuthor);
-          }
+            @Override public void handle(ActionEvent e) {
+                 final TextField newAuthor = new TextField();
+                 newAuthor.setPromptText("Author ID");
+                 columnAuthor.getChildren().add(newAuthor);
+            }
         });
 
         final HBox rowAuthor = new HBox();
@@ -427,21 +416,21 @@ public class UIController
         Button button = new Button("Add Book");
         button.getStyleClass().add("button");
         button.setOnAction(new EventHandler<ActionEvent>() {
-         @Override public void handle(ActionEvent e) {
-                String authors[] = new String[columnAuthor.getChildren().size()];
-                authors[0] = author.getText();
-                int i=0;
-                for(Node author:columnAuthor.getChildren()){
-                    if(i==0){ // Skip the author with the button
+            @Override public void handle(ActionEvent e) {
+                    String authors[] = new String[columnAuthor.getChildren().size()];
+                    authors[0] = author.getText();
+                    int i=0;
+                    for(Node author:columnAuthor.getChildren()){
+                        if(i==0){ // Skip the author with the button
+                            i++;
+                            continue;
+                        }
+                        authors[i] = ((TextField) author).getText();
                         i++;
-                        continue;
                     }
-                    authors[i] = ((TextField) author).getText();
-                    i++;
+                    insert_Book(title.getText(), numPages.getText(), quantity.getText(), category.getText(), price.getText(), publicationYear.getText(), authors, publisher.getText());
                 }
-                insert_Book(title.getText(), numPages.getText(), quantity.getText(), category.getText(), price.getText(), publicationYear.getText(), authors, publisher.getText());
-          }
-        });
+            });
         
         vbox.getChildren().addAll(title,numPages,quantity,category,price,publicationYear,columnAuthor,publisher,button);
         scrollPane.setContent(vbox);
@@ -513,40 +502,32 @@ public class UIController
       
         final TextField button2 = new TextField();
         button2.setEditable(true);
-        button2.focusedProperty().addListener(new ChangeListener<Boolean>()
-            {
+        button2.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
-                /*if (newPropertyValue)
-                    { // on focus
-                        
-                    }
-                else*/
-                   if(!newPropertyValue) { // out of focus
-                        String t = button2.getText();
-                        if("".equals(t))
-                            return;
-                        int val = Integer.parseInt(t);
-                        quantity_Edit(row_Id,val);
-                    }
+                if(!newPropertyValue) { // out of focus
+                    String t = button2.getText();
+                    if("".equals(t))
+                        return;
+                    int val = Integer.parseInt(t);
+                    quantity_Edit(row_Id,val);
                 }
-            });
+            }
+       });
         
-        
-        EditButton button1 = new EditButton("+",row_Id,quantity+1,this,1);
-        EditButton button3 = new EditButton("-",row_Id,(quantity-1)<0?0:quantity-1,this,1);
-        EditButton button4 = new EditButton("X",row_Id,0,this,1);
+        EditButton button1 = new EditButton("+", row_Id, quantity + 1, this, 1);
+        EditButton button3 = new EditButton("-", row_Id, (quantity-1) < 0 ? 0 : quantity - 1, this, 1);
+        EditButton button4 = new EditButton("X", row_Id, 0, this, 1);
  
         button2.getStyleClass().add("SQUARE_EDIT");
   
-        hbox.getChildren().addAll(button1,button2,button3,button4);
-    
+        hbox.getChildren().addAll(button1, button2, button3, button4);
         return hbox;
     }
  
     /**/
     private Button make_Delete_Button(final int row_Id, final int type){
-        final Button delButton = new EditButton("X",row_Id, 0, this, type);
+        final Button delButton = new EditButton("X", row_Id, 0, this, type);
         return delButton;
     }
     
@@ -559,27 +540,21 @@ public class UIController
             submit_Button(1);
         }
     }
-    public void insert_Book(String title,String numPages,String quantity,String category,String price,String publicationDate, String[] authors,String publisher){
-   
+    public void insert_Book(String title, String numPages, String quantity, String category, String price, String publicationDate, String[] authors, String publisher){
         //se mancano degli argomenti, ci pensa l'sql a invalidare l'operazione
-        bmanager.create(title,numPages,quantity,category,price,publicationDate,authors,publisher);
-        
+        bmanager.create(title, numPages, quantity, category, price, publicationDate, authors, publisher);
         //refresh page content
         submit_Button(1);
     }
     
     public void insert_Author(String firstName, String lastName, String biography) {
-
         amanager.create(firstName, lastName, biography, null);
-        
-        //refresh page content
+         //refresh page content
         submit_Button(2);
     }
     
     public void insert_Publisher(String name, String location) {
-
         pmanager.create(name, location, null);
-        
         //refresh page content
         submit_Button(3);
     }
@@ -596,22 +571,15 @@ public class UIController
         */
         switch(type){
             case 1 : 
-
                 bmanager.delete(row);
-
                 break;
             case 2 : 
-
                 amanager.delete(row);
-
                 break;
             case 3 : 
- 
                 pmanager.delete(row);
-
                 break;        
         }
-        
         submit_Button(type);
     }
     /* Resets the table */

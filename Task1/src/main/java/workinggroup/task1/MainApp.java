@@ -83,14 +83,13 @@ public class MainApp extends Application {
         body.getChildren().addAll(vbox,container);
         
         ((Group)scene.getRoot()).getChildren().addAll(body);
-        
-      
+              
         stage.setTitle("Task1");
         stage.setScene(scene);
         stage.show();
     }
     private void set_Button_Style(int section, Button b1, Button b2, Button b3){
-       Button mainButton = (section==1)?b1:(section==2)?b2:b3;
+       Button mainButton = (section==1) ? b1 : (section == 2) ? b2 : b3;
        
        b1.getStyleClass().removeAll("buttonFocus"); 
        b2.getStyleClass().removeAll("buttonFocus"); 

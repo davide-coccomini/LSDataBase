@@ -38,7 +38,6 @@ public class EditButton extends Button{
                     }
                 });    
                 break;
-          
             default: 
                 break;
         } 

@@ -45,7 +45,7 @@ public class Publisher{
     public String getLocation() {
         return location;
     }
-    @OneToMany(mappedBy="publisher", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "publisher", cascade = CascadeType.REMOVE)
     public List<Book> getBooks() {
         return books;
     }

@@ -4,7 +4,10 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Root;
 import workinggroup.task1.Obj.Author;
 import workinggroup.task1.Obj.Book;
 
@@ -18,7 +21,19 @@ public class AuthorManager{
         jmanager = jm;
         entityManager = jm.getEntityManager();
     }
+    /* Creates a new Author and puts it into the DB */
     public void create(String firstName, String lastName, String biography, List<Book> books){
+        System.out.println("creating author: " + firstName + " " + lastName);
+        /*List<Author> list = findBySurname(lastName);    //checking if the book is in the DB already
+        
+        if(list != null){  //checks if the DB already contains an author with the same name and surname
+            for (Author item : list) {
+                if (item.getFirstName().equals(firstName)) {
+                    System.out.println("This author is in the database already");
+                    return;
+                }
+            }
+        }*/
         Author a = new Author();
         a.setFirstName(firstName);
         a.setLastName(lastName);
@@ -32,15 +47,31 @@ public class AuthorManager{
         try{
             entityManager.getTransaction().begin();
             a = entityManager.find(Author.class, authorId);
+            entityManager.getTransaction().commit();
         }catch(Exception ex){
             ex.printStackTrace();
         }
         return a;
     }
+    /* Finds a list of authors with given surname and returns it */
+    public List<Author> findBySurname(final String surname) {
+        //Bulds a criteria for the query "SELECT a FROM Author a WHERE a.firstName = name"
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        javax.persistence.criteria.CriteriaQuery<Author> criteria = builder.createQuery(Author.class);
+        Root<Author> from = criteria.from(Author.class);
+        criteria.select(from);
+        criteria.where(builder.equal(from.get("lastName"), surname));
+        TypedQuery<Author> tq = entityManager.createQuery(criteria);
+        try {
+            return tq.getResultList();
+        } catch (final NoResultException ex) {
+            return null;
+        }  
+    }
     public void delete(int authorId){
         try{
             entityManager.getTransaction().begin();
-            Author reference = entityManager.getReference(Author.class,authorId);
+            Author reference = entityManager.getReference(Author.class, authorId);
             entityManager.remove(reference);
             entityManager.getTransaction().commit();
         }catch(Exception ex){
@@ -50,15 +81,13 @@ public class AuthorManager{
     public ObservableList<Object> selectAllAuthors(){
         System.out.println("Selectallauthors()");
         String query = "SELECT a FROM Author a";
-        TypedQuery<Object> tq = entityManager.createQuery(query,Object.class);
+        TypedQuery<Object> tq = entityManager.createQuery(query, Object.class);
         ObservableList<Object> authors = null;
         try{
             authors = FXCollections.observableList(tq.getResultList());
         }catch(Exception ex){
             ex.printStackTrace();
         }
-        
-        
         return authors;
     } 
 }

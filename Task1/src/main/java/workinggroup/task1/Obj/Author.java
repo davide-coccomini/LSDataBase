@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -60,7 +59,7 @@ public class Author{
     public String getBiography() {
         return biography;
     }
-    @ManyToMany(mappedBy="authors", cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "authors", cascade = CascadeType.REMOVE)
     public List<Book> getBooks() {
         return books;
     }
@@ -80,7 +79,5 @@ public class Author{
     public void setBiography(String biography) {
         this.biography = biography;
     }
-    
-
-    
+      
 }
