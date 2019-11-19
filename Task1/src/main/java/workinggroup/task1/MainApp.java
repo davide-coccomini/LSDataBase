@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 
 public class MainApp extends Application {
-
+    //Dimensions of the application's window
     public final int default_Width = 1200;
     public final int default_Height = 800;
 
@@ -30,16 +30,16 @@ public class MainApp extends Application {
         final HBox mainbox = new HBox();
         mainbox.getChildren().add(table);
         container.getChildren().add(mainbox);
-        contr = new UIController(container,mainbox,table);
+        contr = new UIController(container, mainbox, table);
    
         Scene scene = new Scene(new Group(), default_Width, default_Height);
         scene.getStylesheets().add("/styles/styles.css");
 
-        final Button button1 = new Button("Books");        //BROWSE BOOK
-        final Button button2 = new Button("Authors");      //BROWSE AUTHOR
-        final Button button3 = new Button("Publishers");   //BROWSE PUBLISHER
+        final Button button1 = new Button("Books");         //BROWSE BOOK
+        final Button button2 = new Button("Authors");       //BROWSE AUTHOR
+        final Button button3 = new Button("Publishers");    //BROWSE PUBLISHER
         
-        button1.getStyleClass().add("button");
+        button1.getStyleClass().add("button");              //Sets the default style of the buttons
         button2.getStyleClass().add("button");
         button3.getStyleClass().add("button");
        
@@ -47,21 +47,21 @@ public class MainApp extends Application {
             @Override public void handle(ActionEvent e) {
                container.getChildren().clear();
                contr.submit_Button(1);
-               set_Button_Style(1,button1,button2,button3);
+               set_Button_Style(1, button1, button2, button3);
             }
         });
         button2.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 container.getChildren().clear();
                 contr.submit_Button(2);
-                set_Button_Style(2,button1,button2,button3);
+                set_Button_Style(2, button1, button2, button3);
             }
         });
         button3.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
              container.getChildren().clear();
              contr.submit_Button(3);
-             set_Button_Style(3,button1,button2,button3);
+             set_Button_Style(3, button1, button2, button3);
             }
         });
 
@@ -88,18 +88,19 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();
     }
+    /* Switches the style of the button between buttonFocus and button. File "styles.css" */
     private void set_Button_Style(int section, Button b1, Button b2, Button b3){
-       Button mainButton = (section==1) ? b1 : (section == 2) ? b2 : b3;
-       
-       b1.getStyleClass().removeAll("buttonFocus"); 
+       // mainButton is the clicked button
+       Button mainButton = (section == 1) ? b1 : (section == 2) ? b2 : b3;  
+       // All style attributes are removed form all buttons
+       b1.getStyleClass().removeAll("buttonFocus");     
        b2.getStyleClass().removeAll("buttonFocus"); 
        b3.getStyleClass().removeAll("buttonFocus"); 
-       
-       b1.getStyleClass().add("button");
+       // Resetting all buttons to the default style
+       b1.getStyleClass().add("button");                
        b2.getStyleClass().add("button");
        b3.getStyleClass().add("button");
-       
-       mainButton.getStyleClass().add("buttonFocus");
-       
+       // The clicked button gets the onFocus style
+       mainButton.getStyleClass().add("buttonFocus");   
     }
 }

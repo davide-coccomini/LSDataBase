@@ -1,7 +1,6 @@
 package workinggroup.task1;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,24 +28,31 @@ public class BookManager {
     /* Creates a new Book and puts it into the DB */
     public void create(String title, String numPages, String quantity, String category, String price, String publicationYear, String[] authorsId, String publisherId) {
         System.out.println("creating book: " + title + " written by " + authorsId[0] + " published by " + publisherId);
-        List<Book> list = findByTitle(title);   //checking if the book is in the DB already
+        /* checking if the book is already in the DB to avoid duplications
+        if author, publisher, edition and quantity are the same nothing changes;
+        if the edition is different a new book with different edition is added;
+        if the quantity is different the book is updated */
+        List<Book> list = findByTitle(title);
         if(list != null){
             for (Book item : list) {
-                //checking if the first author, the publisher and the edition are the same
-                
-                System.out.println("are the books the same?");
+                // Checking if the first author and the publisher are the same
                 if( Integer.toString(item.getAuthors().get(0).getIdAUTHOR()).equals(authorsId[0]) &&
-                    Integer.toString(item.getPublisher().getIdPUBLISHER()).equals(publisherId) &&
-                    Integer.toString(item.getPublicationYear()).equals(publicationYear)){
-                
-                    if(!Integer.toString(item.getQuantity()).equals(quantity)){
-                        update(item.getIdBOOK(), Integer.parseInt(quantity));
-                        System.out.println("New edition added");
+                    Integer.toString(item.getPublisher().getIdPUBLISHER()).equals(publisherId) ) {
+                    // Checking if it's a new edition
+                    if(Integer.toString(item.getPublicationYear()).equals(publicationYear)){    
+                        // If the only difference is the quantity in stock it needs to be updated
+                        if(!Integer.toString(item.getQuantity()).equals(quantity)) {
+                            update(item.getIdBOOK(), Integer.parseInt(quantity));
+                            System.out.println("Quantity updated");
+                            return;
+                        } else {
+                            System.out.println("The book is already in the database!");
+                            return;
+                        }
                     } else {
-                        System.out.println("The book is in the database already");
-                        return;
+                        System.out.println("New edition added");
                     }
-                }  
+                }      
             }
         }
         Book b = new Book();
@@ -57,41 +63,27 @@ public class BookManager {
         b.setPrice(Double.parseDouble(price));
         b.setPublicationYear(Integer.parseInt(publicationYear));
         
-        List<Author> authors = new ArrayList<>();
-   
+        List<Author> authors = new ArrayList<>();       //a book can have more authors
         for(int i=0; i < authorsId.length; i++){
             Author a = amanager.read(Integer.parseInt(authorsId[i]));
             authors.add(a);
         }
-        
         b.setAuthors(authors);
   
         Publisher p = pmanager.read(Integer.parseInt(publisherId));
         b.setPublisher(p);
         
-        jmanager.createCommit(b);
+        jmanager.createCommit(b);                       //see JpaManager.java
     }
-    public ObservableList<Object> selectAllBooks(){
-        System.out.println("Selectallbooks()");
-        String query = "SELECT b FROM Book b";
-        TypedQuery<Object> tq = entityManager.createQuery(query,Object.class);
-        ObservableList<Object> books = null;
-        try{
-            books = FXCollections.observableList(tq.getResultList());
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        
-        return books;
-    } 
+    /* Finds an author by id */
     public Book read(int bookId){
         
         Book b = null;
-        try{
+        try {
             entityManager.getTransaction().begin();
             b = entityManager.find(Book.class, bookId);
             entityManager.getTransaction().commit();
-        }catch(Exception ex){
+        } catch(Exception ex) {
             ex.printStackTrace();
         }
         
@@ -116,8 +108,7 @@ public class BookManager {
     /* Updates the quantity in stock for the book with given id */
     public void update(int bookId, int quantity){
         Book book = new Book();
-        Book book_original = new Book();
-        book_original = read(bookId);
+        Book book_original = read(bookId);
         
         book.setIdBOOK(bookId);
         book.setQuantity(quantity);
@@ -138,6 +129,7 @@ public class BookManager {
             ex.printStackTrace();
         }
     }
+    /* Deletes the book with given id */
     public void delete(int bookId){
         try{
             entityManager.getTransaction().begin();
@@ -148,6 +140,20 @@ public class BookManager {
             ex.printStackTrace();
         }
     }
-
+    /* Selects all books from the DB and returns the result as an observable list. 
+    Called by "submit_Button" in UICOntroller.java */
+    public ObservableList<Object> selectAllBooks(){
+        System.out.println("Printing all books...");
+        String query = "SELECT b FROM Book b";
+        TypedQuery<Object> tq = entityManager.createQuery(query,Object.class);
+        ObservableList<Object> books = null;
+        try{
+            books = FXCollections.observableList(tq.getResultList());
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        
+        return books;
+    } 
 
 }

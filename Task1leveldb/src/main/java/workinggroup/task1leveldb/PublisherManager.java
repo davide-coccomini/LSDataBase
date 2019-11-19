@@ -1,7 +1,6 @@
 package workinggroup.task1leveldb;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.iq80.leveldb.DBIterator;
@@ -52,7 +51,7 @@ public class PublisherManager{
                 if(!"publisher".equals(splittedString[0])){
                     keyIterator.next();
                     continue;
-                    }
+                }
 
                 String resultAttribute = asString(dbmanager.getDB().get(bytes(key)));
                 JSONObject jpublisher = new JSONObject(resultAttribute);
@@ -61,11 +60,9 @@ public class PublisherManager{
                     p=new Publisher(jpublisher);
                     break;
                 }
-                keyIterator.next();
-                    
-                }
+                keyIterator.next(); 
             }
-        catch(Exception ex){
+        } catch(Exception ex){
             ex.printStackTrace();
         } 
          
@@ -87,10 +84,7 @@ public class PublisherManager{
                     keyIterator.next();
                     continue;
                 }
-                
-            
-               System.out.println("ciao");
-                System.out.println(dbmanager.getDB().get(bytes(key)));
+                //System.out.println(dbmanager.getDB().get(bytes(key)));
                 
                 if("publisher".equals(splittedString[0])){ // Delete the publisher
                     JSONObject jpublisher = new JSONObject(resultAttribute);
@@ -98,28 +92,29 @@ public class PublisherManager{
                         dbmanager.getDB().delete(bytes(key));
                         continue;
                     }
-                }else{ // Delete the book referring to this publisher (Implementing cascade)
+                } else { // Delete the book referring to this publisher (Implementing cascade)
                     JSONObject jbook = new JSONObject(resultAttribute);
-                    if(jbook.getInt("publisher") == publisherId){
+                    if(jbook.getInt("publisher") == publisherId) {
                         dbmanager.getDB().delete(bytes(key));
                         continue;
                     }
                 }
                 keyIterator.next();
             }
-        }catch(Exception ex){
+        } catch(Exception ex) {
             ex.printStackTrace();
         } 
         dbmanager.close();
     }
     
-    /* Displays a all the books using an observableList */
+    /* Selects all publishers from the DB and returns the result as an observable list. 
+    Called by "submit_Button" in UICOntroller.java */
     public ObservableList<Object> selectAllPublishers(){
-        System.out.println("selectAllPublishers()");
+        System.out.println("Printing all publishers...");
         dbmanager.open();
             ObservableList<Object> result = FXCollections.observableArrayList();
 
-            try{
+            try {
                 try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
                     keyIterator.seekToFirst();
 
@@ -142,8 +137,7 @@ public class PublisherManager{
                         keyIterator.next();
                     }
                 }
-            }
-            catch(IOException e){
+            } catch(IOException e) {
                e.printStackTrace();
             }
         dbmanager.close();

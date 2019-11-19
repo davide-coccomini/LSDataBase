@@ -26,19 +26,20 @@ import workinggroup.task1.Obj.Book;
 import workinggroup.task1.Obj.Publisher;
 
 public class UIController {
-    private ObservableList<Object> content;
-    private int busy = 0;
+    private ObservableList<Object> content;        
+    private int busy = 0;                               // Keeps the number of perations in queue, -1 if none
     
-    @FXML private final TableView<Object> tableView;
-    @FXML private final HBox mainBox;
-    @FXML private final VBox edit_Container, insert_Container;
+    @FXML private final TableView<Object> tableView;    
+    @FXML private final HBox mainBox;                   // Main table, contains edit_Container and insert_Container
+    @FXML private final VBox edit_Container,            // Contains the buttons to edit or delete a row
+                        insert_Container;               // Contains the form ti insert a new object
       
     AuthorManager amanager;
     BookManager bmanager;
     PublisherManager pmanager;
     JpaManager jmanager;
     
-    /* initializations for the main table */
+    /* Initializations for the main table */
     public UIController(VBox c, HBox mb, TableView<Object> t) {
         insert_Container = c;
         mainBox = mb;
@@ -54,22 +55,23 @@ public class UIController {
         jmanager = new JpaManager();
         amanager = new AuthorManager(jmanager);
         pmanager = new PublisherManager(jmanager);
-        bmanager = new BookManager(jmanager,amanager,pmanager);
+        bmanager = new BookManager(jmanager, amanager, pmanager);
     
     }
-    /* Event triggered by user click */
+    /* Event triggered by user click 
+    The clicked button determines the selection (authors/books/publishers), 
+    if there is no other operation in progress the table is prepared with the result*/
     @FXML public void submit_Button(int button_Code){
      
         content = null;
-        if(buttons_Are_Locked()) 
-        {
+        if(buttons_Are_Locked()) {
             // if any operation is in progress, the current request is delayed
             mutex_Queue(button_Code);
             return;
         }
         
         buttons_Lock();
-        
+  
         String query;          
          
         switch(button_Code){
@@ -88,14 +90,12 @@ public class UIController {
                 break;
         }
      
-        if((content!=null)&&(content.isEmpty()==false)){
+        if((content != null) && (content.isEmpty() == false)){
             tableView.setItems(content);
             format_Table(query);
-        }
-        else {
+        } else {
             System.out.println("Query result is empty");
         }
-        
         buttons_Unlock(); 
     }
     
@@ -103,7 +103,7 @@ public class UIController {
     private boolean buttons_Are_Locked(){
         /* return false if server is free and user can operate */
         /* return true if server is already busy, the request is stored */
-        if(busy==0) 
+        if(busy == 0) 
             return false;
         else
             return true;
@@ -111,14 +111,14 @@ public class UIController {
     /* lock the mutex for user operations */
     private void buttons_Lock(){
         
-        if(busy==0)
+        if(busy == 0)
             busy = -1;
     }
     /* push a request in the mutex queue */
     private void mutex_Queue(int queue){   
         /* the operation is stored in queue */
         /* queue can store only one operation (the last request asked by user)*/
-        if(queue<0)
+        if(queue < 0)
             busy = queue;
     }
     private void buttons_Unlock(){
@@ -126,8 +126,7 @@ public class UIController {
         /* call the operation that was in queue, if there was one */
         int queue = busy;
         busy = 0;
-        if(queue>0)
-        {
+        if(queue > 0) {
             submit_Button(queue);
         }
     }
@@ -158,10 +157,9 @@ public class UIController {
             case "SELECT_ALL_AUTHORS":
                 format_Author();
                 break;
-       
         }
     }
-    /* Adds columns to main table to display a Book */
+    /* Adds columns to the main table to display a Book */
     private void format_Book(){ 
         TableColumn<Object,Integer> id_Col;
         id_Col = new TableColumn<>("Book Id");
@@ -185,7 +183,6 @@ public class UIController {
         q_Col = new TableColumn<>("Copies In Stock");
         q_Col.setCellValueFactory(new PropertyValueFactory("quantity"));             
   
-        
         TableColumn authors_Col = new TableColumn("Authors");
   
         authors_Col.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
@@ -199,15 +196,15 @@ public class UIController {
                     public void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
                         if(getIndex()<content.size() && getIndex() >= 0){
-                            if(content.get(getIndex()).getClass()==Book.class) {
+                            if(content.get(getIndex()).getClass() == Book.class) {
                                 String authorsString = "";
                                 Book b = (Book)content.get(getIndex());
                                 List<Author> authors = b.getAuthors();
-                                for(int i=0; i<authors.size();i++){
+                                for(int i = 0; i < authors.size(); i++){
                                     String firstName = authors.get(i).getFirstName();
                                     String lastName = authors.get(i).getLastName();
                                     String authorName = firstName + " " + lastName;
-                                    if(i==0)
+                                    if(i == 0)
                                         authorsString += authorName;
                                     else
                                         authorsString += ", " + authorName;
@@ -236,7 +233,7 @@ public class UIController {
                     public void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
                         if(getIndex()<content.size() && getIndex() >= 0){
-                            if(content.get(getIndex()).getClass()==Book.class) {
+                            if(content.get(getIndex()).getClass() == Book.class) {
                                 Book b = (Book)content.get(getIndex());
                                 Publisher p = b.getPublisher();
                                 setText(p.getName());
@@ -248,8 +245,7 @@ public class UIController {
             }
         };
         publisher_Col.setCellFactory(publisherCellFactory);
-        
-        
+         
         q_Col.setCellValueFactory(new PropertyValueFactory("quantity"));    
         
         TableColumn action_Col = new TableColumn("Action");
@@ -264,7 +260,7 @@ public class UIController {
                     public void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
                         if(getIndex()<content.size() && getIndex() >= 0){
-                            if(content.get(getIndex()).getClass()==Book.class) {
+                            if(content.get(getIndex()).getClass() == Book.class) {
                                 Book b = (Book)content.get(getIndex());
                                 HBox hbox = make_Edit_Buttons(b.getIdBOOK(),b.getQuantity());
                                 setGraphic(hbox);
@@ -279,11 +275,11 @@ public class UIController {
         action_Col.setCellFactory(cellFactory);
         
         tableView.setPrefSize( 800, 600 );
-        tableView.getColumns().setAll(action_Col, id_Col,title_Col, price_Col, pages_Col, date_Col, cat_Col, q_Col, authors_Col, publisher_Col);
+        tableView.getColumns().setAll(action_Col, id_Col, title_Col, price_Col, pages_Col, date_Col, cat_Col, q_Col, authors_Col, publisher_Col);
         
-        generate_Form_Book();
+        generate_Form_Book();       // Adds the form to add a new book
     }
-    /* Adds columns to main table to display an author */
+    /* Adds columns to the main table to display an author */
     private void format_Author(){   
         TableColumn<Object,Integer> id_Col;
         id_Col = new TableColumn<>("Author Id");
@@ -312,7 +308,7 @@ public class UIController {
                         if(getIndex()<content.size() && getIndex() >= 0){
                             if(content.get(getIndex()).getClass()==Author.class) {
                                 Author a = (Author)content.get(getIndex());
-                                Button delBtn = make_Delete_Button(a.getIdAUTHOR(), 2);
+                                Button delBtn = make_Delete_Button(a.getIdAUTHOR(), 2); //Adds the button to delete the author in that row 
                                 setGraphic(delBtn);
                                 setText(null);
                             }
@@ -326,11 +322,11 @@ public class UIController {
         action_Col.setCellFactory(cellFactory);
         
         tableView.setPrefSize( 800, 600 );
-        tableView.getColumns().setAll(action_Col, id_Col,fn_Col,ln_Col,bio_Col);
-        generate_Form_Author();
+        tableView.getColumns().setAll(action_Col, id_Col, fn_Col, ln_Col, bio_Col);
+        generate_Form_Author();     // Adds the form to add a new author
     }
     
-     /* Adds columns to main table to display a publisher */
+     /* Adds columns to the main table to display a publisher */
     private void format_Publisher(){   
         TableColumn<Object,Integer> id_Col;
         id_Col = new TableColumn<>("Publisher Id");
@@ -353,10 +349,10 @@ public class UIController {
                     @Override
                     public void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
-                        if(getIndex()<content.size() && getIndex() >= 0){
-                            if(content.get(getIndex()).getClass()==Publisher.class) {
+                        if(getIndex() < content.size() && getIndex() >= 0){
+                            if(content.get(getIndex()).getClass() == Publisher.class) {
                                 Publisher p = (Publisher)content.get(getIndex());
-                                Button delBtn = make_Delete_Button(p.getIdPUBLISHER(), 3);
+                                Button delBtn = make_Delete_Button(p.getIdPUBLISHER(), 3); //Adds the button to delete the publisher in that row 
                                 setGraphic(delBtn);
                                 setText(null);
                                 
@@ -370,11 +366,11 @@ public class UIController {
         };
         action_Col.setCellFactory(cellFactory);
         tableView.setPrefSize( 500, 600 );
-        tableView.getColumns().setAll(action_Col, id_Col,pub_Col,loc_Col);
-        generate_Form_Publisher();
+        tableView.getColumns().setAll(action_Col, id_Col, pub_Col, loc_Col);
+        generate_Form_Publisher();  // Adds the form to add a new publisher
     }
     
-    /* Lets the user add a new book */
+    /* Generates a form that can be filled by the user to insert a new book */
     private void generate_Form_Book(){
         final ScrollPane scrollPane = new ScrollPane();
         scrollPane.setVmax(700);
@@ -428,17 +424,18 @@ public class UIController {
                         authors[i] = ((TextField) author).getText();
                         i++;
                     }
+                    // Creates a new book calling the bookManager and passing as arguments the data retreived from the form
                     insert_Book(title.getText(), numPages.getText(), quantity.getText(), category.getText(), price.getText(), publicationYear.getText(), authors, publisher.getText());
                 }
             });
         
         vbox.getChildren().addAll(title,numPages,quantity,category,price,publicationYear,columnAuthor,publisher,button);
         scrollPane.setContent(vbox);
-        insert_Container.getStyleClass().add("Insert_Container");
-        insert_Container.getChildren().add(scrollPane);
+        insert_Container.getStyleClass().add("Insert_Container");   // Sets the style
+        insert_Container.getChildren().add(scrollPane);             // Makes it possible to scroll
     }
     
-    /* Lets the user add a new author */
+    /* Generates a form that can be filled by the user to insert a new author */
     private void generate_Form_Author(){
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
@@ -454,7 +451,6 @@ public class UIController {
        
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                Author newAuthor = new Author();
                 insert_Author(firstName.getText(), lastName.getText(), biography.getText());
 
             }
@@ -465,7 +461,7 @@ public class UIController {
         insert_Container.getChildren().add(vbox);
     }
     
-    /* Lets the user add a new author */
+    /* Generates a form that can be filled by the user to insert a new publisher */
     private void generate_Form_Publisher(){
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
@@ -479,7 +475,6 @@ public class UIController {
         
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                Publisher newPublisher = new Publisher();
                 insert_Publisher(name.getText(), location.getText());     
             }
 
@@ -496,9 +491,7 @@ public class UIController {
         
         final HBox hbox = new HBox();
         hbox.setSpacing(5);
-        hbox.setPadding(new Insets(0, 0, 0, 10));
-      //  hbox.SimpleStringProperty("row");
-        
+        hbox.setPadding(new Insets(0, 0, 0, 10));  
       
         final TextField button2 = new TextField();
         button2.setEditable(true);
@@ -510,7 +503,7 @@ public class UIController {
                     if("".equals(t))
                         return;
                     int val = Integer.parseInt(t);
-                    quantity_Edit(row_Id,val);
+                    quantity_Edit(row_Id, val);      //edits quantity calling BookManager's update
                 }
             }
        });
@@ -525,41 +518,39 @@ public class UIController {
         return hbox;
     }
  
-    /**/
+    /* Returns a button that will be used to delete a row with given id (the id is the same as the object in the row) */
     private Button make_Delete_Button(final int row_Id, final int type){
         final Button delButton = new EditButton("X", row_Id, 0, this, type);
         return delButton;
     }
-    
+    /* Edits the quantity of the book in the selected row */
     public void quantity_Edit(int row, int q){
         if(q >= 0){
-             
             bmanager.update(row, q);
-            
             //refresh page content
             submit_Button(1);
         }
     }
+    /* Creates a new book by calling the manager (file BookManager.java) */
     public void insert_Book(String title, String numPages, String quantity, String category, String price, String publicationDate, String[] authors, String publisher){
         //se mancano degli argomenti, ci pensa l'sql a invalidare l'operazione
         bmanager.create(title, numPages, quantity, category, price, publicationDate, authors, publisher);
         //refresh page content
         submit_Button(1);
     }
-    
+    /* Creates a new author by calling the manager (file AuthorManager.java) */
     public void insert_Author(String firstName, String lastName, String biography) {
         amanager.create(firstName, lastName, biography, null);
          //refresh page content
         submit_Button(2);
     }
-    
+    /* Creates a new publisher by calling the manager (file PublisherManager.java) */
     public void insert_Publisher(String name, String location) {
         pmanager.create(name, location, null);
         //refresh page content
         submit_Button(3);
     }
-    
-    /* row = object id; type = type of object whom */
+    /* row = object id; type = type of object */
     public void row_Delete(int row, int type){
         if(row <=0) 
             return;
@@ -570,13 +561,13 @@ public class UIController {
         3 = PUBLISHER
         */
         switch(type){
-            case 1 : 
+            case 1 : //Delete book
                 bmanager.delete(row);
                 break;
-            case 2 : 
+            case 2 : //Delete author
                 amanager.delete(row);
                 break;
-            case 3 : 
+            case 3 : //Delete publisher
                 pmanager.delete(row);
                 break;        
         }
@@ -586,7 +577,7 @@ public class UIController {
     public void buttons_Clear(){
         edit_Container.getChildren().clear();
     }
-  
+    /* Resets the form */
     public void form_Clear(){
         insert_Container.getChildren().clear();
     }

@@ -25,14 +25,14 @@ import workinggroup.task1.Obj.Author;
 import workinggroup.task1.Obj.Book;
 import workinggroup.task1.Obj.Publisher;
 
-public class UIController
-{
-    private ObservableList<Object> content;
-    private int busy = 0;
+public class UIController {
+    private ObservableList<Object> content;             
+    private int busy = 0;                               // Keeps the number of perations in queue, -1 if none
     
-    @FXML private TableView<Object> tableView;
-    @FXML private HBox mainBox;
-    @FXML private VBox edit_Container, insert_Container;
+    @FXML private final TableView<Object> tableView;    
+    @FXML private final HBox mainBox;                   // Main table, contains edit_Container and insert_Container
+    @FXML private final VBox edit_Container,            // Contains the buttons to edit or delete a row
+                        insert_Container;               // Contains the form ti insert a new object
      
     DatabaseManager dbmanager;
     BookManager bmanager;    
@@ -52,24 +52,19 @@ public class UIController
         t.getStyleClass().add("TABLE");
         
         content = null;
-    
         dbmanager = new DatabaseManager();
-        
         bmanager = new BookManager(dbmanager);
-        
-        amanager = new AuthorManager(dbmanager);
-                
+        amanager = new AuthorManager(dbmanager);    
         pmanager = new PublisherManager(dbmanager);
-        
-        dbmanager.init(amanager,bmanager,pmanager);
-        
+        dbmanager.init(amanager,bmanager,pmanager); 
     }
-    /* Event triggered by user click */
+    /* Event triggered by user click 
+    The clicked button determines the selection (authors/books/publishers), 
+    if there is no other operation in progress the table is prepared with the result*/
     @FXML public void submit_Button(int button_Code){
      
         content = null;
-        if(buttons_Are_Locked()) 
-        {
+        if(buttons_Are_Locked()) {
             // if any operation is in progress, the current request is delayed
             mutex_Queue(button_Code);
             return;
@@ -83,38 +78,33 @@ public class UIController
             default:
             case 1:
                 query = "SELECT_ALL_BOOKS";
-                
                 content = bmanager.selectAllBooks();
                 break;
             case 2:
                 query = "SELECT_ALL_AUTHORS";
-                
                 content = amanager.selectAllAuthors();
                 break;
             case 3:
                 query = "SELECT_ALL_PUBLISHERS";
-                
                 content = pmanager.selectAllPublishers();
                 break;
         }
      
-        if((content!=null)&&(content.isEmpty()==false)){
+        if((content != null) && (content.isEmpty() == false)){
             tableView.setItems(content);
-        }
-        else {
+        } else {
             System.out.println("Query result is empty");
             tableView.setItems(null);
         }
         format_Table(query);
-        buttons_Unlock();
-        
+        buttons_Unlock();    
     }
     
     /* check the mutex status */
     private boolean buttons_Are_Locked(){
         /* return false if server is free and user can operate */
         /* return true if server is already busy, the request is stored */
-        if(busy==0) 
+        if(busy == 0) 
             return false;
         else
             return true;
@@ -122,14 +112,14 @@ public class UIController
     /* lock the mutex for user operations */
     private void buttons_Lock(){
         
-        if(busy==0)
+        if(busy == 0)
             busy = -1;
     }
     /* push a request in the mutex queue */
     private void mutex_Queue(int queue){   
         /* the operation is stored in queue */
         /* queue can store only one operation (the last request asked by user)*/
-        if(queue<0)
+        if(queue < 0)
             busy = queue;
     }
     private void buttons_Unlock(){
@@ -137,8 +127,7 @@ public class UIController
         /* call the operation that was in queue, if there was one */
         int queue = busy;
         busy = 0;
-        if(queue>0)
-        {
+        if(queue>0) {
             submit_Button(queue);
         }
     }
@@ -169,7 +158,6 @@ public class UIController
             case "SELECT_ALL_AUTHORS":
                 format_Author();
                 break;
-       
         }
     }
     /* Adds columns to main table to display a Book */
@@ -195,8 +183,7 @@ public class UIController
         TableColumn<Object,Integer> q_Col;
         q_Col = new TableColumn<>("Copies In Stock");
         q_Col.setCellValueFactory(new PropertyValueFactory("quantity"));             
-  
-        
+          
         TableColumn authors_Col = new TableColumn("Authors");
   
         authors_Col.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
@@ -215,7 +202,7 @@ public class UIController
                                 String authorsString = "";
                                 Book b = (Book)content.get(getIndex());
                                 List<Author> authors = b.getAuthors();
-                                if(authors != null)
+                                if(authors != null) {
                                     for(int i=0; i<authors.size(); i++){
                                         String authorName = "";
                                         String firstName = authors.get(i).getFirstName();
@@ -242,12 +229,12 @@ public class UIController
                                             authorName = "Unknown";
                                         }
                                         
-                                        if(i==0)
+                                        if(i == 0)
                                             authorsString += authorName;
                                         else
                                             authorsString += ", " + authorName;
                                     }
-                                else{
+                                }else {
                                     authorsString = "Unknown";
                                 }
                                 setText(authorsString);
@@ -259,8 +246,6 @@ public class UIController
             }
         };
         authors_Col.setCellFactory(authorsCellFactory);
-        
-        
         
         TableColumn publisher_Col = new TableColumn("Publisher");
   
@@ -280,14 +265,13 @@ public class UIController
                                  
                                 Book b = (Book)content.get(getIndex());
                                 Publisher p = b.getPublisher();
-                                if(p==null){
+                                if(p == null){
                                     /* senza questo if, il database diventa inconsistente 
                                     nel caso l'utente inserisca un dato errato (un id non 
                                     esistente). questo non poteva succedere nel database
                                     relazionale che avevamo con JPA */
                                     setText("Unknown");
-                                }
-                                else{
+                                } else {
                                     setText(p.getName());
                                 }
                             }
@@ -298,8 +282,7 @@ public class UIController
             }
         };
         publisher_Col.setCellFactory(publisherCellFactory);
-        
-        
+                
         q_Col.setCellValueFactory(new PropertyValueFactory("quantity"));    
         
         TableColumn action_Col = new TableColumn("Action");
@@ -333,7 +316,7 @@ public class UIController
         tableView.setPrefSize( 800, 600 );
         tableView.getColumns().setAll(action_Col, id_Col,title_Col, price_Col, pages_Col, date_Col, cat_Col, q_Col, authors_Col, publisher_Col);
         
-        generate_Form_Book();
+        generate_Form_Book();       // Adds the form to add a new book
     }
     /* Adds columns to main table to display an author */
     private void format_Author(){   
@@ -368,8 +351,7 @@ public class UIController
                                 Author a = (Author)content.get(getIndex());
                                 Button delBtn = make_Delete_Button(a.getIdAUTHOR(), 2);
                                 setGraphic(delBtn);
-                                setText(null);
-                                
+                                setText(null);  
                             }
                         }       
                     }
@@ -383,7 +365,7 @@ public class UIController
         
         tableView.setPrefSize( 800, 600 );
         tableView.getColumns().setAll(action_Col, id_Col,fn_Col,ln_Col,bio_Col);
-        generate_Form_Author();
+        generate_Form_Author();     // Adds the form to add a new author
     }
     
      /* Adds columns to main table to display a publisher */
@@ -416,8 +398,7 @@ public class UIController
                                 Publisher p = (Publisher)content.get(getIndex());
                                 Button delBtn = make_Delete_Button(p.getIdPUBLISHER(), 3);
                                 setGraphic(delBtn);
-                                setText(null);
-                                
+                                setText(null);   
                             }
                         }       
                     }
@@ -429,7 +410,7 @@ public class UIController
         action_Col.setCellFactory(cellFactory);
         tableView.setPrefSize( 500, 600 );
         tableView.getColumns().setAll(action_Col, id_Col,pub_Col,loc_Col);
-        generate_Form_Publisher();
+        generate_Form_Publisher();      // Adds the form to add a new publisher
     }
     
     /* Lets the user add a new book */
@@ -461,11 +442,11 @@ public class UIController
         Button addAuthor = new Button("+");
         addAuthor.getStyleClass().add("button");
         addAuthor.setOnAction(new EventHandler<ActionEvent>() {
-         @Override public void handle(ActionEvent e) {
-              final TextField newAuthor = new TextField();
-              newAuthor.setPromptText("Author ID");
-              columnAuthor.getChildren().add(newAuthor);
-          }
+            @Override public void handle(ActionEvent e) {
+                final TextField newAuthor = new TextField();
+                newAuthor.setPromptText("Author ID");
+                columnAuthor.getChildren().add(newAuthor);
+            }
         });
 
         final HBox rowAuthor = new HBox();
@@ -474,12 +455,12 @@ public class UIController
         Button button = new Button("Add Book");
         button.getStyleClass().add("button");
         button.setOnAction(new EventHandler<ActionEvent>() {
-         @Override public void handle(ActionEvent e) {
+        @Override public void handle(ActionEvent e) {
                 String authors[] = new String[columnAuthor.getChildren().size()];
                 authors[0] = author.getText();
                 int i=0;
                 for(Node author:columnAuthor.getChildren()){
-                    if(i==0){ // Skip the author with the button
+                    if(i == 0){ // Skip the author with the button
                         i++;
                         continue;
                     }
@@ -487,7 +468,7 @@ public class UIController
                     i++;
                 }
                 insert_Book(title.getText(), numPages.getText(), quantity.getText(), category.getText(), price.getText(), publicationYear.getText(), authors, publisher.getText());
-          }
+            }
         });
         
         vbox.getChildren().addAll(title,numPages,quantity,category,price,publicationYear,columnAuthor,publisher,button);
@@ -511,19 +492,14 @@ public class UIController
         button.getStyleClass().add("button");
        
         button.setOnAction(new EventHandler<ActionEvent>() {
-        @Override public void handle(ActionEvent e) {
-            
-                Author newAuthor = new Author();
-                insert_Author(firstName.getText(), lastName.getText(), biography.getText());
-                
-          }
-
+            @Override public void handle(ActionEvent e) {
+                insert_Author(firstName.getText(), lastName.getText(), biography.getText());  
+            }
         });
 
         vbox.getChildren().addAll(firstName, lastName, biography,button);
         insert_Container.getStyleClass().add("Insert_Container");
-        insert_Container.getChildren().add(vbox);
-        
+        insert_Container.getChildren().add(vbox);  
     }
     
     /* Lets the user add a new author */
@@ -539,19 +515,14 @@ public class UIController
         button.getStyleClass().add("button");
         
         button.setOnAction(new EventHandler<ActionEvent>() {
-        @Override public void handle(ActionEvent e) {
-            
-                Publisher newPublisher = new Publisher();
+            @Override public void handle(ActionEvent e) {
                 insert_Publisher(name.getText(), location.getText());
-                
-          }
-
+            }
         });
 
         vbox.getChildren().addAll(name, location,button);
         insert_Container.getStyleClass().add("Insert_Container");
-        insert_Container.getChildren().add(vbox);
-        
+        insert_Container.getChildren().add(vbox);   
     }
     
     /* Prepares the buttons to edit books::quantity in each row */
@@ -560,32 +531,21 @@ public class UIController
         final HBox hbox = new HBox();
         hbox.setSpacing(5);
         hbox.setPadding(new Insets(0, 0, 0, 10));
-      //  hbox.SimpleStringProperty("row");
-        
-      
+            
         final TextField button2 = new TextField();
         button2.setEditable(true);
-        button2.focusedProperty().addListener(new ChangeListener<Boolean>()
-            {
+        button2.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
-            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue)
-                {
-                if (newPropertyValue)
-                    { // on focus
-                        
-                    }
-                else
-                    { // out of focus
-                        String t = button2.getText();
-                        if("".equals(t))
-                            return;
-                        int val = Integer.parseInt(t);
-                        quantity_Edit(row_Id,val);
-                    }
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue){
+                if(!newPropertyValue) { // out of focus
+                    String t = button2.getText();
+                    if("".equals(t))
+                        return;
+                    int val = Integer.parseInt(t);
+                    quantity_Edit(row_Id, val);
                 }
-            });
-        
-        
+            }
+        });
         
         EditButton button1 = new EditButton("+",row_Id,quantity+1,this,1);
         EditButton button3 = new EditButton("-",row_Id,(quantity-1)<0?0:quantity-1,this,1);
@@ -598,47 +558,38 @@ public class UIController
         return hbox;
     }
  
-    /**/
+    /* Returns a button that will be used to delete a row with given id (the id is the same as the object in the row) */
     private Button make_Delete_Button(final int row_Id, final int type){
         final Button delButton = new EditButton("X",row_Id, 0, this, type);
         return delButton;
     }
-    
+    /* Edits the quantity of the book in the selected row */
     public void quantity_Edit(int row, int q){
         if(q >= 0){
- 
             bmanager.update(row, q);
-            
             //refresh page content
             submit_Button(1);
         }
     }
+    /* Creates a new book by calling the manager (file BookManager.java) */
     public void insert_Book(String title,String numPages,String quantity,String category,String price,String publicationDate, String[] authors,String publisher){
-   
         //se mancano degli argomenti, ci pensa l'sql a invalidare l'operazione
-   
         bmanager.create(title,numPages,quantity,category,price,publicationDate,authors,publisher);
-        
         //refresh page content
         submit_Button(1);
     }
-    
+    /* Creates a new author by calling the manager (file AuthorManager.java) */
     public void insert_Author(String firstName, String lastName, String biography) {
-  
-        amanager.create(firstName, lastName, biography);
-        
+        amanager.create(firstName, lastName, biography);    
         //refresh page content
         submit_Button(2);
     }
-    
-    public void insert_Publisher(String name, String location) {
-     
+    /* Creates a new publisher by calling the manager (file PublisherManager.java) */
+    public void insert_Publisher(String name, String location) { 
         pmanager.create(name, location);
-        
         //refresh page content
         submit_Button(3);
     }
-    
     /* row = object id; type = type of object whom */
     public void row_Delete(int row, int type){
         if(row <0) 
@@ -650,31 +601,24 @@ public class UIController
         3 = PUBLISHER
         */
         switch(type){
-            case 1 : 
-          
+            case 1 : //Delete book
                 bmanager.delete(row);
-
                 break;
-            case 2 : 
-           
+            case 2 : //Delete author
                 amanager.delete(row);
-
                 break;
-            case 3 : 
-            
+            case 3 : //Delete publisher
                 pmanager.delete(row);
-
                 break;        
         }
         
         submit_Button(type);
-        
     }
     /* Resets the table */
     public void buttons_Clear(){
         edit_Container.getChildren().clear();
     }
-  
+    /* Resets the form */
     public void form_Clear(){
         insert_Container.getChildren().clear();
     }

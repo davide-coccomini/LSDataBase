@@ -28,7 +28,6 @@ public class BookManager{
     
     /* Creates a new book and puts it into the DB as a JSONObject*/
     public void create(String title, String numPages, String quantity, String category, String price, String publicationYear, String[] authorsId, String publisherId) {
-        
         System.out.println("creating book " + title + " by "+ authorsId[0] + " published by " + publisherId);
         dbmanager.open();
             
@@ -47,66 +46,6 @@ public class BookManager{
             
         dbmanager.close();
     }
-    
-    /* Displays a all the books using an observableList*/
-    public ObservableList<Object> selectAllBooks(){
-        System.out.println("selectallbooks()");
-        dbmanager.open();
-            ObservableList<Object> books = FXCollections.observableArrayList();
-
-            try{
-                try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
-                    keyIterator.seekToFirst();
-                    while (keyIterator.hasNext()) {
-
-
-                        String key = asString(keyIterator.peekNext().getKey());
-                        String[] splittedString = key.split("-");
-
-                        dbmanager.incrementNextId(Integer.parseInt(splittedString[1]));
-
-                        if(!"book".equals(splittedString[0])){
-                            keyIterator.next();
-                            continue;
-                        }
-                        String resultAttribute = asString(dbmanager.getDB().get(bytes(key)));
-                        JSONObject jbook = new JSONObject(resultAttribute);
-
-                        Book book = new Book(jbook);
-                        
-                        book.setPublisher(dbmanager.getPmanager().read(jbook.getInt("publisher")));
-                        
-                         
-                        JSONArray jauthors  = jbook.getJSONArray("authors");
-                        List<Author> authors = new ArrayList();
-                        for(int i=0; i<jauthors.length(); i++){
-                            
-                            int a=-1;
-                            a=jauthors.getInt(i);
-                            if(a>=0){ 
-                                authors.add(dbmanager.getAmanager().read(a));
-                            }else{
-                                System.out.println("A book has mysterious author");   
-                            }
-                          
-                        }
-                        
-                      
-                        book.setAuthors(authors);
-                        
-                        books.add(book);
-
-                        keyIterator.next();
-                    }
-                }
-            }
-
-            catch(IOException e){
-               e.printStackTrace();
-            }
-        dbmanager.close();
-        return books;
-    } 
     
     /* Reads a book with give id from the DB */
     public Book read(int bookId){
@@ -172,7 +111,7 @@ public class BookManager{
         dbmanager.close();
         return jbook;
     }
-    /* Updates the quantity of a book */
+    /* Updates the quantity in stock for the book with given id */
     public void update(int bookId, int quantity){ 
         JSONObject jbook = dbmanager.getBmanager().readJSON(bookId);
         dbmanager.getBmanager().delete(bookId);
@@ -183,7 +122,7 @@ public class BookManager{
         dbmanager.close();
         
     }
-    /* Deletes a book */
+    /* Deletes the book with given id */
     public void delete(int bookId){ 
         dbmanager.open();
         try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
@@ -206,15 +145,64 @@ public class BookManager{
                     dbmanager.getDB().delete(bytes(key));
                     break;
                 }
-                keyIterator.next();
-                    
-                }
+                keyIterator.next();    
             }
-        catch(Exception ex){
+        } catch(Exception ex){
             ex.printStackTrace();
         } 
         dbmanager.close();
     }
 
+    /* Selects all books from the DB and returns the result as an observable list. 
+    Called by "submit_Button" in UICOntroller.java */
+    public ObservableList<Object> selectAllBooks(){
+        System.out.println("Printing all books...");
+        dbmanager.open();
+            ObservableList<Object> books = FXCollections.observableArrayList();
 
+            try{
+                try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
+                    keyIterator.seekToFirst();
+                    while (keyIterator.hasNext()) {
+                        String key = asString(keyIterator.peekNext().getKey());
+                        String[] splittedString = key.split("-");
+
+                        dbmanager.incrementNextId(Integer.parseInt(splittedString[1]));
+
+                        if(!"book".equals(splittedString[0])){
+                            keyIterator.next();
+                            continue;
+                        }
+                        String resultAttribute = asString(dbmanager.getDB().get(bytes(key)));
+                        JSONObject jbook = new JSONObject(resultAttribute);
+
+                        Book book = new Book(jbook);
+                        
+                        book.setPublisher(dbmanager.getPmanager().read(jbook.getInt("publisher")));
+                        
+                        JSONArray jauthors  = jbook.getJSONArray("authors");
+                        List<Author> authors = new ArrayList();
+                        for(int i=0; i<jauthors.length(); i++){
+                            
+                            int a=-1;
+                            a=jauthors.getInt(i);
+                            if(a>=0){ 
+                                authors.add(dbmanager.getAmanager().read(a));
+                            }else{
+                                System.out.println("A book has mysterious author");   
+                            }
+                          
+                        }
+                        
+                        book.setAuthors(authors);
+                        books.add(book);
+                        keyIterator.next();
+                    }
+                }
+            } catch(IOException e){
+               e.printStackTrace();
+            }
+        dbmanager.close();
+        return books;
+    } 
 }

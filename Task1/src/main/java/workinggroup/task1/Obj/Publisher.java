@@ -1,5 +1,6 @@
 package workinggroup.task1.Obj;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,24 +12,25 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="publisher")
-public class Publisher{
-    private int idPUBLISHER;
-
+@Table(name = "publisher")
+public class Publisher implements Serializable{
+    
+    private int idPUBLISHER;        //automatically generated
     private String name;
     private String location;
     private List<Book> books;
-
-    public Publisher() {
-    }
     
     public Publisher(String name, String location){
         this.name = name;
         this.location = location; 
     }
 
+    public Publisher() {
+        
+    }
+    
     @Id   
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idPUBLISHER")
     public int getIdPUBLISHER() {
         return idPUBLISHER;
@@ -37,14 +39,18 @@ public class Publisher{
     public void setIdPUBLISHER(int id) {
         this.idPUBLISHER = id;
     }
+    
     @Column(name = "name")
     public String getName() {
         return name;
     }
+    
     @Column(name = "location")
     public String getLocation() {
         return location;
     }
+    
+    /* A publisher can publish more books , every time a publisher is removed form the DB all its books are removed as well */
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.REMOVE)
     public List<Book> getBooks() {
         return books;
@@ -61,5 +67,4 @@ public class Publisher{
     public void setLocation(String location) {
         this.location = location;
     }
-
 }

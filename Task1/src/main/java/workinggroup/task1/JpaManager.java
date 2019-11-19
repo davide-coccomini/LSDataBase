@@ -20,6 +20,7 @@ public class JpaManager {
         factory.close();
     } 
     
+    /* Called by the functions "create" in book, author and publisher */
     public void createCommit(Object a){
         try{
             entityManager.getTransaction().begin();

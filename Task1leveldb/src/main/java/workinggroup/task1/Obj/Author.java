@@ -1,4 +1,3 @@
-
 package workinggroup.task1.Obj;
 
 import org.json.JSONObject;
@@ -19,13 +18,13 @@ public class Author{
     public Author() {
         
     }
+    
     public Author(JSONObject jauthor) {
         this.idAUTHOR = (int)jauthor.get("idAUTHOR");
         this.firstName = (String) jauthor.get("firstName");
         this.lastName = (String) jauthor.get("lastName");
         this.biography = (String) jauthor.get("biography");
     }
-
 
     public int getIdAUTHOR() {
         return idAUTHOR;
@@ -58,7 +57,4 @@ public class Author{
     public void setBiography(String biography) {
         this.biography = biography;
     }
-    
-
-    
 }

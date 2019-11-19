@@ -15,15 +15,13 @@ public class Book{
     private int quantity;
     private Publisher publisher;
 
-
-    /* la lista degli autori sta nel bean book perché quando registri un autore
-    non sai la lista dei libri che scriverà, mentre quando aggiungi un libro 
-    puoi registrare quali autori lo hanno scritto */
+    /* La lista degli autori e' nel bean book perché quando un nuovo autore viene registrato
+    non e' nota la lista dei libri che scriverà, mentre quando viene aggiunto un nuovo libro 
+    se ne conoscono gia' gli autori */
     private List<Author> authors;
-   
-    
+       
     public Book(int ID,String title, double price, int numPages, int year, String category, int quantity, List<Author> authors, Publisher publisher){
-        this.idBOOK=ID;
+        this.idBOOK = ID;
         this.title = title;
         this.price = price;
         this.numPages = numPages;
@@ -35,7 +33,7 @@ public class Book{
     }
 
     public Book() {
-        System.out.println("Book()");
+        
     }
 
     public Book(JSONObject jbook) {
@@ -45,28 +43,24 @@ public class Book{
         this.numPages = Integer.parseInt((String) jbook.get("numPages"));
         this.publicationYear = Integer.parseInt((String) jbook.get("publicationYear"));
         this.category = (String) jbook.get("category");
-        this.quantity = Integer.parseInt((String) jbook.get("quantity"));
-        
+        this.quantity = Integer.parseInt((String) jbook.get("quantity"));  
     }
 
     public int getIdBOOK() {
         return idBOOK;
     }
-
    
     public List<Author> getAuthors() {
-		return authors;
-	}
+        return authors;
+    }
     public void setAuthors(List<Author> authors) {
-		this.authors = authors;
-	}
-    
-    
+        this.authors = authors;
+    }
+        
     public void setIdBOOK(int idBOOK) {
         this.idBOOK = idBOOK;
     }
-  
-   
+     
     public String getTitle() {
         return title;
     }

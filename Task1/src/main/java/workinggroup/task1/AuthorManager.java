@@ -11,7 +11,6 @@ import javax.persistence.criteria.Root;
 import workinggroup.task1.Obj.Author;
 import workinggroup.task1.Obj.Book;
 
-
 public class AuthorManager{
   
     private final EntityManager entityManager;
@@ -24,12 +23,12 @@ public class AuthorManager{
     /* Creates a new Author and puts it into the DB */
     public void create(String firstName, String lastName, String biography, List<Book> books){
         System.out.println("creating author: " + firstName + " " + lastName);
-        List<Author> list = findBySurname(lastName);    //checking if the book is in the DB already
-        
-        if(list != null){  //checks if the DB already contains an author with the same name and surname
+        //checking if the book is in the DB already
+        List<Author> list = findBySurname(lastName);    
+        if(list != null){   //checks if the DB already contains an author with the same name and surname
             for (Author item : list) {
                 if (item.getFirstName().equals(firstName)) {
-                    System.out.println("This author is in the database already");
+                    System.out.println("This author is already in the database!");
                     return;
                 }
             }
@@ -40,8 +39,9 @@ public class AuthorManager{
         a.setBiography(biography);
         a.setBooks(books);
          
-        jmanager.createCommit(a);
+        jmanager.createCommit(a);                       //see JpaManager.java
     }
+    /* Finds an author by id */
     public Author read(int authorId){
         Author a = new Author();
         try{
@@ -61,6 +61,7 @@ public class AuthorManager{
         Root<Author> from = criteria.from(Author.class);
         criteria.select(from);
         criteria.where(builder.equal(from.get("lastName"), surname));
+        
         TypedQuery<Author> tq = entityManager.createQuery(criteria);
         try {
             return tq.getResultList();
@@ -68,6 +69,7 @@ public class AuthorManager{
             return null;
         }  
     }
+    /* Deletes the author with given id */
     public void delete(int authorId){
         try{
             entityManager.getTransaction().begin();
@@ -78,8 +80,10 @@ public class AuthorManager{
             ex.printStackTrace();
         }
     }
+    /* Selects all authors from the DB and returns the result as an observable list. 
+    Called by "submit_Button" in UICOntroller.java */
     public ObservableList<Object> selectAllAuthors(){
-        System.out.println("Selectallauthors()");
+        System.out.println("Printing all authors...");
         String query = "SELECT a FROM Author a";
         TypedQuery<Object> tq = entityManager.createQuery(query, Object.class);
         ObservableList<Object> authors = null;

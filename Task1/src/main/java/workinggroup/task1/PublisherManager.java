@@ -8,7 +8,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Root;
-import workinggroup.task1.Obj.Author;
 import workinggroup.task1.Obj.Book;
 import workinggroup.task1.Obj.Publisher;
 
@@ -26,7 +25,7 @@ public class PublisherManager{
         System.out.println("creating publisher: " + name + " " + location); 
         Publisher result = findByName(name);    //checking if the publisher is in the DB already
         if(result != null){
-            System.out.println("The publisher is in the database already");
+            System.out.println("The publisher is already in the database!");
             return;
         }
         
@@ -35,8 +34,9 @@ public class PublisherManager{
         p.setLocation(location);
         p.setBooks(books);
          
-        jmanager.createCommit(p);
+        jmanager.createCommit(p);               //see JpaManager.java
     }
+    /* Finds a publisher by id */
     public Publisher read(int publisherId){
         Publisher p = null;
         try{
@@ -64,6 +64,7 @@ public class PublisherManager{
             return null;
         }  
     }
+    /* Deletes the publisher with given id */
     public void delete(int publisherId){
         try{
             entityManager.getTransaction().begin();
@@ -74,8 +75,10 @@ public class PublisherManager{
             ex.printStackTrace();
         }
     }
+    /* Selects all publishers from the DB and returns the result as an observable list. 
+    Called by "submit_Button" in UICOntroller.java */
     public ObservableList<Object> selectAllPublishers(){
-        System.out.println("SelectAllPublishers()");
+        System.out.println("Printing all publishers...");
         String query = "SELECT p FROM Publisher p";
         TypedQuery<Object> tq = entityManager.createQuery(query,Object.class);
         ObservableList<Object> publishers = null;

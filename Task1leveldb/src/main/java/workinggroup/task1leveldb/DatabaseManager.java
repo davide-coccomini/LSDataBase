@@ -72,7 +72,7 @@ public class DatabaseManager {
     public void createCommit(String key, JSONObject item){
         db.put(bytes(key), bytes(item.toString()));  
     }
-/* initializes the managers and populates the DB if there is no "db" folder */
+    /* initializes the managers and populates the DB if there is no "db" folder */
     void init(AuthorManager amanager, BookManager bmanager, PublisherManager pmanager) {
         this.amanager = amanager;
         this.bmanager = bmanager;
@@ -103,7 +103,7 @@ public class DatabaseManager {
         String [] author15 = {"15", "16" ,"17"};
         String [] author18 = {"18"};
 
-   /*0*/amanager.create("Charles", "Dickens", "Charles John Huffam Dickens (7 February 1812 - 9 June 1870) was an English writer and social critic. He created some of the world\'s best-known fictional characters and is regarded by many as the greatest novelist of the Victorian era.");
+   /*0*/amanager.create("Charles", "Dickens", "Charles John Huffam Dickens (7 February 1812 - 9 June 1870) was an English writer and social critic. He created some of the world's best-known fictional characters and is regarded by many as the greatest novelist of the Victorian era.");
         nextId++;
         amanager.create("Dante", "Alighieri", "Dante, (Florence 1265 - 1321 Ravenna), was an Italian poet. His Divine Comedy, originally called Commedia and later christened Divina by Giovanni Boccaccio, is widely considered the most important poem of the Middle Ages and the greatest literary work in the Italian language."); 
         nextId++;   
@@ -115,23 +115,23 @@ public class DatabaseManager {
         nextId++;
         amanager.create("Ludovico", "Ariosto", "Ludovico Ariosto (8 September 1474 - 6 July 1533) was an Italian poet. He is best known as the author of the romance epic Orlando Furioso (1516).");
         nextId++;
-        amanager.create("Gabriele", "D\'Annunzio", "General Gabriele D\'Annunzio, Prince of Montenevoso, Duke of Gallese (12 March 1863 - 1 March 1938), sometimes spelled d\'Annunzio, was an Italian poet, journalist, playwright and soldier during World War I.");
+        amanager.create("Gabriele", "D'Annunzio", "General Gabriele D'Annunzio, Prince of Montenevoso, Duke of Gallese (12 March 1863 - 1 March 1938), sometimes spelled d'Annunzio, was an Italian poet, journalist, playwright and soldier during World War I.");
         nextId++;
-        amanager.create("Italo", "Calvino", "Italo Calvino (15 October 1923 - 19 September 1985) was an Italian journalist and writer of short stories and novels. His best known works include the Our Ancestors trilogy (1952 - 1959), the Cosmicomics collection of short stories (1965), and the novels Invisible Cities (1972) and If on a winter\\'s night a traveler (1979).");
+        amanager.create("Italo", "Calvino", "Italo Calvino (15 October 1923 - 19 September 1985) was an Italian journalist and writer of short stories and novels. His best known works include the Our Ancestors trilogy (1952 - 1959), the Cosmicomics collection of short stories (1965), and the novels Invisible Cities (1972) and If on a winter\'s night a traveler (1979).");
         nextId++;
         amanager.create("Johann Wolfgang", "von Goethe", "Johann Wolfgang von Goethe (28 August 1749 - 22 March 1832) was a German writer and statesman. His works include: four novels; epic and lyric poetry; prose and verse dramas; memoirs; an autobiography; literary and aesthetic criticism; and treatises on botany, anatomy, and colour. In addition, numerous literary and scientific fragments, more than 10,000 letters, and nearly 3,000 drawings by him have survived.");
         nextId++;
         amanager.create("Victor", "Hugo", "Victor Marie Hugo (26 February 1802 - 22 May 1885) was a French poet, novelist, and dramatist of the Romantic movement.");
         nextId++;
-        amanager.create("Ismail", "Kadare", "Ismail Kadare (born 28 January 1936) is an Albanian novelist, poet, essayist and playwright. He has been a leading literary figure in Albania since the 1960s. He focused on poetry until the publication of his first novel \\\"The General of the Dead Army\\\" which made him famous outside of Albania. In 1996, he became a lifetime member of the AcadÃƒÂ©mie des Sciences Morales et Politiques of France.");
+        amanager.create("Ismail", "Kadare", "Ismail Kadare (born 28 January 1936) is an Albanian novelist, poet, essayist and playwright. He has been a leading literary figure in Albania since the 1960s. He focused on poetry until the publication of his first novel 'The General of the Dead Army' which made him famous outside of Albania. In 1996, he became a lifetime member of the AcadÃƒÂ©mie des Sciences Morales et Politiques of France.");
         nextId++;
-        amanager.create("Fyodor", "Dostoevskij", "Fyodor Mikhailovich Dostoevsky (11 November 1821 - 9 February 1881), sometimes transliterated Dostoyevsky, was a Russian novelist, short story writer, essayist, journalist and philosopher. Dostoevsky\\'s literary works explore human psychology in the troubled political, social, and spiritual atmospheres of 19th-century Russia, and engage with a variety of philosophical and religious themes.");
+        amanager.create("Fyodor", "Dostoevskij", "Fyodor Mikhailovich Dostoevsky (11 November 1821 - 9 February 1881), sometimes transliterated Dostoyevsky, was a Russian novelist, short story writer, essayist, journalist and philosopher. Dostoevsky\'s literary works explore human psychology in the troubled political, social, and spiritual atmospheres of 19th-century Russia, and engage with a variety of philosophical and religious themes.");
         nextId++;
         amanager.create("Lev", "Tolstoj", "Count Lev Nikolayevich Tolstoy (9 September 1828 - 20 November 1910), usually referred to in English as Leo Tolstoy, was a Russian writer who is regarded as one of the greatest authors of all time. He received multiple nominations for Nobel Prize in Literature every year from 1902 to 1906, and nominations for Nobel Peace Prize in 1901, 1902 and 1910, and his miss of the prize is a major Nobel prize controversy.");
         nextId++;
-        amanager.create("William", "Shakespeare", "William Shakespeare (26 April 1564 - 23 April 1616) was an English poet, playwright, and actor, widely regarded as the greatest writer in the English language and the world\\'s greatest dramatist. His extant works, including collaborations, consist of some 39 plays, 154 sonnets, two long narrative poems, and a few other verses, some of uncertain authorship. His plays have been translated into every major living language and are performed more often than those of any other playwright.");
+        amanager.create("William", "Shakespeare", "William Shakespeare (26 April 1564 - 23 April 1616) was an English poet, playwright, and actor, widely regarded as the greatest writer in the English language and the world\'s greatest dramatist. His extant works, including collaborations, consist of some 39 plays, 154 sonnets, two long narrative poems, and a few other verses, some of uncertain authorship. His plays have been translated into every major living language and are performed more often than those of any other playwright.");
         nextId++;
-        amanager.create("Jules", "Verne", "Jules Gabriel Verne (8 February 1828 - 24 March 1905) was a French novelist, poet, and playwright.Verne\\'s collaboration with the publisher Pierre-Jules Hetzel led to the creation of the Voyages extraordinaires, a widely popular series of scrupulously researched adventure novels including Journey to the Center of the Earth (1864), Twenty Thousand Leagues Under the Sea (1870), and Around the World in Eighty Days (1873).");
+        amanager.create("Jules", "Verne", "Jules Gabriel Verne (8 February 1828 - 24 March 1905) was a French novelist, poet, and playwright.Verne's collaboration with the publisher Pierre-Jules Hetzel led to the creation of the Voyages extraordinaires, a widely popular series of scrupulously researched adventure novels including Journey to the Center of the Earth (1864), Twenty Thousand Leagues Under the Sea (1870), and Around the World in Eighty Days (1873).");
         nextId++;
         amanager.create("David", "Halliday", "David Halliday (March 3, 1916 - April 2, 2010) was an American physicist known for his physics textbooks, Physics and Fundamentals of Physics, which he wrote with Robert Resnick. Both textbooks have been in continuous use since 1960 and are available in more than 47 languages.");
         nextId++;

@@ -1,7 +1,6 @@
 package workinggroup.task1leveldb;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,7 +10,6 @@ import static org.iq80.leveldb.impl.Iq80DBFactory.bytes;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import workinggroup.task1.Obj.Author;
-
 
 public class AuthorManager{
   
@@ -29,6 +27,7 @@ public class AuthorManager{
     /* Creates a new author and puts it into the DB as a JSONObject*/
     public void create(String firstName, String lastName, String biography){
         System.out.println("creating author " + firstName + " " + lastName);
+        
         dbmanager.open();
             JSONObject item = new JSONObject();
             item.put("idAUTHOR", dbmanager.getNextId());
@@ -36,13 +35,13 @@ public class AuthorManager{
             item.put("lastName", lastName);
             item.put("biography", biography);
 
-            dbmanager.createCommit(getNextAuthorId(),item);
+            dbmanager.createCommit(getNextAuthorId(), item);
         dbmanager.close();
     }
      
-    /* Reads an author with give id from the DB */
+    /* Finds an author by id */
     public Author read(int authorId){  
-        System.out.println("looking for author with id "+authorId);
+        System.out.println("looking for author with id " + authorId);
         Author a = new Author();
  
         try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
@@ -55,27 +54,25 @@ public class AuthorManager{
                 if(!"author".equals(splittedString[0])){
                     keyIterator.next();
                     continue;
-                    }
+                }
 
                 String resultAttribute = asString(dbmanager.getDB().get(bytes(key)));
                 JSONObject jauthor = new JSONObject(resultAttribute);
 
-                if(jauthor.getInt("idAUTHOR")==authorId){
-                    a=new Author(jauthor);
+                if(jauthor.getInt("idAUTHOR") == authorId){
+                    a = new Author(jauthor);
                     break;
                 }
-                keyIterator.next();
-                    
-                }
+                keyIterator.next();                
             }
-        catch(Exception ex){
+        } catch(Exception ex){
             ex.printStackTrace();
         } 
           
         return a;
     }
-
-  /* Deletes the author with give id and all the books written by him/her */
+    
+  /* Deletes the author with given id and all the books written by him/her */
     public void delete(int authorId){  
         System.out.println("deleting author " + authorId);
         dbmanager.open();
@@ -95,40 +92,39 @@ public class AuthorManager{
              
                 if("author".equals(splittedString[0])){ // Delete author      
                     JSONObject jauthor = new JSONObject(resultAttribute);
-                    if(jauthor.getInt("idAUTHOR")==authorId){
+                    if(jauthor.getInt("idAUTHOR") == authorId){
                         dbmanager.getDB().delete(bytes(key));
                     }
-                }else{ // Delete all books referring to the author
-                        JSONObject jbook = new JSONObject(resultAttribute);  
-                        JSONArray jauthors  = jbook.getJSONArray("authors");
-                        for(int i=0; i<jauthors.length(); i++){
-                            
-                            int currentId = jauthors.getInt(i);
-                            if(currentId == authorId){ // To be deleted
-                                dbmanager.close();
-                                dbmanager.getBmanager().delete(jbook.getInt("idBOOK"));
-                                dbmanager.open();
-                                break;
-                            }
+                } else { // Deletes all books referring to the author
+                    JSONObject jbook = new JSONObject(resultAttribute);  
+                    JSONArray jauthors  = jbook.getJSONArray("authors");
+                    for(int i=0; i<jauthors.length(); i++){
+
+                        int currentId = jauthors.getInt(i);
+                        if(currentId == authorId){ // To be deleted
+                            dbmanager.close();
+                            dbmanager.getBmanager().delete(jbook.getInt("idBOOK"));
+                            dbmanager.open();
+                            break;
                         }
+                    }
                 }
-                keyIterator.next();
-                    
-                }
-        }
-        catch(Exception ex){
+                keyIterator.next();   
+            }
+        } catch(Exception ex) {
             ex.printStackTrace();
         } 
         dbmanager.close();
     }
     
-    /* Displays a all the authors using an observableList*/
+    /* Selects all authors from the DB and returns the result as an observable list. 
+    Called by "submit_Button" in UICOntroller.java */
     public ObservableList<Object> selectAllAuthors(){ 
-        System.out.println("selectallauthors()");
+        System.out.println("Printing all authors...");
         dbmanager.open();
             ObservableList<Object> result = FXCollections.observableArrayList();
 
-            try{
+            try {
                 try (DBIterator keyIterator = dbmanager.getDB().iterator()) {
                     keyIterator.seekToFirst();
 
@@ -153,9 +149,7 @@ public class AuthorManager{
                         keyIterator.next();
                     }
                 }
-            }
-
-            catch(IOException e){
+            } catch(IOException e){
                e.printStackTrace();
             }
         dbmanager.close();
