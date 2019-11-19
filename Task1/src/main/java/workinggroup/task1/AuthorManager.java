@@ -13,7 +13,7 @@ import workinggroup.task1.Obj.Book;
 
 public class AuthorManager{
   
-    private final EntityManager entityManager;
+    private EntityManager entityManager;
     private final JpaManager jmanager;
     
     public AuthorManager (JpaManager jm){
@@ -45,6 +45,7 @@ public class AuthorManager{
     public Author read(int authorId){
         Author a = new Author();
         try{
+            entityManager = jmanager.startEntityManager();
             entityManager.getTransaction().begin();
             a = entityManager.find(Author.class, authorId);
             entityManager.getTransaction().commit();
@@ -75,6 +76,7 @@ public class AuthorManager{
     /* Deletes the author with given id */
     public void delete(int authorId){
         try{
+            entityManager = jmanager.startEntityManager();
             entityManager.getTransaction().begin();
             Author reference = entityManager.getReference(Author.class, authorId);
             entityManager.remove(reference);
@@ -91,10 +93,12 @@ public class AuthorManager{
     public ObservableList<Object> selectAllAuthors(){
         System.out.println("Printing all authors...");
         String query = "SELECT a FROM Author a";
-        entityManager.getTransaction().begin();
-        TypedQuery<Object> tq = entityManager.createQuery(query, Object.class);
         ObservableList<Object> authors = null;
+        
         try{
+            entityManager = jmanager.startEntityManager();
+            entityManager.getTransaction().begin();
+            TypedQuery<Object> tq = entityManager.createQuery(query, Object.class);
             authors = FXCollections.observableList(tq.getResultList());
         }catch(Exception ex){
             ex.printStackTrace();

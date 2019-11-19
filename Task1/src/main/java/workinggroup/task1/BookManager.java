@@ -17,7 +17,7 @@ public class BookManager {
     private final JpaManager jmanager;
     private final AuthorManager amanager;
     private final PublisherManager pmanager;
-    private final EntityManager entityManager;
+    private EntityManager entityManager;
     
     public BookManager(JpaManager j, AuthorManager a, PublisherManager p){
         amanager = a;
@@ -80,6 +80,7 @@ public class BookManager {
         
         Book b = null;
         try {
+            entityManager = jmanager.startEntityManager();
             entityManager.getTransaction().begin();
             b = entityManager.find(Book.class, bookId);
             entityManager.getTransaction().commit();
@@ -94,7 +95,8 @@ public class BookManager {
     
     /* Finds a list of books with given title */
     public List<Book> findByTitle(final String title) {
-        //Bulds a criteria for the query "SELECT b FROM Book b WHERE b.title = title"
+        //Bulds a criteria for the query "SELECT b FROM Book b WHERE b.title = title
+        entityManager = jmanager.startEntityManager();
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         javax.persistence.criteria.CriteriaQuery<Book> criteria = builder.createQuery(Book.class);
         Root<Book> from = criteria.from(Book.class);
@@ -105,7 +107,9 @@ public class BookManager {
             return tq.getResultList();
         } catch (final NoResultException ex) {
             return null;
-        }  
+        }finally{
+            entityManager.close();
+        }
     }
     /* Updates the quantity in stock for the book with given id */
     public void update(int bookId, int quantity){
@@ -124,6 +128,7 @@ public class BookManager {
         book.setPublisher(book_original.getPublisher());
         
         try {
+            entityManager = jmanager.startEntityManager();
             entityManager.getTransaction().begin();
             entityManager.merge(book);
             entityManager.getTransaction().commit();
@@ -137,6 +142,7 @@ public class BookManager {
     /* Deletes the book with given id */
     public void delete(int bookId){
         try{
+            entityManager = jmanager.startEntityManager();
             entityManager.getTransaction().begin();
             Book reference = entityManager.getReference(Book.class,bookId);
             entityManager.remove(reference);
@@ -153,6 +159,7 @@ public class BookManager {
     public ObservableList<Object> selectAllBooks(){
         System.out.println("Printing all books...");
         String query = "SELECT b FROM Book b";
+        entityManager = jmanager.startEntityManager();
         entityManager.getTransaction().begin();
         TypedQuery<Object> tq = entityManager.createQuery(query,Object.class);
         ObservableList<Object> books = null;

@@ -11,15 +11,18 @@ public class JpaManager {
     
     public JpaManager(){
         factory = Persistence.createEntityManagerFactory("bookshop");
-        entityManager = factory.createEntityManager();
+        
     }
-    
+    public EntityManager startEntityManager(){
+        return factory.createEntityManager();
+    }
     public void exit(){
         factory.close();
     } 
     
     /* Called by the functions "create" in book, author and publisher */
     public void createCommit(Object a){
+        entityManager = startEntityManager();
         try{
             entityManager.getTransaction().begin();
             entityManager.persist(a);

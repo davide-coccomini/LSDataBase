@@ -13,7 +13,7 @@ import workinggroup.task1.Obj.Publisher;
 
 public class PublisherManager{
      
-    private final EntityManager entityManager;
+    private EntityManager entityManager;
     private final JpaManager jmanager;
     
     public PublisherManager(JpaManager jm){
@@ -40,6 +40,7 @@ public class PublisherManager{
     public Publisher read(int publisherId){
         Publisher p = null;
         try{
+            entityManager = jmanager.startEntityManager();
             entityManager.getTransaction().begin();
             p = entityManager.find(Publisher.class, publisherId);
             entityManager.getTransaction().commit();
@@ -54,6 +55,7 @@ public class PublisherManager{
     /* Finds a publisher with given name,
     we suppose that every publisher has a distinctive name, thus it is impossible to have more publishers woth te same name */
     public Publisher findByName(final String name) {
+        entityManager = jmanager.startEntityManager();
         //Bulds a criteria for the query "SELECT p FROM Publisher p WHERE p.name = name"
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         javax.persistence.criteria.CriteriaQuery<Publisher> criteria = builder.createQuery(Publisher.class);
@@ -65,11 +67,14 @@ public class PublisherManager{
             return tq.getSingleResult();
         } catch (final NoResultException ex) {
             return null;
+        }finally{
+            entityManager.close();
         }  
     }
     /* Deletes the publisher with given id */
     public void delete(int publisherId){
         try{
+            entityManager = jmanager.startEntityManager();
             entityManager.getTransaction().begin();
             Publisher reference = entityManager.getReference(Publisher.class,publisherId);
             entityManager.remove(reference);
@@ -84,6 +89,7 @@ public class PublisherManager{
     /* Selects all publishers from the DB and returns the result as an observable list. 
     Called by "submit_Button" in UICOntroller.java */
     public ObservableList<Object> selectAllPublishers(){
+        entityManager = jmanager.startEntityManager();
         entityManager.getTransaction().begin();
         System.out.println("Printing all publishers...");
         String query = "SELECT p FROM Publisher p";
