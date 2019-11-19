@@ -50,7 +50,10 @@ public class AuthorManager{
             entityManager.getTransaction().commit();
         }catch(Exception ex){
             ex.printStackTrace();
+        }finally{
+            entityManager.close();
         }
+        
         return a;
     }
     /* Finds a list of authors with given surname and returns it */
@@ -78,19 +81,25 @@ public class AuthorManager{
             entityManager.getTransaction().commit();
         }catch(Exception ex){
             ex.printStackTrace();
+        }finally{
+            entityManager.close();
         }
+        
     }
     /* Selects all authors from the DB and returns the result as an observable list. 
     Called by "submit_Button" in UICOntroller.java */
     public ObservableList<Object> selectAllAuthors(){
         System.out.println("Printing all authors...");
         String query = "SELECT a FROM Author a";
+        entityManager.getTransaction().begin();
         TypedQuery<Object> tq = entityManager.createQuery(query, Object.class);
         ObservableList<Object> authors = null;
         try{
             authors = FXCollections.observableList(tq.getResultList());
         }catch(Exception ex){
             ex.printStackTrace();
+        }finally{
+            entityManager.close();
         }
         return authors;
     } 

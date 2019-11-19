@@ -45,7 +45,10 @@ public class PublisherManager{
             entityManager.getTransaction().commit();
         }catch(Exception ex){
             ex.printStackTrace();
+        }finally{
+            entityManager.close();
         }
+        
         return p;
     }
     /* Finds a publisher with given name,
@@ -73,11 +76,15 @@ public class PublisherManager{
             entityManager.getTransaction().commit();
         }catch(Exception ex){
             ex.printStackTrace();
+        }finally{
+            entityManager.close();
         }
+        
     }
     /* Selects all publishers from the DB and returns the result as an observable list. 
     Called by "submit_Button" in UICOntroller.java */
     public ObservableList<Object> selectAllPublishers(){
+        entityManager.getTransaction().begin();
         System.out.println("Printing all publishers...");
         String query = "SELECT p FROM Publisher p";
         TypedQuery<Object> tq = entityManager.createQuery(query,Object.class);
@@ -86,6 +93,8 @@ public class PublisherManager{
             publishers = FXCollections.observableList(tq.getResultList());
         }catch(Exception ex){
             ex.printStackTrace();
+        }finally{
+            entityManager.close();
         }
 
         return publishers;

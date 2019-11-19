@@ -15,8 +15,6 @@ public class JpaManager {
     }
     
     public void exit(){
-        // unreachable code
-        entityManager.close();
         factory.close();
     } 
     
@@ -28,6 +26,8 @@ public class JpaManager {
             entityManager.getTransaction().commit();
         }catch(Exception ex){
             ex.printStackTrace();
+        }finally{
+            entityManager.close();
         }
     }
     

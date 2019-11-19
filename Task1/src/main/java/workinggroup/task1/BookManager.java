@@ -85,6 +85,8 @@ public class BookManager {
             entityManager.getTransaction().commit();
         } catch(Exception ex) {
             ex.printStackTrace();
+        }finally{
+            entityManager.close();
         }
         
         return b;
@@ -127,7 +129,10 @@ public class BookManager {
             entityManager.getTransaction().commit();
         }catch(Exception ex){
             ex.printStackTrace();
+        }finally{
+            entityManager.close();
         }
+        
     }
     /* Deletes the book with given id */
     public void delete(int bookId){
@@ -138,19 +143,25 @@ public class BookManager {
             entityManager.getTransaction().commit();
         }catch(Exception ex){
             ex.printStackTrace();
+        }finally{
+            entityManager.close();
         }
+        
     }
     /* Selects all books from the DB and returns the result as an observable list. 
     Called by "submit_Button" in UICOntroller.java */
     public ObservableList<Object> selectAllBooks(){
         System.out.println("Printing all books...");
         String query = "SELECT b FROM Book b";
+        entityManager.getTransaction().begin();
         TypedQuery<Object> tq = entityManager.createQuery(query,Object.class);
         ObservableList<Object> books = null;
         try{
             books = FXCollections.observableList(tq.getResultList());
         }catch(Exception ex){
             ex.printStackTrace();
+        }finally{
+            entityManager.close();
         }
         
         return books;
