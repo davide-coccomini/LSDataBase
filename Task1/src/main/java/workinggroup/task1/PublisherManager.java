@@ -1,24 +1,15 @@
 package workinggroup.task1;
 
 import java.util.List;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Root;
 import workinggroup.task1.Obj.Book;
 import workinggroup.task1.Obj.Publisher;
 
 public class PublisherManager{
-     
-    private EntityManager entityManager;
-    private final JpaManager jmanager;
+     private final JpaManager jmanager;
     
     public PublisherManager(JpaManager jm){
         jmanager = jm;
-        entityManager = jm.getEntityManager();
     }
     /* Creates a new Publisher and puts it into the DB */
     public void create(String name, String location, List<Book> books){
@@ -39,70 +30,24 @@ public class PublisherManager{
     /* Finds a publisher by id */
     public Publisher read(int publisherId){
         Publisher p = null;
-        try{
-            entityManager = jmanager.startEntityManager();
-            entityManager.getTransaction().begin();
-            p = entityManager.find(Publisher.class, publisherId);
-            entityManager.getTransaction().commit();
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }finally{
-            entityManager.close();
-        }
-        
+        p = jmanager.findById(Publisher.class,publisherId);
         return p;
     }
     /* Finds a publisher with given name,
     we suppose that every publisher has a distinctive name, thus it is impossible to have more publishers woth te same name */
     public Publisher findByName(final String name) {
-        entityManager = jmanager.startEntityManager();
-        //Bulds a criteria for the query "SELECT p FROM Publisher p WHERE p.name = name"
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        javax.persistence.criteria.CriteriaQuery<Publisher> criteria = builder.createQuery(Publisher.class);
-        Root<Publisher> from = criteria.from(Publisher.class);
-        criteria.select(from);
-        criteria.where(builder.equal(from.get("name"), name));
-        TypedQuery<Publisher> tq = entityManager.createQuery(criteria);
-        try {
-            return tq.getSingleResult();
-        } catch (final NoResultException ex) {
-            return null;
-        }finally{
-            entityManager.close();
-        }  
+        
+        return jmanager.findByStringField(Publisher.class, "name", name);
+ 
     }
     /* Deletes the publisher with given id */
     public void delete(int publisherId){
-        try{
-            entityManager = jmanager.startEntityManager();
-            entityManager.getTransaction().begin();
-            Publisher reference = entityManager.getReference(Publisher.class,publisherId);
-            entityManager.remove(reference);
-            entityManager.getTransaction().commit();
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }finally{
-            entityManager.close();
-        }
-        
+        jmanager.deleteById(Publisher.class, publisherId);
     }
     /* Selects all publishers from the DB and returns the result as an observable list. 
     Called by "submit_Button" in UICOntroller.java */
     public ObservableList<Object> selectAllPublishers(){
-        entityManager = jmanager.startEntityManager();
-        entityManager.getTransaction().begin();
-        System.out.println("Printing all publishers...");
-        String query = "SELECT p FROM Publisher p";
-        TypedQuery<Object> tq = entityManager.createQuery(query,Object.class);
-        ObservableList<Object> publishers = null;
-        try{
-            publishers = FXCollections.observableList(tq.getResultList());
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }finally{
-            entityManager.close();
-        }
-
-        return publishers;
+       
+        return jmanager.selectAll(Publisher.class);
     }
 }

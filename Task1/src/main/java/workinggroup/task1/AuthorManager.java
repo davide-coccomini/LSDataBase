@@ -1,24 +1,17 @@
 package workinggroup.task1;
 
 import java.util.List;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Root;
 import workinggroup.task1.Obj.Author;
 import workinggroup.task1.Obj.Book;
 
 public class AuthorManager{
-  
-    private EntityManager entityManager;
+
     private final JpaManager jmanager;
     
     public AuthorManager (JpaManager jm){
         jmanager = jm;
-        entityManager = jm.getEntityManager();
     }
     /* Creates a new Author and puts it into the DB */
     public void create(String firstName, String lastName, String biography, List<Book> books){
@@ -43,68 +36,22 @@ public class AuthorManager{
     }
     /* Finds an author by id */
     public Author read(int authorId){
-        Author a = new Author();
-        try{
-            entityManager = jmanager.startEntityManager();
-            entityManager.getTransaction().begin();
-            a = entityManager.find(Author.class, authorId);
-            entityManager.getTransaction().commit();
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }finally{
-            entityManager.close();
-        }
+        Author a = null;
+        a = jmanager.findById(Author.class, authorId);
         
         return a;
     }
     /* Finds a list of authors with given surname and returns it */
-    public List<Author> findBySurname(final String surname) {
-        //Bulds a criteria for the query "SELECT a FROM Author a WHERE a.firstName = name"
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        javax.persistence.criteria.CriteriaQuery<Author> criteria = builder.createQuery(Author.class);
-        Root<Author> from = criteria.from(Author.class);
-        criteria.select(from);
-        criteria.where(builder.equal(from.get("lastName"), surname));
-        
-        TypedQuery<Author> tq = entityManager.createQuery(criteria);
-        try {
-            return tq.getResultList();
-        } catch (final NoResultException ex) {
-            return null;
-        }  
+    public List<Author> findBySurname(final String surname) {   
+        return jmanager.findListByStringField(Author.class, "lastName", surname);
     }
     /* Deletes the author with given id */
     public void delete(int authorId){
-        try{
-            entityManager = jmanager.startEntityManager();
-            entityManager.getTransaction().begin();
-            Author reference = entityManager.getReference(Author.class, authorId);
-            entityManager.remove(reference);
-            entityManager.getTransaction().commit();
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }finally{
-            entityManager.close();
-        }
-        
+        jmanager.deleteById(Author.class, authorId);
     }
     /* Selects all authors from the DB and returns the result as an observable list. 
     Called by "submit_Button" in UICOntroller.java */
     public ObservableList<Object> selectAllAuthors(){
-        System.out.println("Printing all authors...");
-        String query = "SELECT a FROM Author a";
-        ObservableList<Object> authors = null;
-        
-        try{
-            entityManager = jmanager.startEntityManager();
-            entityManager.getTransaction().begin();
-            TypedQuery<Object> tq = entityManager.createQuery(query, Object.class);
-            authors = FXCollections.observableList(tq.getResultList());
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }finally{
-            entityManager.close();
-        }
-        return authors;
-    } 
+        return jmanager.selectAll(Author.class);
+    }
 }
