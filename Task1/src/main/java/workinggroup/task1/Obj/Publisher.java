@@ -31,7 +31,7 @@ public class Publisher implements Serializable{
     
     @Id   
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idPUBLISHER")
+    @Column(name = "idPUBLISHER", nullable=false, length = 10)
     public int getIdPUBLISHER() {
         return idPUBLISHER;
     }
@@ -40,12 +40,12 @@ public class Publisher implements Serializable{
         this.idPUBLISHER = id;
     }
     
-    @Column(name = "name")
+    @Column(name = "name", nullable=false, length = 45)
     public String getName() {
         return name;
     }
     
-    @Column(name = "location")
+    @Column(name = "location", nullable=false, length = 45)
     public String getLocation() {
         return location;
     }

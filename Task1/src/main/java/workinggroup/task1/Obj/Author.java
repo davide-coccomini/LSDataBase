@@ -34,7 +34,7 @@ public class Author implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idAUTHOR")
+    @Column(name = "idAUTHOR", nullable=false, length = 10)
     public int getIdAUTHOR() {
         return idAUTHOR;
     }
@@ -43,17 +43,17 @@ public class Author implements Serializable{
         this.idAUTHOR = id;
     }
     
-    @Column(name = "firstName")
+    @Column(name = "firstName",  nullable=false, length = 45)
     public String getFirstName() {
         return firstName;
     }
 
-    @Column(name = "lastName")
+    @Column(name = "lastName", nullable=false, length = 45)
     public String getLastName() {
         return lastName;
     }
     
-    @Column(name = "biography")
+    @Column(name = "biography", nullable=false, length = 511)
     public String getBiography() {
         return biography;
     }

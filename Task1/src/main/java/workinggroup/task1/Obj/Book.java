@@ -53,7 +53,7 @@ public class Book implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idBOOK")
+    @Column(name = "idBOOK",  nullable=false, length = 10)
     public int getIdBOOK() {
         return idBOOK;
     }
@@ -75,32 +75,32 @@ public class Book implements Serializable{
         this.idBOOK = idBOOK;
     }
   
-    @Column(name = "title")
+    @Column(name = "title",  nullable=false, length = 100)
     public String getTitle() {
         return title;
     }
     
-    @Column(name = "price")
+    @Column(name = "price", nullable=false)
     public double getPrice() {
         return price;
     }
     
-    @Column(name = "numPages")
+    @Column(name = "numPages", nullable=false)
     public int getNumPages() {
         return numPages;
     }
     
-    @Column(name = "publicationYear")
+    @Column(name = "publicationYear", nullable=false, length = 4)
     public int getPublicationYear() {
         return publicationYear;
     }
     
-    @Column(name = "category")
+    @Column(name = "category", nullable=false, length = 45)
     public String getCategory() {
         return category;
     }
     
-    @Column(name = "quantity")
+    @Column(name = "quantity", nullable=false)
     public int getQuantity() {
         return quantity;
     }
