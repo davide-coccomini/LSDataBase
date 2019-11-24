@@ -2,7 +2,6 @@ package workinggroup.task1;
 
 import java.util.List;
 import javafx.collections.ObservableList;
-import javax.persistence.EntityManager;
 import workinggroup.task1.Obj.Author;
 import workinggroup.task1.Obj.Book;
 

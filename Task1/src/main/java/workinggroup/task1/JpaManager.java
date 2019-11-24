@@ -29,7 +29,7 @@ public class JpaManager {
         factory.close();
     } 
     
-    /* Called by the functions "create" in book, author and publisher */
+    /* Insert an Object a into the database */
     public void createCommit(Object a){
         entityManager = factory.createEntityManager();
         try{
@@ -43,6 +43,7 @@ public class JpaManager {
         }
     }
     
+    /* Given a set of (Table,Id), fetch a row from the database */
     public <T extends Object> T findById(Class<T> type, int id){
         T res=null;
         try{
@@ -57,7 +58,8 @@ public class JpaManager {
         }
         return res;
     }
-        
+      
+    /* Given a set of (Table,Id), delete a row from the database */
     public <T extends Object> void deleteById(Class<T> type, int id){
         
         try{
@@ -73,6 +75,8 @@ public class JpaManager {
         }
          
     }
+    
+    /* extract a SINGLE element from a table, given a value (string) in the selected column */
     public <T extends Object> T findByStringField(Class<T> type, String field, String value){
          
         entityManager = factory.createEntityManager();
@@ -93,7 +97,9 @@ public class JpaManager {
         }  
         return res;
     }
-      public <T extends Object> List<T> findListByStringField(Class<T> type, String field, String value){
+    
+    /* extract a LIST of elements from a table, given a value (string) in the selected column */
+    public <T extends Object> List<T> findListByStringField(Class<T> type, String field, String value){
          
         entityManager = factory.createEntityManager();
         //Bulds a criteria for the query "SELECT * FROM 'type' p WHERE p.'field' = 'value' "
@@ -115,6 +121,8 @@ public class JpaManager {
         }  
         return res;
     }  
+      
+    /* fetch all the elements from a given table */
     public <T extends Object> ObservableList<Object> selectAll(Class<T> type){
     
         String table = "Publisher";
@@ -144,6 +152,7 @@ public class JpaManager {
 
         return res;
     }
+    /* Overwrite the Object o in the database with the local copy passed as parameter */
     public <T extends Object> void update(Class<T> type, Object o){
     
         try {
