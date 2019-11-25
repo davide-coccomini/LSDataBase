@@ -556,6 +556,7 @@ public class UIController {
     }
     /* Creates a new publisher by calling the manager (file PublisherManager.java) */
     public void insert_Publisher(String name, String location) {
+        /* checks if all the field have been filled */
         if(name.equals("") || location.equals("")){
             System.out.println("Empty fields, publisher can't be created");
             return;

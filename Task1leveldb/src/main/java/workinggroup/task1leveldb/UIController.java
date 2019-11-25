@@ -573,19 +573,36 @@ public class UIController {
     }
     /* Creates a new book by calling the manager (file BookManager.java) */
     public void insert_Book(String title,String numPages,String quantity,String category,String price,String publicationDate, String[] authors,String publisher){
-        //se mancano degli argomenti, ci pensa l'sql a invalidare l'operazione
+        /* Checks if all the field have been filled */
+        if(title.equals("") || numPages.equals("") || category.equals("") || price.equals("") || publicationDate.equals("") || authors[0].equals("") || publisher.equals("")){
+            System.out.println("Empty fields, book can't be created");
+            return;
+        }
+        /* quantity = 0 by delfault */
+        if(quantity.equals(""))
+            quantity = "0";
         bmanager.create(title,numPages,quantity,category,price,publicationDate,authors,publisher);
         //refresh page content
         submit_Button(1);
     }
     /* Creates a new author by calling the manager (file AuthorManager.java) */
     public void insert_Author(String firstName, String lastName, String biography) {
+        /* checks if all the field have been filled */
+        if(firstName.equals("") || lastName.equals("") || biography.equals("")){
+            System.out.println("Empty fields, author can't be created");
+            return;
+        }
         amanager.create(firstName, lastName, biography);    
         //refresh page content
         submit_Button(2);
     }
     /* Creates a new publisher by calling the manager (file PublisherManager.java) */
     public void insert_Publisher(String name, String location) { 
+        /* checks if all the field have been filled */
+        if(name.equals("") || location.equals("")){
+            System.out.println("Empty fields, publisher can't be created");
+            return;
+        }
         pmanager.create(name, location);
         //refresh page content
         submit_Button(3);
