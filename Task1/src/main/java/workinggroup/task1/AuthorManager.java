@@ -35,10 +35,7 @@ public class AuthorManager{
     }
     /* Finds an author by id */
     public Author read(int authorId){
-        Author a = null;
-        a = jmanager.findById(Author.class, authorId);
-        
-        return a;
+        return jmanager.findById(Author.class, authorId);
     }
     /* Finds a list of authors with given surname and returns it */
     public List<Author> findBySurname(final String surname) {   

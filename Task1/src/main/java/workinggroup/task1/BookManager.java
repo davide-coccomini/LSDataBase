@@ -57,8 +57,8 @@ public class BookManager {
         b.setPublicationYear(Integer.parseInt(publicationYear));
         
         List<Author> authors = new ArrayList<>();       //a book can have more authors
-        for(int i=0; i < authorsId.length; i++){
-            Author a = amanager.read(Integer.parseInt(authorsId[i]));
+        for (String authorsId1 : authorsId) {
+            Author a = amanager.read(Integer.parseInt(authorsId1));
             authors.add(a);
         }
         b.setAuthors(authors);
@@ -70,10 +70,7 @@ public class BookManager {
     }
     /* Finds an author by id */
     public Book read(int bookId){
-        
-        Book b = null;
-        b = jmanager.findById(Book.class,bookId);
-        return b;
+        return jmanager.findById(Book.class, bookId);
     }
     
     /* Finds a list of books with given title */

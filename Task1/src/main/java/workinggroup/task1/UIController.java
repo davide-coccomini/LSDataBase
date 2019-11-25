@@ -26,13 +26,13 @@ import workinggroup.task1.Obj.Book;
 import workinggroup.task1.Obj.Publisher;
 
 public class UIController {
-    private ObservableList<Object> content;        
-    private int busy = 0;                               // Keeps the number of perations in queue, -1 if none
+    private ObservableList<Object> content;             //visible content
+    private int busy = 0;                               // Keeps the number of operations in queue, -1 if none
     
     @FXML private final TableView<Object> tableView;    
     @FXML private final HBox mainBox;                   // Main table, contains edit_Container and insert_Container
     @FXML private final VBox edit_Container,            // Contains the buttons to edit or delete a row
-                        insert_Container;               // Contains the form ti insert a new object
+                        insert_Container;               // Contains the form to insert a new object
       
     AuthorManager amanager;
     BookManager bmanager;
@@ -103,14 +103,10 @@ public class UIController {
     private boolean buttons_Are_Locked(){
         /* return false if server is free and user can operate */
         /* return true if server is already busy, the request is stored */
-        if(busy == 0) 
-            return false;
-        else
-            return true;
+        return busy != 0;
     }
     /* lock the mutex for user operations */
     private void buttons_Lock(){
-        
         if(busy == 0)
             busy = -1;
     }
@@ -429,7 +425,7 @@ public class UIController {
                 }
             });
         
-        vbox.getChildren().addAll(title,numPages,quantity,category,price,publicationYear,columnAuthor,publisher,button);
+        vbox.getChildren().addAll(title, numPages, quantity, category, price, publicationYear, columnAuthor, publisher,button);
         scrollPane.setContent(vbox);
         insert_Container.getStyleClass().add("Insert_Container");   // Sets the style
         insert_Container.getChildren().add(scrollPane);             // Makes it possible to scroll
@@ -456,7 +452,7 @@ public class UIController {
             }
         });
 
-        vbox.getChildren().addAll(firstName, lastName, biography,button);
+        vbox.getChildren().addAll(firstName, lastName, biography, button);
         insert_Container.getStyleClass().add("Insert_Container");
         insert_Container.getChildren().add(vbox);
     }
@@ -525,27 +521,45 @@ public class UIController {
     }
     /* Edits the quantity of the book in the selected row */
     public void quantity_Edit(int row, int q){
-        if(q >= 0){
+        if(q >= 0)
             bmanager.update(row, q);
-            //refresh page content
-            submit_Button(1);
-        }
+        else
+            System.out.println("Negative number, quantity can't be updated");
+             
+        //refresh page content
+           submit_Button(1);
     }
     /* Creates a new book by calling the manager (file BookManager.java) */
     public void insert_Book(String title, String numPages, String quantity, String category, String price, String publicationDate, String[] authors, String publisher){
-        //se mancano degli argomenti, ci pensa l'sql a invalidare l'operazione
+        /* Checks if all the field have been filled */
+        if(title.equals("") || numPages.equals("") || category.equals("") || price.equals("") || publicationDate.equals("") || authors[0].equals("") || publisher.equals("")){
+            System.out.println("Empty fields, book can't be created");
+            return;
+        }
+        /* quantity = 0 by delfault */
+        if(quantity.equals(""))
+            quantity = "0";
         bmanager.create(title, numPages, quantity, category, price, publicationDate, authors, publisher);
         //refresh page content
         submit_Button(1);
     }
     /* Creates a new author by calling the manager (file AuthorManager.java) */
     public void insert_Author(String firstName, String lastName, String biography) {
+        /* checks if all the field have been filled */
+        if(firstName.equals("") || lastName.equals("") || biography.equals("")){
+            System.out.println("Empty fields, author can't be created");
+            return;
+        }
         amanager.create(firstName, lastName, biography, null);
          //refresh page content
         submit_Button(2);
     }
     /* Creates a new publisher by calling the manager (file PublisherManager.java) */
     public void insert_Publisher(String name, String location) {
+        if(name.equals("") || location.equals("")){
+            System.out.println("Empty fields, publisher can't be created");
+            return;
+        }
         pmanager.create(name, location, null);
         //refresh page content
         submit_Button(3);

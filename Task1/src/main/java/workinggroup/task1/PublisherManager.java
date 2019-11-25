@@ -29,16 +29,13 @@ public class PublisherManager{
     }
     /* Finds a publisher by id */
     public Publisher read(int publisherId){
-        Publisher p = null;
-        p = jmanager.findById(Publisher.class,publisherId);
+        Publisher p = jmanager.findById(Publisher.class, publisherId);
         return p;
     }
     /* Finds a publisher with given name,
     we suppose that every publisher has a distinctive name, thus it is impossible to have more publishers woth te same name */
     public Publisher findByName(final String name) {
-        
-        return jmanager.findByStringField(Publisher.class, "name", name);
- 
+        return jmanager.findByStringField(Publisher.class, "name", name); 
     }
     /* Deletes the publisher with given id */
     public void delete(int publisherId){

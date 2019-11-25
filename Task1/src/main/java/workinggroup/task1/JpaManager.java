@@ -1,6 +1,5 @@
 package workinggroup.task1;
- 
- 
+  
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,8 +20,7 @@ public class JpaManager {
     EntityManager entityManager;
     
     public JpaManager(){
-        factory = Persistence.createEntityManagerFactory("bookshop");
-        
+        factory = Persistence.createEntityManagerFactory("bookshop");    
     }
  
     public void exit(){
@@ -72,8 +70,7 @@ public class JpaManager {
             ex.printStackTrace();
         }finally{
             entityManager.close();
-        }
-         
+        }    
     }
     
     /* extract a SINGLE element from a table, given a value (string) in the selected column */
@@ -91,6 +88,7 @@ public class JpaManager {
         try {
             res = tq.getSingleResult();
         } catch (final NoResultException ex) {
+            ex.printStackTrace();
             return null;
         }finally{
             entityManager.close();
@@ -115,6 +113,7 @@ public class JpaManager {
         try {
             res = tq.getResultList();
         } catch (final NoResultException ex) {
+            ex.printStackTrace();
             return null;
         }finally{
             entityManager.close();
@@ -126,17 +125,15 @@ public class JpaManager {
     public <T extends Object> ObservableList<Object> selectAll(Class<T> type){
     
         String table = "Publisher";
-        if(type==Publisher.class){
+        if(type == Publisher.class){
             table = "Publisher";
-        }else
-        if(type==Book.class){
+        }else if(type == Book.class){
             table = "Book";
-        }else
-        if(type==Author.class){
+        }else if(type == Author.class){
             table = "Author";
         }
         
-        System.out.println("Printing all "+table+"...");
+        System.out.println("Printing all "+table+"s"+"...");
         String query = "SELECT p FROM "+table+" p";
         ObservableList<Object> res = null;
         try{
@@ -149,7 +146,6 @@ public class JpaManager {
         }finally{
             entityManager.close();
         }
-
         return res;
     }
     /* Overwrite the Object o in the database with the local copy passed as parameter */
@@ -164,7 +160,6 @@ public class JpaManager {
             ex.printStackTrace();
         }finally{
             entityManager.close();
-        }
-        
+        } 
     }
 }
