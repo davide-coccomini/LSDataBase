@@ -17,10 +17,11 @@ public class MainApp extends Application {
     public final int default_Height = 800;
 
     private final TableView table = new TableView();
-    private UIController contr;
+    private static UIController contr;
     
     public static void main(String[] args) throws Exception {
         launch(args);
+        contr.jmanager.exit();
     }
 
     @Override
